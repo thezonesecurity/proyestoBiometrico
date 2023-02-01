@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, user-scaleble=no, initial-scale=1.0 maximun-scale=1.0, minimun-scale=1.0" >
      <!-- Seccion estilos -->
-     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-     <link rel="stylesheet" href="{{ asset('styles/stylelogin.css') }}">
+     <link rel="stylesheet" href="{{ asset("bootstrap3/styles/stylelogin.css")}}"> <!-- href="{ asset('styles/stylelogin.css') }}">-->
+     <link rel="stylesheet" href="{{ asset("bootstrap3/css/bootstrap.min.css")}}"> <!-- "{ asset('css/bootstrap.min.css') }}"> ------>
     <!-- Fin Seccion estilos jumbotron -->
     <title>Document</title>
 </head>
@@ -17,13 +17,13 @@
                 <form method="POST" action="{{ route('login_post') }}"  name="flogin" id="flogin" class="border p-3 form" autocomplete="off" >
                    @csrf
                     <div class="img-responsive ">
-                        <img class="imagelogin" src="{{ asset('img/hdb2.jfif') }}" >
+                        <img class="imagelogin" src="{{ asset('bootstrap3/img/hdb2.jfif') }}" >
                     </div>
                     <h3 class="text-center fw-bold">Sing In</h3>
                     <div class="form-group ">
                         <div class="input-group">
                             <label class="sr-only" for="correo">{{ __('Usuario') }}</label>
-                        <div class=" glyphicon glyphicon-user input-group-addon"></div>
+                        <div class="glyphicon glyphicon-user input-group-addon"></div>
                             <input id="email" type="number" class="form-control" name="email" 
                             value="{{ old('email') }}" required autofocus placeholder="Numero de Usuario">                
                         </div>

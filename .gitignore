@@ -3,6 +3,7 @@
 /public/storage
 /public/assets/layoutLTE
 /public/bootstrap3
+/public/DataTables
 /storage/*.key
 /vendor
 .env

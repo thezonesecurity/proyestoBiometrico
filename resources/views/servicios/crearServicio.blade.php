@@ -1,10 +1,43 @@
-<!--Modal editar servicio-->
-   <div class="container">
+<!--Modal crear servicio-->
+<div class="modal fade" id="registrar_servicioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Servicio</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {!! Form::open(['route' => 'guardar.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+                <div class="form-group">
+                    {!! Form::label('Nombre', 'Nombre Del Nuevo Servicio') !!}
+                    {!! Form::text('nombre', null, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>"Ingrese nombre del servicio, solo letras min. 5 caracteres",
+                     'pattern'=>"[A-Za-z ]{5,60}",'onkeyup'=>"mostrarvalo(this.value)"]) !!}
+                </div>
+                <div class="form-group">
+                    <div class="modal-footer"> 
+                        {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary' ] ) !!} 
+                    </div>
+                </div>
+            {!! Form::close() !!}
+      </div>
+    </div>
+  </div>
+
+@section('scripts')
+
+@stop
+
+
+<!--
+<div class="container">
     <br>
     <!-- si se necesita cambiar tamaño de modal agregar modal-lg a la linea 
     <div class="modal-dialog"> por <div class="modal-dialog modal-lg">-->
     
-    <!-- Modal-->
+    <!-- Modal--
     <div class="modal fade" id="registrar_servicioModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -17,10 +50,10 @@
                 <div class="modal-body">
                     <div class="row" style="padding:15px">
                         <div class="panel-body" id="myModal">
-                            {!! Form::open(['route' => 'guardar.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+                            !! Form::open(['route' => 'guardar.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
                               <div class="form-group">
-                                  {!! Form::label('Nombre', 'Nombre Del Nuevo Servicio') !!}
-                                  {!! Form::text('nombre', null, ['class' => 'form-control' , 'required' => 'required', 
+                                  !! Form::label('Nombre', 'Nombre Del Nuevo Servicio') !!}
+                                  !! Form::text('nombre', null, ['class' => 'form-control' , 'required' => 'required', 
                                   'placeholder'=>"Ingrese nombre del servicio, solo letras min. 5 caracteres", 'pattern'=>"[A-Za-z ]{5,60}",
                                   'onkeyup'=>"mostrarvalo(this.value)"]) !!}
                               </div>
@@ -60,13 +93,13 @@
                            
                               <div class="alert alert-danger" role="alert">
                                 <h5 class="alert-heading">Lo sentimos ubo un problema con la creacion del nuevo servicios!</h5>
-                                <p> {{$servicio->nombre}}</p>  
-                              </div> -->
+                                <p> {$servicio->nombre}}</p>  
+                              </div> --
                               <div class="form-group">
-                                  {!! Form::submit('Guardar', ['class' => 'btn btn-success col-md-3 ' ] ) !!}
-                                  {!! Form::submit('Cancelar', ['class' => 'btn btn-danger col-md-3', 'style' => "margin-left: 120px", 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                                  !! Form::submit('Guardar', ['class' => 'btn btn-success col-md-3 ' ] ) !!}
+                                  !! Form::submit('Cancelar', ['class' => 'btn btn-danger col-md-3', 'style' => "margin-left: 120px", 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
                               </div>
-                            {!! Form::close() !!}
+                            !! Form::close() !!}
                           </div>            
                     </div>
                 </div>
@@ -74,7 +107,4 @@
         </div>
     </div>
 </div>
-
-@section('scripts')
-
-@stop
+-->

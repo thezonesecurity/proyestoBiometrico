@@ -89,7 +89,8 @@ class ServicioController extends Controller
         //dd($request->id);
         $id = $request->id;
         $servicio = Servicio::find($id);
-        $servicio->nombre =  $request->nombre;
+        $nombreserviciomodificado = ucwords($request->nombre);
+        $servicio->nombre =  $nombreserviciomodificado;
         $servicio->save();
         //dd($servicio);
         return redirect(route('listar.servicio'));

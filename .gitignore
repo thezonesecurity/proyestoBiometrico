@@ -1,8 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
-/public/assets/layoutLTE
-/public/bootstrap3
+/public/bootstrap-icons
+/public/bootstrap4
 /public/DataTables
 /storage/*.key
 /vendor

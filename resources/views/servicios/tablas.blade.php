@@ -1,5 +1,5 @@
-@extends("theme/LTE/layout") <!--extends se situa en views-->
-@section('cuerpo')
+@extends("dashboard/dashboard") <!--extends se situa en views-->
+@section('contenido')
 <br>
 <div class="col-md-10 box-body table-responsive" style="margin-left: 50px">
 <p>titulo</p>

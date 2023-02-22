@@ -1,2 +1,18 @@
 dffd
 ddfs
+
+------------CONEXION CON POSTGRES-----------
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=hdb
+DB_USERNAME=postgres
+DB_PASSWORD=sistemas
+
+------------CONEXION CON SQL SERVER-----------
+DB_CONNECTION=sqlsrv
+DB_HOST=127.0.0.1
+DB_PORT=1433
+DB_DATABASE=prueba
+DB_USERNAME=sa
+DB_PASSWORD=sistemas

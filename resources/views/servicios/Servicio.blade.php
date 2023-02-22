@@ -2,7 +2,7 @@
 @section('contenido')
 
 <div class="table-responsive d-flex justify-content-center " style="margin-left: auto" ><!--style="margin-left: 250px"-->
-  <div class="col-md-10"> 
+  <div class="col-md "> 
     @if (session('creado'))
     @include('servicios.mensaje')
     @endif
@@ -40,7 +40,7 @@
                             <a data-toggle="modal"  class=" btn btn-secondary col-md-3" disabled="true" type="buton" style="margin-left: 20px">Editar</a>
                             <a href="{{ route('habilitar.servicio', $servicio->id)}}" type="buton" class="btn btn-warning col-md-3" style="margin-left: 20px">Habilitar</a>
                             @endif 
-                            <a href="{{ route('eliminado.servicio', $servicio->id)}}" type="buton" class="btn btn-info">Eliminar</a>
+                           {{-- <a href="{{ route('eliminado.servicio', $servicio->id)}}" type="buton" class="btn btn-info">Eliminar</a>--}}
                         </td>
                     </tr>
                     @include('servicios.ModalEditar')

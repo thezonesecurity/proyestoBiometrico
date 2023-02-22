@@ -18,8 +18,8 @@
                     <?php $antiguonombre = $servicio->nombre; ?>
                 </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
                     {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
+                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
                 <!--
                 <div class="form-group">

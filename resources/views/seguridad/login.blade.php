@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, user-scaleble=no, initial-scale=1.0 maximun-scale=1.0, minimun-scale=1.0" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <!-- Seccion estilos -->
      <link rel="stylesheet" href="{{ asset("bootstrap4/style/stylelogin.css")}}"> <!-- href="{ asset('styles/stylelogin.css') }}">-->
      <link href="{{ asset("bootstrap4/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" /> <!-- "{ asset('css/bootstrap.min.css') }}"> ------>

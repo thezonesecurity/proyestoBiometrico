@@ -30,7 +30,7 @@
         </div>
         <main class="main col">
             <div class="row align-content-center">
-                <div class="columna col-xs- col-sm- col-md-10 col-lg-">
+                <div class="columnas ">
                     <!--CONTENIDO col-lg-6 -->
                     @yield('contenido')
                 </div>

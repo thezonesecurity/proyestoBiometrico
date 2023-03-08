@@ -9,6 +9,8 @@
     <link href="{{ asset("bootstrap4/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("bootstrap4/style/dashboard.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("bootstrap-icons/bootstrap-icons.css")}}" rel="stylesheet" type="text/css" />
+    <link href={{ asset("bootstrap4/css/select2.min.css")}} rel="stylesheet" />
+
     @section('styles') @show
 </head>
 <body>
@@ -24,6 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
     <script src="{{ asset("bootstrap4/js/bootstrap.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("/bootstrap4/js/bootstrap.bundle.min.js")}}" type="text/javascript"></script> 
+    <script src="{{ asset("bootstrap4/js/select2.min.js")}}" type="text/javascript"></script>
     
     @section('scripts') @show
 </body>

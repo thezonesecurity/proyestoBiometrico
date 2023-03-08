@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Models\personal\Persona;
+use App\Models\servicios\Servicio;
+use DB;
 
 class PersonalController extends Controller
 {
@@ -11,12 +13,13 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
+        
         return view('personal.personal');
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      *
@@ -25,6 +28,7 @@ class PersonalController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -58,6 +62,7 @@ class PersonalController extends Controller
     public function edit($id)
     {
         //
+
     }
 
     /**
@@ -67,9 +72,40 @@ class PersonalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+       // dd($request->id_user);
+        $persona=Persona::where('idper_db',$request->id_user)->first(); 
+        //dd($persona);
+        $serv= DB::select("select * from repbio.servicios where nombre = '$request->servicio' ");
+         $id_servi = $serv[0]->id;
+           //dd($id_servi);
+        if($persona){
+           // echo 'existe en DB';
+            $cargo = ucwords($request->cargo);
+            $persona->cargo = $cargo;
+            $persona->item = $request->item;
+            $persona->estado_per = 'Habilitado';
+            $persona->idper_db = $request->id_user;
+            $persona->id_servicio = $id_servi; 
+            //dd($persona);
+            $persona->save();
+            return redirect(route('listar.personal'));
+        }
+        else {
+            //echo 'NO existe en DB';
+            $persona = new Persona;
+            $cargo = ucwords($request->cargo);
+            $persona->cargo = $cargo;
+            $persona->item = $request->item;
+            $persona->estado_per = 'Habilitado';
+            $persona->idper_db = $request->id_user;
+            $persona->id_servicio = $id_servi; 
+           // dd($persona);
+            $persona->save();
+            return redirect(route('listar.personal'));
+        }
+
     }
 
     /**
@@ -81,5 +117,29 @@ class PersonalController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function deshabilitar($id)
+    {
+         //dd($id);
+         $iper_db = $id;
+         //dd($id_per);
+         $persona = Persona::find($iper_db);
+         //dd($persona);
+         $persona->estado_per = 'Inhabilitado';
+        // dd($persona);
+         $persona->save();
+         return redirect(route('listar.personal'));
+    }
+    public function habilitar($id)
+    {
+        //dd($id);
+        $iper_db = $id;
+        //dd($id_per);
+        $persona = Persona::find($iper_db);
+        //dd($persona);
+        $persona->estado_per = 'Habilitado';
+       // dd($persona);
+        $persona->save();
+        return redirect(route('listar.personal'));
     }
 }

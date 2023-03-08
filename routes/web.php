@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/Servicio/Eliminado/{id}', 'ServicioController@destroy')->name('eliminado.servicio');
 
     Route::get('/Personal', 'PersonalController@index')->name('listar.personal');
+    Route::post('actualizar/personal/', 'PersonalController@update')->name('editar.personal');
+    Route::get('/Persona/Inahabilitado/{id}', 'PersonalController@deshabilitar')->name('inhabilitar.persona');
+    Route::get('/Persona/Habilitado/{id}', 'PersonalController@habilitar')->name('habilitar.persona');
 
     Route::get('/tabla', 'ServicioController@mostrartabla')->name('tabla');
 });

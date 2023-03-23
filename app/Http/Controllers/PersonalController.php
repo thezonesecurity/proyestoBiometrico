@@ -78,12 +78,12 @@ class PersonalController extends Controller
         $persona=Persona::where('idper_db',$request->id_user)->first(); 
         //dd($persona);
         $serv= DB::select("select * from repbio.servicios where nombre = '$request->servicio' ");
-         $id_servi = $serv[0]->id;
+        $id_servi = $serv[0]->id;
+        $area_per = ucwords($request->area);
            //dd($id_servi);
         if($persona){
            // echo 'existe en DB';
-            $cargo = ucwords($request->cargo);
-            $persona->cargo = $cargo;
+            $persona->area = $area_per;
             $persona->item = $request->item;
             $persona->estado_per = 'Habilitado';
             $persona->idper_db = $request->id_user;
@@ -95,8 +95,7 @@ class PersonalController extends Controller
         else {
             //echo 'NO existe en DB';
             $persona = new Persona;
-            $cargo = ucwords($request->cargo);
-            $persona->cargo = $cargo;
+            $persona->area = $area_per;;
             $persona->item = $request->item;
             $persona->estado_per = 'Habilitado';
             $persona->idper_db = $request->id_user;

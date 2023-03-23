@@ -9,7 +9,7 @@
         <th scope="col">C.I.</th>
         <th scope="col">Item</th>
         <th scope="col">Servicio</th>
-        <th scope="col">Cargo</th>
+        <th scope="col">Area</th>
         <th scope="col">Estado</th>
         <th scope="col">Opciones
             <!-- boton registrar servicio-->
@@ -31,7 +31,7 @@
             <td>{{ $persona -> ci }}</td>
             <td>{{ $persona -> item }}</td>
             <td>{{ $persona -> servicio }}</td>
-            <td>{{ $persona -> cargo }}</td>
+            <td>{{ $persona -> area }}</td>
             <td>{{ $persona -> estado }}</td>
             <td style='background-color: ;'>
                 @if($persona->estado == "Habilitado")

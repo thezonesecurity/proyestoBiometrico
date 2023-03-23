@@ -43,13 +43,13 @@
                     @if(isset($persona)) 
                         <td><span id="item{{$persona->id}}" >{{$persona->item}}</span></td>
                         <td><span id="servicio{{$persona->id}}" >{{$persona->servicio->nombre}}</span></td>
-                        <td><span id="cargo{{$persona->id}}" >{{$persona->cargo}}</span></td>
+                        <td><span id="area{{$persona->id}}" >{{$persona->area}}</span></td>
                         <td><span id="estado{{$persona->id}}" >{{$persona->estado_per}}</span></td>
 
                     @else
                         <td><span id="item" >Sin item</span></td>
                         <td><span id="servicio" >Sin servicio</span></td>
-                        <td><span id="cargo{{'Sin cargo'}}" >Sin cargo</span></td>
+                        <td><span id="area{{'Sin area'}}" >Sin area</span></td>
                         <td><span id="estado" >Sin estado</span></td>
                        
                     @endif   
@@ -88,7 +88,7 @@
 @stop
 
 @section('scripts')
-{{ Html::script( asset('bootstrap4/scripts/enviarpersonalmodal.js') )}}
+{{ Html::script( asset('scripts/enviarpersonalmodal.js') )}}
 @stop
 
 

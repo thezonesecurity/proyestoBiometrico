@@ -7,9 +7,11 @@
     <title>SARB @section('titulo') @show</title>
     
     <link href="{{ asset("bootstrap4/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" />
+    <link href={{ asset("toastr/toastr.min.css")}} rel="stylesheet" />
     <link href="{{ asset("bootstrap4/style/dashboard.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("bootstrap-icons/bootstrap-icons.css")}}" rel="stylesheet" type="text/css" />
     <link href={{ asset("bootstrap4/css/select2.min.css")}} rel="stylesheet" />
+    
 
     @section('styles') @show
 </head>
@@ -22,12 +24,15 @@
     @include("dashboard/sidebar")
     <!--FIN SIDEBAR-->
 
-    <script src="{{ asset("bootstrap4/jquery/jquery-3.5.1.slim.min.js")}}" type="text/javascript"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    {{--<script src="{{ asset("bootstrap4/jquery/jquery-3.5.1.slim.min.js")}}" type="text/javascript"></script>--}}
+    <script src="{{ asset("bootstrap4/jquery/jquery-3.3.1.min.js")}}" type="text/javascript"></script>
+    <script src="{{ asset("toastr/toastr.min.js")}}" type="text/javascript"></script> 
+    <script src="{{ asset("bootstrap4/js/popper.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("bootstrap4/js/bootstrap.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("/bootstrap4/js/bootstrap.bundle.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("bootstrap4/js/select2.min.js")}}" type="text/javascript"></script>
     
+
     @section('scripts') @show
 </body>
 

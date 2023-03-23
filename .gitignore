@@ -4,6 +4,10 @@
 /public/bootstrap-icons
 /public/bootstrap4
 /public/DataTables
+/public/toastr
+/public/dynamicTable
+/public/editable
+
 /storage/*.key
 /vendor
 .env

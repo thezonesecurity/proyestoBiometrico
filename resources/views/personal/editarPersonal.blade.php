@@ -32,6 +32,7 @@
                             <option value="Tgn">Tgn</option>
                             <option value="Contrato">Contrato</option>
                             <option value="Idh">Idh</option>
+                            <option value="Ministerial">Ministerial</option>
                         </select>
    
                         </div>
@@ -51,8 +52,8 @@
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('cargoPer', 'cargo de la Persona', ['class' => 'font-weight-bold' ]) !!}
-                            {!! Form::text('cargo','' , ['class' => 'form-control' , 'required' => 'true', 'id'=>"cargoM", 'pattern'=>"[A-Za-z ]{5,60}"]) !!}
+                            {!! Form::label('areaPer', 'Area de la Persona', ['class' => 'font-weight-bold' ]) !!}
+                            {!! Form::text('area','' , ['class' => 'form-control' , 'required' => 'true', 'id'=>"per_areaM", 'pattern'=>"[A-Za-z ]{5,60}"]) !!}
                         </div>
                        
                         <div class="modal-footer"> <!--nombre, ci, item, id X, servicio X-->

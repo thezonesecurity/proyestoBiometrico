@@ -1,4 +1,3 @@
-<?php $servi = DB::table('repbio.servicios')->get(); ?>
 
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -24,21 +23,21 @@
 
                         <div class="form-group">
                             {!! Form::label('item_Per', 'item de la persona', ['class' => 'font-weight-bold' ]) !!}
-                          {{-- {!! Form::text('item','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"itemM"]) !!}--}}
-
-                        <select class="form-control custom-select" name="item" id="itemM['idM']" required="true">
-                            <option value="" disabled selected>Elegir un item</option> 
-                            <option value="Item">Item</option> 
-                            <option value="Tgn">Tgn</option>
-                            <option value="Contrato">Contrato</option>
-                            <option value="Idh">Idh</option>
-                            <option value="Ministerial">Ministerial</option>
-                        </select>
-   
+                            {{-- {!! Form::text('item','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"itemM"]) !!}--}}
+                            <select class="form-control custom-select" name="item" id="itemM['idM']" required="true">
+                                <option value="" disabled >Elegir un item</option> 
+                                <option value="Item">Item</option> 
+                                <option value="Tgn">Tgn</option>
+                                <option value="Contrato">Contrato</option>
+                                <option value="Idh">Idh</option>
+                                <option value="Ministerial">Ministerial</option>
+                            </select>
                         </div>
+                       
                         <div class="form-group">
                             {!! Form::label('servicioPer', 'servicio de la persona', ['class' => 'font-weight-bold' ]) !!}
                            {{-- {!! Form::text('servicio','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"servicioM"]) !!} --}}
+                            <?php $servi = DB::table('repbio.servicios')->get(); ?>
                            <select class="js-example-basic-single form-control custom-select" name="servicio" id='servicioM' required="true">
                             <option value="" disabled>Elegir un servicio</option> 
                             @foreach($servi as $item)
@@ -51,11 +50,6 @@
                         </select>
                         </div>
 
-                        <div class="form-group">
-                            {!! Form::label('areaPer', 'Area de la Persona', ['class' => 'font-weight-bold' ]) !!}
-                            {!! Form::text('area','' , ['class' => 'form-control' , 'required' => 'true', 'id'=>"per_areaM", 'pattern'=>"[A-Za-z ]{5,60}"]) !!}
-                        </div>
-                       
                         <div class="modal-footer"> <!--nombre, ci, item, id X, servicio X-->
                             {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
                             {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal"] ) !!}

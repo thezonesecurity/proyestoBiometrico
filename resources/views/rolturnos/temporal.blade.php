@@ -316,3 +316,91 @@ Usando javascript: , puede ejecutar código que no cambia la página actual. Est
     </div>
 {!!Form::Close()!!}<!---->
 </div>
+
+
+<table>
+    <tr>
+        <div class="form-group">
+            {!! Form::label('servicioPer', 'Servicio de la persona', ['class' => 'font-weight-bold' ]) !!}
+            {!! Form::select('servicio') !!}
+           {{-- {!! Form::text('servicio','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"servicioM"]) !!} --}}
+           {{-- <?php $servi = DB::table('repbio.servicios')->get(); ?>
+           <select class="js-example-basic-single form-control custom-select" name="servicio" id='servicioM' required="true">
+                <option value="" selected disabled>Elegir un servicio</option> 
+                @foreach($servi as $item)
+                    @if($item->estado == 'Habilitado')
+                        <option value="{{$item->nombre}}" > {{$item->nombre}} </option>  
+                    @endif                       
+                @endforeach
+            </select>--}}
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('areaPer', 'Area de la persona', ['class' => 'font-weight-bold' ]) !!}
+            {!! Form::select('area') !!}
+           {{-- {!! Form::text('servicio','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"servicioM"]) !!} --}}
+           {{-- <?php $areaservi = DB::table('repbio.areaservicio')->get(); ?>
+           <select class="js-example-basic-single form-control custom-select" name="area" id='areaM' required="true">
+                <option value="" disabled selected>Elegir un area de la persona</option> 
+                @foreach($areaservi as $item)
+                    @if($item->estado == 'Habilitado')
+                        <option value="{{$item->nombre}}" > {{$item->nombre}} </option>  
+                    @endif                       
+                @endforeach
+            </select>--}}
+        </div>
+        <div class="form-group justify-content-center align-content-center">
+            <label for="personall" class="font-weight-bold">Personal</label>
+        
+            <select id="per" class="form-control text-uppercase select2" style="width: 100%;" name="personal">
+                <option value="Elegir personal" disabled selected>Elegir personal</option>
+                <?php  while($row=sqlsrv_fetch_array($result) ) {
+                    $persona=App\Models\personal\Persona::where('idper_db',$row['USERID'])->first(); 
+                    if(isset($persona)) { ?>  
+                    <option value="{{$persona->idper_db}}">{{$row['NAME']}}</option>
+                    <?php }} sqlsrv_close($conn); ?>
+            </select>
+        </div>
+    </tr>
+</table>
+
+<tbody>
+    <?php
+    $serverName ="DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
+    $connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"S1af2023");//prueba
+
+    $i=0;
+    $rolturnos=App\Models\rolturno\Rolturno::all(); 
+    ?>
+    <tbody>
+        @foreach ($rolturnos as $rolturno)
+                <tr>
+                    <td>{{++$i}}</td>
+                    <?php 
+                     $conn = sqlsrv_connect( $serverName, $connectionInfo) or die(print_r(sqlsrv_errors(), true));
+                     $sql="select NAME FROM USERINFO WHERE USERID = $rolturno->id_persona";
+                     $res=sqlsrv_query($conn,$sql);
+                    // echo $res;
+                    while($row=sqlsrv_fetch_array($res) ){ ?>
+                        <td><span id="" >{{$row['NAME']}}</span></td>
+                    <?php  } sqlsrv_close($conn); ?>  
+
+                    <td><span id="" >{{$rolturno->fecha_inicio}}</span></td>
+                    <td><span id="" >{{$rolturno->fecha_fin}}</span></td>
+                    <td><span id="" >{{$rolturno->hora_inicio}}</span></td>
+                    <td><span id="" >{{$rolturno->hora_fin}}</span></td>
+                    <td><span id="" >{{$rolturno->tipo_dia}}</span></td>
+                    <td><span id="" >{{$rolturno->turno}}</span></td>
+                    <td><span id="" >{{$rolturno->area}}</span></td>
+                    <td><span id="" >{{$rolturno->obs}}</span></td>
+                    <td><span id="" >{{$rolturno->estado}}</span></td>
+                    <td>
+                        <button type="button" class="btn btn-primary editbtn" data-toggle="modal" data-target="#ModalEditar">Editar</button>
+                        <a type="button" class="btn btn-sm btn-danger" href="{{route('eliminar.roles.turno', $rolturno->id)}}" > Eliminar</a>
+                        
+                    </td>
+                    @include('rolturnos.editarLista')
+                </tr>
+        @endforeach
+    </tbody>
+</tbody>

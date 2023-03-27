@@ -14,7 +14,6 @@
                     <th scope="col">C.I.</th>
                     <th scope="col">Item</th>
                     <th scope="col">Servicio</th>
-                    <th scope="col">Cargo</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Opciones</th>
                   </tr>
@@ -42,14 +41,13 @@
                     <?php $persona=App\Models\personal\Persona::where('idper_db',$row['USERID'])->first(); ?>
                     @if(isset($persona)) 
                         <td><span id="item{{$persona->id}}" >{{$persona->item}}</span></td>
-                        <td><span id="servicio{{$persona->id}}" >{{$persona->servicio->nombre}}</span></td>
-                        <td><span id="area{{$persona->id}}" >{{$persona->area}}</span></td>
+                        <?php $servicio=App\Models\servicios\Servicio::where('id',$persona->id_servicio)->first(); ?>
+                        <td><span id="servicio{{$persona->id}}" >{{$servicio->nombre}}</span></td>
                         <td><span id="estado{{$persona->id}}" >{{$persona->estado_per}}</span></td>
 
                     @else
                         <td><span id="item" >Sin item</span></td>
                         <td><span id="servicio" >Sin servicio</span></td>
-                        <td><span id="area{{'Sin area'}}" >Sin area</span></td>
                         <td><span id="estado" >Sin estado</span></td>
                        
                     @endif   

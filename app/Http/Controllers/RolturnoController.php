@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\servicios\Servicio;
+use App\Models\areaservicio\AreaServicio;
+
+
 use App\Models\personal\Persona;
 use App\Models\rolturno\Rolturno;
 use App\Models\rolturno\PersonaRolturno;
+
 
 class RolturnoController extends Controller
 {
@@ -18,7 +23,13 @@ class RolturnoController extends Controller
     public function index()
     {
         //
-        return view('rolturnos.Rolturno');
+       // $personas = Persona::lists('nombres', 'id');
+       // return view('rolturnos.Rolturno', compact('personas'));
+      // $servicios = Servicios::lists('nombres', 'id');s
+       $servicios = Servicio::all();
+       $personas = Persona::all();
+    //   dd($personas);
+       return view('rolturnos.Rolturno')->with(compact('servicios', 'personas'));
     }
 
     /**
@@ -26,9 +37,11 @@ class RolturnoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    //funcion para saber k areas pertecencen a cada servicio
+    public function includeAS($id)
     {
-        //
+        return AreaServicio::where('servicio_id', $id)->get();
     }
 
     /**
@@ -39,50 +52,54 @@ class RolturnoController extends Controller
      */
     public function store(Request $request)
     {
-       // return $request->tdia;
+       // return $request;
 
         //$persona=Persona::where('idper_db',$request->id)->first(); 
        // $persona->area= $request->area;
 
         //$persona->save();
        // dd($persona);
-        //$rolturno = new Rolturno;
-       // $rolturno->obs = $request->comentario;
-        //$rolturno->estado = 'inactivo';
-       // $rolturno->save();
-   
-       // return 'ok';
+        
+
         $pos=0;
         foreach ($request->m as $rolturno_id) {
             $rolturno = new Rolturno;
+            $rolturno->user_id = '1';
+            $rolturno->servicio_id = $request->servi[$pos]; //$request->servicio; //;
+            $rolturno->estado = 'inactivo';
+            $rolturno->save();
+
+            $per_rolturno = new PersonaRolturno;
            //$request->l[$pos];
             if($request->tdia[$pos] == "DL"){
-                $rolturno->fecha_inicio = $request->f_ini[$pos];
-                $rolturno->fecha_fin = null;
-                $rolturno->hora_inicio = $request->h_ini[$pos];
-                $rolturno->hora_fin = $request->h_fin[$pos];
-                $rolturno->tipo_dia = $request->tdia[$pos];
-                $rolturno->turno = $request->t[$pos];
-                $rolturno->area = $request->area[$pos];
-                $rolturno->obs = $request->obs[$pos];
-                $rolturno->estado = 'inactivo';
-                $rolturno->id_persona = $rolturno_id;
-                //dd($rolturno);
-                $rolturno->save();
+                $per_rolturno->fecha_inicio = $request->f_ini[$pos];
+                $per_rolturno->fecha_fin = null;
+                $per_rolturno->hora_inicio = $request->h_ini[$pos];
+                $per_rolturno->hora_fin = $request->h_fin[$pos];
+                $per_rolturno->tipo_dia = $request->tdia[$pos];
+                $per_rolturno->turno = $request->t[$pos];
+                $per_rolturno->area_id = $request->area_per[$pos];
+                $per_rolturno->obs = $request->obs[$pos];
+                $per_rolturno->estado = 'inactivo';
+                $per_rolturno->persona_id = $request->m[$pos];;
+                $per_rolturno->rolturno_id = $rolturno->id;
+                //dd($per_rolturno);
+                $per_rolturno->save();
             }
             else if($request->tdia[$pos] == "V"){
-                $rolturno->fecha_inicio = $request->f_ini[$pos];
-                $rolturno->fecha_fin = $request->f_fin[$pos];
-                $rolturno->hora_inicio = null;
-                $rolturno->hora_fin = null;
-                $rolturno->tipo_dia = $request->tdia[$pos];
-                $rolturno->turno = null;
-                $rolturno->area = null;
-                $rolturno->obs = $request->obs[$pos];
-                $rolturno->estado = 'inactivo';
-                $rolturno->id_persona = $rolturno_id;
-                //dd($rolturno);
-                $rolturno->save();
+                $per_rolturno->fecha_inicio = $request->f_ini[$pos];
+                $per_rolturno->fecha_fin = $request->f_fin[$pos];
+                $per_rolturno->hora_inicio = null;
+                $per_rolturno->hora_fin = null;
+                $per_rolturno->tipo_dia = $request->tdia[$pos];
+                $per_rolturno->turno = null;
+                $per_rolturno->area_id = null;
+                $per_rolturno->obs = $request->obs[$pos];
+                $per_rolturno->estado = 'inactivo';
+                $per_rolturno->persona_id = $request->m[$pos];;
+                $per_rolturno->rolturno_id = $rolturno->id;
+                //dd($per_rolturno);
+                $per_rolturno->save();
             } else{
                 return 'error';
             }
@@ -100,7 +117,9 @@ class RolturnoController extends Controller
     public function lista()
     {
         //
-        return view('rolturnos.ListarRolturnos');
+        $per_rolturnos = PersonaRolturno::all();
+        //   dd($rolturnos);
+        return view('rolturnos.ListarRolturnos')->with(compact('per_rolturnos'));
     }
 
     /**
@@ -203,5 +222,61 @@ class RolturnoController extends Controller
                 $persona_rolturno->id_rolturno = ''; //?????
                 $persona_rolturno->save();
             }*/
+
+            /*relacion de  1 a N
+              public function store(Request $request)
+                {
+                    return $request;
+
+                    //$persona=Persona::where('idper_db',$request->id)->first(); 
+                // $persona->area= $request->area;
+
+                    //$persona->save();
+                // dd($persona);
+                    //$rolturno = new Rolturno;
+                // $rolturno->obs = $request->comentario;
+                    //$rolturno->estado = 'inactivo';
+                // $rolturno->save();
+            
+                // return 'ok';
+                    $pos=0;
+                    foreach ($request->m as $rolturno_id) {
+                        $rolturno = new Rolturno;
+                    //$request->l[$pos];
+                        if($request->tdia[$pos] == "DL"){
+                            $rolturno->fecha_inicio = $request->f_ini[$pos];
+                            $rolturno->fecha_fin = null;
+                            $rolturno->hora_inicio = $request->h_ini[$pos];
+                            $rolturno->hora_fin = $request->h_fin[$pos];
+                            $rolturno->tipo_dia = $request->tdia[$pos];
+                            $rolturno->turno = $request->t[$pos];
+                            $rolturno->area = $request->area[$pos];
+                            $rolturno->obs = $request->obs[$pos];
+                            $rolturno->estado = 'inactivo';
+                            $rolturno->id_persona = $rolturno_id;
+                            //dd($rolturno);
+                            $rolturno->save();
+                        }
+                        else if($request->tdia[$pos] == "V"){
+                            $rolturno->fecha_inicio = $request->f_ini[$pos];
+                            $rolturno->fecha_fin = $request->f_fin[$pos];
+                            $rolturno->hora_inicio = null;
+                            $rolturno->hora_fin = null;
+                            $rolturno->tipo_dia = $request->tdia[$pos];
+                            $rolturno->turno = null;
+                            $rolturno->area = null;
+                            $rolturno->obs = $request->obs[$pos];
+                            $rolturno->estado = 'inactivo';
+                            $rolturno->id_persona = $rolturno_id;
+                            //dd($rolturno);
+                            $rolturno->save();
+                        } else{
+                            return 'error';
+                        }
+                        $pos++;
+                    }
+                    
+                }
+             */
     
 }

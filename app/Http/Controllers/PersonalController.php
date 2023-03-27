@@ -74,34 +74,38 @@ class PersonalController extends Controller
      */
     public function update(Request $request)
     {
+       // dd($request);
        // dd($request->id_user);
-        $persona=Persona::where('idper_db',$request->id_user)->first(); 
-        //dd($persona);
         $serv= DB::select("select * from repbio.servicios where nombre = '$request->servicio' ");
-        $id_servi = $serv[0]->id;
-        $area_per = ucwords($request->area);
-           //dd($id_servi);
-        if($persona){
-           // echo 'existe en DB';
-            $persona->area = $area_per;
+        $servicio_id = $serv[0]->id;
+        //dd($servicio_id);
+        $persona=Persona::where('idper_db',$request->id_user)->first(); 
+       
+        if(isset($persona)){
+           // echo 'existe en DB' SE ACTUALIZA;
+            $persona->nombres = $request->nombre;
+            $persona->ci = $request->ci;
             $persona->item = $request->item;
             $persona->estado_per = 'Habilitado';
             $persona->idper_db = $request->id_user;
-            $persona->id_servicio = $id_servi; 
+            $persona->id_servicio = $servicio_id;
+            $persona->user_id = '1'; 
             //dd($persona);
             $persona->save();
             return redirect(route('listar.personal'));
         }
         else {
-            //echo 'NO existe en DB';
-            $persona = new Persona;
-            $persona->area = $area_per;;
-            $persona->item = $request->item;
-            $persona->estado_per = 'Habilitado';
-            $persona->idper_db = $request->id_user;
-            $persona->id_servicio = $id_servi; 
+            //echo 'NO existe en DB' SE HACE UN NUEVO REGISTRO;
+            $newpersona = new Persona;
+            $newpersona->nombres = $request->nombre;
+            $newpersona->ci = $request->ci;
+            $newpersona->item = $request->item;
+            $newpersona->estado_per = 'Habilitado';
+            $newpersona->idper_db = $request->id_user;
+            $newpersona->id_servicio = $servicio_id;
+            $newpersona->user_id = '1'; 
            // dd($persona);
-            $persona->save();
+            $newpersona->save();
             return redirect(route('listar.personal'));
         }
 

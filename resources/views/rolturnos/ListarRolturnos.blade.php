@@ -11,50 +11,38 @@
             <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                 <th width="4%">Nro.</th>
                 <th style="" width="">Persona</th>
+                <th style="" width="">Servicio</th>
+
+                <th style="" width="">Area</th>
+                <th style="" width="">Tipo dia</th>
                 <th style="" width="">Fecha inicio</th>
                 <th style="" width="">Fecha ingreso</th>
                 <th style="" width="">Hora ingreso</th>
                 <th style="" width="">Hora salida</th>
-                <th style="" width="">Tipo dia</th>
                 <th style="" width="">turno</th>
-                <th style="" width="">Area</th>
                 <th style="" width="">Observacion</th>
                 <th style="" width="">Estado</th>
                 <th style="" width="">Accion</th>
             </tr>
         </thead>
-        <?php
-        $serverName ="DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
-        $connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"S1af2023");//prueba
-
-        $i=0;
-        $rolturnos=App\Models\rolturno\Rolturno::all(); 
-        ?>
-        <tbody>
-            @foreach ($rolturnos as $rolturno)
+        <tbody> <?php  $i=0; ?>
+            @foreach ($per_rolturnos as $rolturno_per)
                     <tr>
                         <td>{{++$i}}</td>
-                        <?php 
-                         $conn = sqlsrv_connect( $serverName, $connectionInfo) or die(print_r(sqlsrv_errors(), true));
-                         $sql="select NAME FROM USERINFO WHERE USERID = $rolturno->id_persona";
-                         $res=sqlsrv_query($conn,$sql);
-                        // echo $res;
-                        while($row=sqlsrv_fetch_array($res) ){ ?>
-                            <td><span id="" >{{$row['NAME']}}</span></td>
-                        <?php  } sqlsrv_close($conn); ?>  
-
-                        <td><span id="" >{{$rolturno->fecha_inicio}}</span></td>
-                        <td><span id="" >{{$rolturno->fecha_fin}}</span></td>
-                        <td><span id="" >{{$rolturno->hora_inicio}}</span></td>
-                        <td><span id="" >{{$rolturno->hora_fin}}</span></td>
-                        <td><span id="" >{{$rolturno->tipo_dia}}</span></td>
-                        <td><span id="" >{{$rolturno->turno}}</span></td>
-                        <td><span id="" >{{$rolturno->area}}</span></td>
-                        <td><span id="" >{{$rolturno->obs}}</span></td>
-                        <td><span id="" >{{$rolturno->estado}}</span></td>
+                        <td><span id="" >nombre</span></td>
+                        <td><span id="" >serviciio</span></td>
+                        <td><span id="" >{{$rolturno_per->area_id}}</span></td>
+                        <td><span id="" >{{$rolturno_per->tipo_dia}}</span></td>
+                        <td><span id="" >{{$rolturno_per->fecha_inicio}}</span></td>
+                        <td><span id="" >{{$rolturno_per->fecha_fin}}</span></td>
+                        <td><span id="" >{{$rolturno_per->hora_inicio}}</span></td>
+                        <td><span id="" >{{$rolturno_per->hora_fin}}</span></td>
+                        <td><span id="" >{{$rolturno_per->turno}}</span></td>
+                        <td><span id="" >{{$rolturno_per->obs}}</span></td>
+                        <td><span id="" >{{$rolturno_per->estado}}</span></td>
                         <td>
                             <button type="button" class="btn btn-primary editbtn" data-toggle="modal" data-target="#ModalEditar">Editar</button>
-                            <a type="button" class="btn btn-sm btn-danger" href="{{route('eliminar.roles.turno', $rolturno->id)}}" > Eliminar</a>
+                            <a type="button" class="btn btn-sm btn-danger" href="{{route('eliminar.roles.turno', $rolturno_per->id)}}" > Eliminar</a>
                             
                         </td>
                         @include('rolturnos.editarLista')

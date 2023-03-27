@@ -17,21 +17,40 @@
                 <div class="row" >
                     <div class="col-md-3">
                         <table class=" table border border-success"> <!--REGISTRAR ROL TURNO-->
+                            <center class="font-weight-bold">Registrar Rol Turno</center>
                             <tr>
+                                <div class="form-group">
+                                    {!! Form::label('servicioPer', 'Servicio de la persona', ['class' => 'font-weight-bold' ]) !!}
+                                    <select class="js-example-basic-single form-control custom-select" name="servicio" id='servicio' required="true">
+                                        <option value="" selected disabled>Seleccione un servicio</option> 
+                                        @foreach($servicios as $item)
+                                            @if($item->estado == 'Habilitado')
+                                                <option value="{{$item->id}}" > {{$item->nombre}} </option>  
+                                            @endif                       
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="form-group justify-content-center align-content-center">
-                                    <center class="font-weight-bold">Registrar Rol Turno</center>
                                     <label for="personall" class="font-weight-bold">Personal</label>
-                                
-                                    <select id="per" class="form-control text-uppercase select2" style="width: 100%;" name="personal">
-                                        <option value="Elegir personal" disabled selected>Elegir personal</option>
-                                        <?php  while($row=sqlsrv_fetch_array($result) ) {
-                                            $persona=App\Models\personal\Persona::where('idper_db',$row['USERID'])->first(); 
-                                            if(isset($persona)) { ?>  
-                                            <option value="{{$persona->idper_db}}">{{$row['NAME']}}</option>
-                                            <?php }} sqlsrv_close($conn); ?>
+                                    <select class="form-control text-uppercase select2" style="width: 100%;" name="personal" id="per" >
+                                        <option value="Elegir personal" disabled selected>Elegir una persona</option>
+                                        @foreach($personas as $persona)
+                                            @if($persona->estado_per == 'Habilitado')
+                                                <option value="{{$persona->id}}" > {{$persona->nombres}} </option>  
+                                            @endif 
+                                        @endforeach
                                     </select>
                                 </div>
                                 
+                                <div class="form-group">
+                                    {!! Form::label('areaPer', 'Area de la persona', ['class' => 'font-weight-bold' ]) !!}
+                                    <select class="js-example-basic-single form-control custom-select" name="area" id='area' required="true">
+                                        <option value="" selected disabled>Seleccione un area del servicio</option> 
+                    
+                                    </select>
+                                </div>
+
                                 <div class="form-group row justify-content-center align-content-center" id="product1">
                                     <div class="form-check ml-5 col-auto">
                                         <input class="form-check-input" type="radio" name="tipod" id="laboral" value="DL" checked>
@@ -79,11 +98,6 @@
                                 </div>
 
                                 <div class="form-group row font-weight-bold">
-                                    <label class="col">Area</p>
-                                    <input type="text" class="form-control" id="area" name="area" value="" >
-                                </div>
-
-                                <div class="form-group row font-weight-bold">
                                     <label class="col">Observaciones</p>
                                     <textarea name="comentario" class="form-control col" placeholder="Este campo es opcional" id="obs"></textarea>
                                 </div>
@@ -102,6 +116,7 @@
                                 <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                                     <th width="4%">Nro.</th>
                                     <th style="" width="">Persona</th>
+                                    <th style="" width="">Servicio</th>
                                     <th style="" width="">Area</th>
                                     <th style="" width="">tipo dia</th>
                                     <th style="" width="">Fecha ini</th>
@@ -162,7 +177,24 @@
 </script>
 
 <script type="text/javascript">
+//PROCESO PARA SABER K AREA PERTENECE A K SERVICIO
+    $('#servicio').change(function(){
+        var area_id = $(this).val();
+        // console.log('res '+ $(this).val());
+        if(!area_id){ $('#area').html('<option value="" selected>Selecione una area del servicio</option>'); return;}
+        $.get('/servicio/'+area_id+'/area', function(data){
+            var Html_select = '<option value="" disabled >Selecione una area del servicio</option>';
+            for(var i=0; i<data.length; i++){
+                //console.log(data[i].id);
+                if(data[i].estado == 'Habilitado')
+                    Html_select += '<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+             }
+           //console.log(Html_select); 
+           $('#area').html(Html_select);
+        });
+    });
 
+ //PROCESOS PARA GUARDAR MULTIPLES DATOS
     $("#boton1").click(function(e){
         //console.log('se iso click en guardar');
         //para controlar si se agrego medicamentos

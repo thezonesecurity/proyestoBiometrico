@@ -10,9 +10,15 @@ class Servicio extends Model
     protected $table = 'repbio.servicios';
 
     protected $fillable = ['id', 'nombre', 'estado'];
+
     protected $dates = ['created_at','updated_at'];
 
-    public function personas(){
-        return $this->hasMany('App\Models\personal\Persona');
+    public function rolturno(){
+        return $this->hasMany('App\Models\rolturno\Rolturno');
     }
+
+    public function area(){
+        return $this->hasMany('App\Models\areaservicio\AreaServicio');
+    }
+
 }

@@ -384,7 +384,7 @@ Usando javascript: , puede ejecutar código que no cambia la página actual. Est
                     while($row=sqlsrv_fetch_array($res) ){ ?>
                         <td><span id="" >{{$row['NAME']}}</span></td>
                     <?php  } sqlsrv_close($conn); ?>  
-
+                    <td><span id="" >{{!empty($rolturno_per->servicios) ? $rolturno_per->servicios->nombre:''}}</span></td>
                     <td><span id="" >{{$rolturno->fecha_inicio}}</span></td>
                     <td><span id="" >{{$rolturno->fecha_fin}}</span></td>
                     <td><span id="" >{{$rolturno->hora_inicio}}</span></td>
@@ -403,4 +403,83 @@ Usando javascript: , puede ejecutar código que no cambia la página actual. Est
                 </tr>
         @endforeach
     </tbody>
+</tbody>
+
+
+<tbody> <?php  $i=0; ?>
+    @foreach ($per_rolturnos as $rolturno_per)
+            <tr>
+                <td>{{++$i}}</td>
+                <td><span id="" >nombre</span></td>
+                <td><span id="" >serviciio</span></td>
+                <td><span id="" >{{$rolturno_per->area_id}}</span></td>
+                <td><span id="" >{{$rolturno_per->tipo_dia}}</span></td>
+                <td><span id="" >{{$rolturno_per->fecha_inicio}}</span></td>
+                <td><span id="" >{{$rolturno_per->fecha_fin}}</span></td>
+                <td><span id="" >{{$rolturno_per->hora_inicio}}</span></td>
+                <td><span id="" >{{$rolturno_per->hora_fin}}</span></td>
+                <td><span id="" >{{$rolturno_per->turno}}</span></td>
+                <td><span id="" >{{$rolturno_per->obs}}</span></td>
+                <td><span id="" >{{$rolturno_per->estado}}</span></td>
+                <td>
+                    <button type="button" class="btn btn-primary editbtn" data-toggle="modal" data-target="#ModalEditar">Editar</button>
+                    <a type="button" class="btn btn-sm btn-danger" href="{{route('eliminar.roles.turno', $rolturno_per->id)}}" > Eliminar</a>
+                    
+                </td>
+                @include('rolturnos.editarLista')
+            </tr>
+    @endforeach
+</tbody>
+
+oficial
+<tbody> <?php  $i=0; ?>
+    @foreach ($rolturnos as $rolturno)
+            <tr>
+                <td>{{++$i}}</td>
+                <td><span id="" >{{$rolturno->personas->nombres}}</span></td><!--tabla persona-->
+                <td><span id="" >{{$rolturnos->servicios->nombre}}</span></td><!--tabla servicio-->
+                <td><span id="" >{{$rolturnos->pivot->area_id}}</span></td><!--tabla area serivcio-->
+                <td><span id="">{{$rolturnos->pivot->tipo_dia}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->fecha_inicio}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->fecha_fin}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->hora_inicio}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->hora_fin}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->turno}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->obs}}</span></td>
+                <td><span id="" >{{$rolturnos->pivot->estado}}</span></td>
+                <td>
+                    <button type="button" class="btn btn-primary editbtn" data-toggle="modal" data-target="#ModalEditar">Editar</button>
+                    <a type="button" class="btn btn-sm btn-danger" href="{{route('eliminar.roles.turno', $rolturno_per->id)}}" > Eliminar</a>
+                    
+                </td>
+                @include('rolturnos.editarLista')
+            </tr>
+    @endforeach
+</tbody>
+
+
+ANTERIOR
+<tbody> <?php  $i=0; ?>
+    @foreach ($per_rolturnos as $rolturno_per)
+            <tr>
+                <td>{{++$i}}</td>
+                <td><span id="" >nombre</span></td>
+                <td><span id="" >serviciio</span></td>
+                <td><span id="" >{{$rolturno_per->area_id}}</span></td>
+                <td><span id="" >{{$rolturno_per->tipo_dia}}</span></td>
+                <td><span id="fec_ini{{$rolturno_per->id}}">{{$rolturno_per->fecha_inicio}}</span></td>
+                <td><span id="" >{{$rolturno_per->fecha_fin}}</span></td>
+                <td><span id="" >{{$rolturno_per->hora_inicio}}</span></td>
+                <td><span id="" >{{$rolturno_per->hora_fin}}</span></td>
+                <td><span id="" >{{$rolturno_per->turno}}</span></td>
+                <td><span id="" >{{$rolturno_per->obs}}</span></td>
+                <td><span id="" >{{$rolturno_per->estado}}</span></td>
+                <td>
+                    <button type="button" class="btn btn-primary editbtn" data-toggle="modal" data-target="#ModalEditara">Editar</button>
+                    <a type="button" class="btn btn-sm btn-danger" href="{{route('eliminar.roles.turno', $rolturno_per->id)}}" > Eliminar</a>
+                    
+                </td>
+                @include('rolturnos.editarLista')
+            </tr>
+    @endforeach
 </tbody>

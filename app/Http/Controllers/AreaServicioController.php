@@ -85,13 +85,13 @@ class AreaServicioController extends Controller
     {
         //
         //dd($request);
-        $id = $request->id;
+        $id = $request->id_area;
         $areaservicio = AreaServicio::find($id);
         $nombre = ucwords($request->nombre);
         $areaservicio->nombre =  $nombre;
         $areaservicio->servicio_id = $request->id_servicio;
-        //$areaservicio->save();
-        dd($areaservicio);
+        $areaservicio->save();
+        //dd($areaservicio);
         return redirect(route('listar.area.servicio'));
        
     }

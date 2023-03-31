@@ -3,7 +3,7 @@ function limpiarform(){
       document.getElementById("fec_fin").value = "";
       document.getElementById("hrs_inicio").value = "";
       document.getElementById("hrs_fin").value = "";
-      document.getElementById("turno").value = "";
+      //document.getElementById("turno").value = "";
       //document.getElementById("area").value = "";
       document.getElementById("obs").value = "";
 }
@@ -21,7 +21,7 @@ $(document).ready(function() {
     $('#fec_fin').prop("disabled", true);
     $('#hrs_inicio').prop("disabled", false);
     $('#hrs_fin').prop("disabled", false);
-    $('#turno').prop("disabled", false);
+   // $('#turno').prop("disabled", false);
     $('#area').prop("disabled", false);
    // $('#obs').prop("disabled", false);
 
@@ -35,8 +35,8 @@ $(document).ready(function() {
     $('#fec_fin').prop("disabled", false);
     $('#hrs_inicio').prop("disabled", true);
     $('#hrs_fin').prop("disabled", true);
-    $('#turno').prop("disabled", true);
-    $('#area').prop("disabled", true);
+    //$('#turno').prop("disabled", false);
+    $('#area').prop("disabled", false);
    // $('#obs').prop("disabled", false);
   });
 

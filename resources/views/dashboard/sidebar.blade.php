@@ -6,7 +6,7 @@
                     <i class="bi bi-border-style"></i>
                     <span>Servicios</span>
                 </a>
-                <a href="{{route('listar.area.servicio')}}" title="Servicios">
+                <a href="{{route('listar.area.servicio')}}" title="Areas de los Servicios">
                     <i class="bi bi-boxes"></i>
                     <span>Areas de servicios</span>
                 </a>

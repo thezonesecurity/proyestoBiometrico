@@ -1,5 +1,5 @@
 @extends("dashboard/dashboard") <!--extends se situa en views-->
-@section('contenido')
+@section('contenido')--------------NO USADO----------------------------
 <h3 class="box-title text-center">Lista del personal H.D.B.</h3>
 <table id="example" class="table table-bordered table-striped"  width="60%">
     <thead>

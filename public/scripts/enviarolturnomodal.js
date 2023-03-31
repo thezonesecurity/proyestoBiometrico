@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){ //NO USADO
 
 	$(document).on('click', '.edit', function(){
         console.log('item');

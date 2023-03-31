@@ -14,11 +14,11 @@ class Servicio extends Model
     protected $dates = ['created_at','updated_at'];
 
     public function rolturno(){
-        return $this->hasMany('App\Models\rolturno\Rolturno');
+        return $this->hasMany(\App\Models\rolturno\Rolturno::class);
     }
 
-    public function area(){
-        return $this->hasMany('App\Models\areaservicio\AreaServicio');
+    public function areas(){
+        return $this->hasMany(\App\Models\areaservicio\AreaServicio::class);
     }
 
 }

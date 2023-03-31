@@ -7,6 +7,7 @@
 /public/toastr
 /public/dynamicTable
 /public/editable
+/public/dompdf
 
 /storage/*.key
 /vendor

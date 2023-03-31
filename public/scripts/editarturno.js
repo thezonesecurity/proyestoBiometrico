@@ -2,7 +2,7 @@ $(document).ready(function(){
     
 	$(document).on('click', '.editbtn', function(){
         console.log('item');
-        $tr = $(this).closest('tr');
+        /*$tr = $(this).closest('tr');
         var data = $tr.children('td').map(function(){
             return $(this).text();
         });
@@ -17,14 +17,18 @@ $(document).ready(function(){
         $('#turno').val(data[7]);
         $('#area').val(data[8]);
         $('#obs').val(data[9]);
+        */
+		
+
+		var id=$(this).val(); //console.log('id_user',id);
+        var fecha =$('#fec_ini'+id).text(); //document.getElementById("fec_ini").textContent;
+        console.log('fecha '+fecha);
         
-		/*
-		var id=$(this).val(); console.log('id_user',id);
         var nameper=$('#nombre'+id).text();
 		var ciper=$('#ci'+id).text();
         var item=$('#item'+id).text(); //console.log('item', item)
         var servicio=$('#servicio'+id).text();
-        var area_per=$('#area'+id).text(); console.log('area', area_per)
+        var area_per=$('#area'+id).text(); 
         var estadoper=$('#estado'+id).text();
 	
 		$('#edit').modal('show');
@@ -36,7 +40,7 @@ $(document).ready(function(){
         $('#per_areaM').val(area_per);
         $('#estadoM').val(estadoper);
         //select2
-        $('.js-example-basic-single').select2();*/
+       // $('.js-example-basic-single').select2();
 	});
 
     

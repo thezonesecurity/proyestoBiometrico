@@ -46,11 +46,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/Persona/Habilitado/{id}', 'PersonalController@habilitar')->name('habilitar.persona');
 
     //RUTAS PARA ROLTURNOS DEL PERSONAL
-    Route::get('/rol/turno/', 'RolturnoController@index')->name('listar.registrar.rolturno');
+    Route::get('/rol/turno', 'RolturnoController@index')->name('listar.registrar.rolturno');
     Route::post('/registrar/rolturno/', 'RolturnoController@store')->name('guardar.rolturno');
     Route::get('/listar/roles/turnos/', 'RolturnoController@lista')->name('listar.roles.turno');
-    
-    Route::get('/servicio/{id}/area', 'RolturnoController@includeAS')->name('area.pertence.servicio');
+    Route::get('/editar/rolturno/{id}', 'RolturnoController@edit')->name('editar.rolturno');
+
+    Route::get('/imprimir/rolturno/{id}', 'RolturnoController@print')->name('rolturno.imprimir.pdf');
+   
+    Route::get('/area/servicio', 'RolturnoController@getAreas')->name('areas.servicio');
+
+    Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');
 
     Route::get('/eliminar/rol/turno/{id}', 'RolturnoController@destroy')->name('eliminar.roles.turno');
 

@@ -13,22 +13,13 @@ class Persona extends Model
 
     protected $dates = ['created_at','updated_at'];
 
-    public function personasRolturnos(){
-        return $this->belongsToMany('App\Models\rolturno\Rolturno', 'persona_rolturno') //,'id_servicio');
+   /* public function personasRolturnos(){
+        return $this->belongsToMany('App\Models\rolturno\Rolturno', 'persona_rolturno', 'persona_id', 'rolturno_id') //,'id_servicio');
                     ->withPivot('id', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin','tipo_dia', 'turno', 'area_id', 'obs', 'estado', 'persona_id', 'rolturno_id', 'created_at', 'ipdated_at');
+    }*/
+
+    public function rolturnos_per(){
+        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
     }
 
-    /*
-    public function rolturnos(){
-        return $this->belongsToMany('App\Models\rolturno\Rolturno', 'persona_rolturno', 'id_persona') //'id_persona', 'id_rolturno')
-                    ->withPivot('id', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin','tipo_dia', 'turno', 'estado', 'id_persona', 'id_rolturno');// 'created_at', 'ipdated_at');
-
-    }
-    /*
-    public function rolturnos(){
-        return $this->belongsToMany('App\Models\rolturno\Rolturno', 'persona_rolturno', 'id_persona', 'id_rolturno') //,'id_servicio');
-                    ->withPivot('id', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin', 'id_persona', 'id_rolturno');// 'created_at', 'ipdated_at');
-
-    }
-    */
 }

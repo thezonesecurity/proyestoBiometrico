@@ -50,15 +50,18 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/registrar/rolturno/', 'RolturnoController@store')->name('guardar.rolturno');
     Route::get('/listar/roles/turnos/', 'RolturnoController@lista')->name('listar.roles.turno');
     Route::get('/editar/rolturno/{id}', 'RolturnoController@edit')->name('editar.rolturno');
+    Route::post('/editar/rolturno/', 'RolturnoController@update')->name('editarsave.rolturno');
+    Route::get('/eliminar/rolturno/{id}', 'RolturnoController@destroy')->name('rolturno.eliminado');
 
     Route::get('/imprimir/rolturno/{id}', 'RolturnoController@print')->name('rolturno.imprimir.pdf');
    
     Route::get('/area/servicio', 'RolturnoController@getAreas')->name('areas.servicio');
+    Route::post('/enviar/rolturno', 'RolturnoController@send')->name('enviar.rolturno');
 
     Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');
 
-    Route::get('/eliminar/rol/turno/{id}', 'RolturnoController@destroy')->name('eliminar.roles.turno');
-
+    Route::get('/editar/rolturno/test/{id}', 'RolturnoController@gettest')->name('editar.rolturno.test');
+    Route::post('/registrar/rolturno/test', 'RolturnoController@storetest')->name('guardar.rolturno.test');
     //ruta para practicar
     Route::get('/tabla', 'ServicioController@mostrartabla')->name('tabla');
 });

@@ -23,11 +23,14 @@
                                     {!! Form::label('servicioPer', 'Servicio de la persona', ['class' => 'font-weight-bold text-sm-left' ]) !!}
                                     <select class="form-control-sm custom-select text-uppercase select2" name="servicio" id='servicio' required="true">
                                         <option value="" selected disabled>Seleccione un servicio</option> 
-                                        @foreach($servicios as $item)
+                                        @foreach($servicios as $id => $item)
+                                            <option value="{{$id}}" > {{$item}} </option>                      
+                                        @endforeach
+                                        {{--@foreach($servicios as $item)
                                             @if($item->estado == 'Habilitado')
                                                 <option value="{{$item->id}}" > {{$item->nombre}} </option>  
                                             @endif                       
-                                        @endforeach
+                                        @endforeach--}}
                                     </select>
                                 </div>
 
@@ -35,11 +38,14 @@
                                     <label for="personall" class="font-weight-bold">Personal</label>
                                     <select class="form-control-sm custom-select text-uppercase select2" name="personal" id="per" >
                                         <option value="Elegir personal" disabled selected>Elegir una persona</option>
-                                        @foreach($personas as $persona)
+                                        @foreach($personas as $id => $persona)   
+                                                <option value="{{$id}}" > {{$persona}} </option>  
+                                        @endforeach
+                                        {{--@foreach($personas as $persona)
                                             @if($persona->estado_per == 'Habilitado')
                                                 <option value="{{$persona->id}}" > {{$persona->nombres}} </option>  
                                             @endif 
-                                        @endforeach
+                                        @endforeach--}}
                                     </select>
                                 </div>
                                 
@@ -65,7 +71,7 @@
                                     <div class="form-group col">
                                         <label for="turnoo">Turno</label>
                                         <select name="turno" id="turno" class="form-control-sm custom-select mr-sm-2">
-                                            <option value="" disabled selected>Elegir turnosss</option>
+                                            <option value="" disabled selected>Elegir turnos</option>
                                             <option value="Mañana">Mañana</option>
                                             <option value="Tarde">Tarde</option>
                                             <option value="Dia">Dia</option>
@@ -193,15 +199,11 @@
             success: function(data){
                // alert(data)
                 area_per.html('<option value="" selected disabled > Selecione una opcion </option>');
-                $.each(data, function(id, value) {
-                    //console.log('aaa2 '+ estado);
-                    //if(data.estado == 'Habilitado'){
-                        area_per.append('<option value="' + id + '">' + value + '</option>');
-                   // }
+                $.each(data, function(id, value, estado) {
+                    area_per.append('<option value="' + id + '">' + value + '</option>');
                 });
             }
         });
-
     });
   });
   
@@ -259,8 +261,8 @@
             data: formData
 
         }).done(function(resp){
-       // alert(resp);
-            
+        //alert(resp);
+           
             if(resp=='error')
             {
                 alert(resp);

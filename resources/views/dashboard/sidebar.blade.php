@@ -37,11 +37,9 @@
             </nav>
         </div>
         <main class="main col">
-            <div class="align-content-center">
-                <div class="columnas ">
-                    <!--CONTENIDO col-lg-6 -->
-                    @yield('contenido')
-                </div>
+            <div class="columnas">
+                <!--CONTENIDO col-lg-6 -->
+                @yield('contenido')
             </div>
         </main>
     </div>

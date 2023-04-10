@@ -28,15 +28,12 @@
         </thead>
         <tbody> <?php  $i=0; ?>
             @foreach ($per_rolturnos as $rolturno)
-            
+                @if($rolturno->estado == 'Habilitado')   
                     <tr>
                         <td>{{++$i}}</td>
                         <td><span id="" >{{$rolturno->rolturno_per->nombres}}</span></td>
-@php
-    $area=\App\Models\areaservicio\AreaServicio::where('id',$rolturno->area_id)->first();
-@endphp
-                        <td><span id="" >{{$area->nombre}}</span></td>
-
+                        @php $area=\App\Models\areaservicio\AreaServicio::where('id',$rolturno->area_id)->first(); @endphp
+                        <td><span id="" >{{$rolturno->area->nombre}}</span></td>
                         <td><span id="" >{{$rolturno->tipo_dia}}</span></td>
                         <td><span id="" >{{$rolturno->fecha_inicio}}</span></td>
                         <td><span id="" >{{$rolturno->fecha_fin}}</span></td>
@@ -45,6 +42,7 @@
                         <td><span id="" >{{$rolturno->turno}}</span></td>
                         <td><span id="" >{{$rolturno->obs}}</span></td>
                     </tr>
+                @endif
             @endforeach
         </tbody>
       </table>

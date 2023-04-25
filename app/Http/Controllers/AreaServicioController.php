@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\areaservicio\AreaServicio;
+use App\Models\areas\Area;
 
 class AreaServicioController extends Controller
 {
@@ -15,7 +15,7 @@ class AreaServicioController extends Controller
     public function index()
     {
         //
-        $areas = AreaServicio::all();
+        $areas = Area::orderBy('id')->get();
         return view('areas.listarArea')->with('areas', $areas);
 
     }
@@ -41,13 +41,13 @@ class AreaServicioController extends Controller
         //
        // dd($request);
 
-        $areaservicio = new AreaServicio;
+        $area = new Area;
         $nombre = ucwords($request->nombre);
-        $areaservicio->nombre = $nombre;
-        $areaservicio->estado = 'Habilitado';
-        $areaservicio->servicio_id = $request->id_servicio;
-        $areaservicio->save();
-       //dd($areaservicio);
+        $area->nombre = $nombre;
+        $area->estado = 'Habilitado';
+        $area->servicio_id = $request->id_servicio;
+        $area->save();
+       //dd($area);
        
         return redirect(route('listar.area.servicio'));
     }
@@ -86,12 +86,12 @@ class AreaServicioController extends Controller
         //
         //dd($request);
         $id = $request->id_area;
-        $areaservicio = AreaServicio::find($id);
+        $area = Area::find($id);
         $nombre = ucwords($request->nombre);
-        $areaservicio->nombre =  $nombre;
-        $areaservicio->servicio_id = $request->id_servicio;
-        $areaservicio->save();
-        //dd($areaservicio);
+        $area->nombre =  $nombre;
+        $area->servicio_id = $request->id_servicio;
+        $area->save();
+        //dd($area);
         return redirect(route('listar.area.servicio'));
        
     }
@@ -110,16 +110,16 @@ class AreaServicioController extends Controller
     public function deshabilitar($id)
     {
          //dd($id);
-         $areaservicio = AreaServicio::find($id);
-         $areaservicio->estado = 'Inhabilitado';
-         $areaservicio->save();
+         $area = Area::find($id);
+         $area->estado = 'Inhabilitado';
+         $area->save();
          return redirect(route('listar.area.servicio'));
     }
     public function habilitar($id)
     {
-         $areaservicio = AreaServicio::find($id);
-         $areaservicio->estado = 'Habilitado';
-         $areaservicio->save();
+         $area = Area::find($id);
+         $area->estado = 'Habilitado';
+         $area->save();
          return redirect(route('listar.area.servicio'));
     }
 }

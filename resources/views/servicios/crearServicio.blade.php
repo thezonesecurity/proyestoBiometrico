@@ -10,10 +10,47 @@
         </div>
         <div class="modal-body">
             {!! Form::open(['route' => 'guardar.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+              <div class="form-group">
+                <label for="recipient-servicio" class="font-weight-bold">Servicio</label>
+                <input type="text" class="form-control" name="servicio" id="servicio">
+              </div>
+              <div class="form-group">
+                <label for="personall" class="font-weight-bold">Responsable</label>
+                    <select class="form-control custom-select" name="persona" id="persona" >
+                        <option value="Elegir personal" disabled selected>Elegir una persona</option>
+                        @foreach($users as $user)   
+                            @if($user->estado == 'enable')
+                                <option value="{{$user->id}}" > {{$user->per_user->nombres}} {{$user->per_user->apellidos}}</option> 
+                            @endif  
+                        @endforeach
+                    </select>
+              </div>
+              <div class="form-group">
+                    <div class="modal-footer"> 
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary' ] ) !!} 
+                        {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                    </div>
+                </div>
+              {!! Form::close() !!}
+        </div>
+        {{--<div class="modal-body">
+            {!! Form::open(['route' => 'guardar.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
                 <div class="form-group">
                     {!! Form::label('Nombre', 'Nombre Del Nuevo Servicio') !!}
-                    {!! Form::text('nombre', null, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>"Ingrese nombre del servicio, solo letras min. 5 caracteres",
+                    {!! Form::text('nombre', null, ['class' => 'form-control-sm' , 'required' => 'required', 'placeholder'=>"Ingrese nombre del servicio, solo letras min. 5 caracteres",
                      'pattern'=>"[A-Za-z ]{5,60}",'onkeyup'=>"mostrarvalo(this.value)"]) !!}
+                </div>
+                <div class="form-group ">
+                    <label for="personall" class="font-weight-bold">Personal</label>
+                    <select class="form-control-sm custom-select text-uppercase select2" name="personal" id="per" >
+                        <option value="Elegir personal" disabled selected>Elegir una persona</option>
+                        @foreach($users as $user)   
+                            @if($user->estado == 'enable')
+                                <option value="{{$user->id}}" > {{$user->per_user->nombres}} {{$user->per_user->apellidos}}</option> 
+                            @endif  
+                        @endforeach
+
+                    </select>
                 </div>
                 <div class="form-group">
                     <div class="modal-footer"> 
@@ -22,13 +59,10 @@
                     </div>
                 </div>
             {!! Form::close() !!}
-      </div>
+      </div>--}}
     </div>
   </div>
 
-@section('scripts')
-
-@stop
 
 
 <!--

@@ -14,19 +14,27 @@
                     <i class="bi bi-person-add"></i>
                     <span>Personal</span>
                 </a>
+                <a href="{{route('listar.tipos.turnos')}}" title="Lista de tipo de turnos">
+                    <i class="bi bi-journals"></i>
+                    <span>Tipo de turnos</span>
+                </a>
+                <a href="{{route('listar.tipos.contratos')}}" title="Lista de tipos de contratos">
+                    <i class="bi bi-person-vcard"></i>
+                    <span>Tipo de Contratos</span>
+                </a>
                 <a href="{{route('listar.registrar.rolturno')}}" title="Rol Rurnos">
-                    <i class="bi bi-calendar2-plus">
-                        </i><span>Rol de turnos</span>
+                    <i class="bi bi-calendar2-plus"></i>
+                    <span>Rol de turnos</span>
                 </a>
                 <a href="{{route('listar.roles.turno')}}" title="Lista de rol de turnos">
                     <i class="bi bi-building"></i>
                     <span>Lista de rol de turnos</span>
                 </a>
-                <a href="#" title="Cambio de Turno">
+                {{--<a href="{{route('listar.cambio_turno')}}" title="Cambio de Turno">
                     <i class="bi bi-people"></i>
                     <span>cambio de turno</span>
-                </a>
-                <a href="" title="Habilitacion de Rolturnos">
+                </a>--}}
+                <a href="{{route('habilitar.rolturno')}}" title="Habilitacion de Rolturnos">
                     <i class="bi bi-calendar4-week"></i>
                     <span>Habilitacion de turnos</span>
                 </a>

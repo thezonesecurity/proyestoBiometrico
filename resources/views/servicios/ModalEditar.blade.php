@@ -1,5 +1,5 @@
 <!--Modal editar servicio  dd($servicioe->id)}}-->
-<div class="modal fade" id="ActualizarServicio{{ $servicio->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ActualizarServicio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -10,27 +10,27 @@
         </div>
         <div class="modal-body">
             {!! Form::open(['route' => 'editarsave.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
-                {{Form::hidden('id', $servicio->id)}}
+                <input type="hidden" name="id" id="idM">
                 <div class="form-group">
-                    {!! Form::label('nombre', 'Nombre Del Servicio A Editar') !!}
-                    {!! Form::text('nombre', $servicio->nombre, ['class' => 'form-control' , 'required' => 'required', 'id'=>"nombre",
-                    'placeholder'=>"Ingrese el nombre del servicio editado, solo letras min. 5 caracteres", 'pattern'=>"[A-Za-z ]{5,60}"]) !!}
-                    <?php $antiguonombre = $servicio->nombre; ?>
+                    <label for="recipient-servicio" class="font-weight-bold">Servicio</label>
+                    <input type="text" class="form-control" name="servicioM" id="servicioM">
+                  </div>
+                <div class="form-group">
+                    <label for="personall" class="font-weight-bold">Responsable</label>
+                        <select class="form-control custom-select" name="responsable" id="responsableM" >
+                            <option value="">Elegir una persona</option>
+                            @foreach($users as $user)   
+                                @if($user->estado == 'enable')
+                                    <option value="{{$user->id}}" > {{$user->per_user->nombres}} {{$user->per_user->apellidos}}</option> 
+                                @endif  
+                            @endforeach
+                        </select>
                 </div>
                 <div class="modal-footer">
                     {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
-                <!--
-                <div class="form-group">
-                    if($antiguonombre != $servicio->nombre)
-                    !! Form::submit('Guardar Cambios', ['class' => 'btn btn-success col-md-3 ', 'style'=>"margin-left: 80px " ] ) !!}
-                    !! Form::submit('Cancelar', ['class' => 'btn btn-danger col-md-3', 'style' => "margin-left: 120px", 'data-dismiss'=>"modal" ] ) !!}
-                    else
-                    !! Form::submit('Guardar Cambios', ['class' => 'btn btn-success col-md-3 ', 'style'=>"margin-left: 80px ", 'disabled' ] ) !!}
-                    !! Form::submit('Cancelar', ['class' => 'btn btn-danger col-md-3', 'style' => "margin-left: 120px", 'data-dismiss'=>"modal" ] ) !!}
-                    endif
-                </div>-->
+               
             {!! Form::close() !!}   
       </div>
     </div>

@@ -4,104 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\servicios\Servicio;
+use App\Models\seguridad\users;
 
 class ServicioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         // 
-        $servicios = Servicio::all();
+        $users = users::all();
+       // dd($users);
+
+        /*foreach($users as $user){
+            dd($user->per_user);
+        }*/
+
+        $servicios = Servicio::orderBy('id')->get();
        //dd($servicios);
-        return view('servicios.Servicio')->with('servicios', $servicios);
+        // return view('servicios.Servicio')->with('servicios', $servicios);
+        return view('servicios.Servicio')->with(compact('servicios', 'users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
        // dd($request);
         $servicio = new Servicio;
-        $nombreservicio = ucwords($request->nombre);
+        $nombreservicio = ucwords($request->servicio);
         //dd($nombreservicio);
         $servicio->nombre = $nombreservicio;
         $servicio->estado = 'Habilitado';
+        $servicio->id_responsable = $request->persona;
+        //dd($servicio);
         $servicio->save();
        // dd($servicio);
        
         return redirect(route('listar.servicio'))->with('creado', 'El servicio se creo satisfactoriamente ...');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-         //dd($id);
-        //$servicioe = Servicio::find($id);
-        //dd($servicioe->id);
-       // return view('servicios.ModalEditar')->with('servicioe', $servicioe);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
-        //
+       // dd($request);
         //dd($request->id);
         $id = $request->id;
         $servicio = Servicio::find($id);
-        $nombreserviciomodificado = ucwords($request->nombre);
-        $servicio->nombre =  $nombreserviciomodificado;
+        $nombre = ucwords($request->servicioM);
+        $servicio->nombre =  $nombre;
+        $servicio->id_responsable =  $request->responsable;
         $servicio->save();
-        //dd($servicio);
+       // dd($servicio);
         return redirect(route('listar.servicio'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function deshabilitar($id)
     {
          //dd($id);

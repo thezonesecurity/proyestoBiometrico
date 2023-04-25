@@ -1,0 +1,26 @@
+<!--Modal crear servicio-->
+<div class="modal fade" id="registrar_tipoContratoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Tipo de Contrato</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {!! Form::open(['route' => 'guardar.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+              <div class="form-group">
+                <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
+                <input type="text" class="form-control" name="t_contrato" id="t_contrato">
+              </div>
+              <div class="form-group">
+                    <div class="modal-footer"> 
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary' ] ) !!} 
+                        {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                    </div>
+                </div>
+              {!! Form::close() !!}
+        </div>
+    </div>
+  </div>

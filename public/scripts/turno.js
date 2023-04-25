@@ -56,11 +56,15 @@ $(document).ready(function() {
     var hrs_ini=document.getElementById("hrs_inicio").value;
     var hrs_fin=document.getElementById("hrs_fin").value;
     var turno=document.getElementById("turno").value;
+    var turno_nombre=$('#turno :selected').text();
+    var gestion = document.getElementById("gestion").value; 
     var servicio_id=document.getElementById("servicio").value; 
-    var servicio = $('#servicio :selected').text();
+    var servicio = $('#servicio :selected').text();// console.log('-> '+servicio+' -> '+ gestion);
     var area_id=document.getElementById("area").value; 
     var area=$('#area :selected').text();
     var obs=document.getElementById("obs").value;
+
+    console.log('nombre '+turno_nombre+ ' su id '+ turno)
     //console.log(tipodia)
     //console.log(servicio+' '+servicio_id)
     //console.log(area+' '+area_id)
@@ -76,41 +80,46 @@ $(document).ready(function() {
     console.log(area);
     console.log(obs);
     */
-
+   
     if (per == 'Elegir una persona') {
-      toastr.error("Seleccione una persona");
-      $('#per').focus();
+      toastr.error("Seleccione una personas", { "positionClass": "toast-bottom-right" });
+       $('#per').focus();
       return false;
     } 
+    /*
+     if (gestion == '') {
+        toastr.error("Seleccione una gestion", { "positionClass": "toast-bottom-right" });
+        $('#gestion').focus();
+        return false;
+      } 
+      if (area == '') {
+        toastr.error("Seleccione una area", { "positionClass": "toast-bottom-right" });
+        $('#area').focus();
+        return false;
+      } 
+      if (turno == '') {
+        toastr.error("Seleccione un turno", { "positionClass": "toast-bottom-right" });
+        $('#turno').focus();
+        return false;
+      }  */
 /*
     if(tipodia == 'DL'){// si el checkbox laboral esta seleccionado
       if (fec_ini == '') {
-        toastr.error("Seleccione una fecha del dia");
+        toastr.error("Seleccione una fecha del dia", { "positionClass": "toast-bottom-right" });
         $('#fec_inicio').focus();
         return false;
       } 
       if (hrs_ini == '') {
-        toastr.error("Seleccione una hora de entrada");
+        toastr.error("Seleccione una hora de entrada", { "positionClass": "toast-bottom-right" });
         $('#hrs_inicio').focus();
         return false;
       } 
       if (hrs_fin == '') {
-        toastr.error("Seleccione una hora de salida");
+        toastr.error("Seleccione una hora de salida", { "positionClass": "toast-bottom-right" });
         $('#hrs_fin').focus();
         return false;
       } 
-      if (turno == '') {
-        toastr.error("Seleccione un turno");
-        $('#turno').focus();
-        return false;
-      } 
-      if (area == '') {
-        toastr.error("Seleccione una area");
-        $('#area').focus();
-        return false;
-      } 
-    
-
+      
     if(tipodia == 'V'){ // si el checkbox vacacion esta seleccionado
       if (fec_ini == '') {
         toastr.error("Seleccione una fecha de salida");
@@ -130,25 +139,24 @@ $(document).ready(function() {
     //$('.titulo').show();
   control=-1;
   var existe;
+
   $("input[name^='m']").each(function(){
     if ($(this).val() == per_id) {
       existe=true;
     }
   });
-  
-  fila = '<tr  id="row' + i + '"><td>' + i + '</td> <td>'+per+'<input type="hidden" name="m[]" class="form-control" value="'+per_id+'"><td>'+servicio+'<input type="hidden" name="servi[]" class="form-control" value="'+servicio_id+'"></td></td><td>'+area+'<input type="hidden" name="area_per[]" class="form-control" value="'+area_id+'"></td><td>'+tipodia+'<input type="hidden" name="tdia[]" class="form-control" value="'+tipodia+'"></td><td>'+fec_ini+'<input type="hidden" name="f_ini[]" class="form-control" value="'+fec_ini+'"></td><td>'+fec_fin+'<input type="hidden" name="f_fin[]" class="form-control" value="'+fec_fin+'"></td><td>'+hrs_ini+'<input type="hidden" name="h_ini[]" class="form-control" value="'+hrs_ini+'"></td><td>'+hrs_fin+'<input type="hidden" name="h_fin[]" class="form-control" value="'+hrs_fin+'"></td><td>'+turno+'<input type="hidden" name="t[]" class="form-control" value="'+turno+'"></td><td>'+obs+'<input type="hidden" name="obs[]" class="form-control" value="'+obs+'"></td><td><button type="button" name="remove" id="' + i + '" class="btn  btn-sm btn-danger btn_remove">Quitar</button></td></tr>';  
+
+  fila = '<tr  id="row' + i + '"><td>' + i + '</td> <td>'+per+'<input type="hidden" name="m[]" class="form-control" value="'+per_id+'"></td><td>'+servicio+'<input type="hidden" name="servi[]" class="form-control" value="'+servicio_id+'"></td><td>'+area+'<input type="hidden" name="area_per[]" class="form-control" value="'+area_id+'"></td><td>'+gestion+'<input type="hidden" name="mes[]" class="form-control" value="'+gestion+'"></td><td>'+tipodia+'<input type="hidden" name="tdia[]" class="form-control" value="'+tipodia+'"></td><td>'+fec_ini+'<input type="hidden" name="f_ini[]" class="form-control" value="'+fec_ini+'"></td><td>'+fec_fin+'<input type="hidden" name="f_fin[]" class="form-control" value="'+fec_fin+'"></td><td>'+hrs_ini+'<input type="hidden" name="h_ini[]" class="form-control" value="'+hrs_ini+'"></td><td>'+hrs_fin+'<input type="hidden" name="h_fin[]" class="form-control" value="'+hrs_fin+'"></td><td>'+turno_nombre+'<input type="hidden" name="t[]" class="form-control" value="'+turno+'"></td><td>'+obs+'<input type="hidden" name="obs[]" class="form-control" value="'+obs+'"></td><td><button type="button" name="remove" id="' + i + '" class="btn  btn-sm btn-danger btn_remove">Quitar</button></td></tr>';  
   i++;
   $('.vacio').hide();//para oculta la fila de NO EXISTEN DATOS en la tabla
   //console.log('fila'+ fila);
   
   $('#mytable .titulo').after(fila); //before
-      //para limpiar el formulario despues de registrarlo
-     limpiarform();
+     limpiarform(); //para limpiar el formulario despues de registrarlo
   });
 
   $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
     var button_id = $(this).attr("id");
-      //cuando da click obtenemos el id del boton
       $('#row' + button_id + '').remove(); //borra la fila
     });
 });

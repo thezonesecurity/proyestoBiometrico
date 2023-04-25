@@ -9,7 +9,7 @@ class PersonaRolturno extends Model
     //
     protected $table = 'repbio.persona_rolturno';
 
-    protected $fillable = ['id', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin','tipo_dia', 'turno', 'area_id', 'obs', 'estado', 'persona_id', 'rolturno_id', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin','tipo_dia', 'turno_id', 'area_id', 'obs', 'cambio_turno', 'estado', 'persona_id', 'rolturno_id', 'created_at', 'updated_at'];
 
     protected $dates = ['created_at','updated_at'];
 
@@ -22,6 +22,10 @@ class PersonaRolturno extends Model
     }
     
     public function area(){
-        return $this->belongsTo(\App\Models\areaservicio\AreaServicio::class, 'area_id');
+        return $this->belongsTo(\App\Models\areas\Area::class, 'area_id');
+    }
+
+    public function tipoTurno(){
+        return $this->belongsTo(\App\Models\tipo_turnos\TipoTurno::class, 'turno_id');
     }
 }

@@ -9,7 +9,7 @@ class Persona extends Model
     //
     protected $table = 'repbio.personas';
 
-    protected $fillable = ['id', 'nombres', 'ci', 'item', 'estado_per', 'idper_db', 'id_servicio', 'user_id']; //cambiar id_per por id
+    protected $fillable = ['id', 'nombres', 'ci', 'item_id', 'estado_per', 'idper_db', 'id_servicio', 'user_id']; //cambiar id_per por id
 
     protected $dates = ['created_at','updated_at'];
 
@@ -20,6 +20,10 @@ class Persona extends Model
 
     public function rolturnos_per(){
         return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
+    }
+    public function PersonaItem()//uno a muchos inversa
+    {
+        return $this->belongsTo(\App\Models\tipo_contratos\TipoContrato::class,'item_id');
     }
 
 }

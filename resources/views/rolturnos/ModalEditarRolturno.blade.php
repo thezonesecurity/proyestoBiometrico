@@ -14,22 +14,28 @@
                 <div class="form-row font-weight-bold" style="margin-top: -px;">
                     <div class="form-group col-md-6">
                         <label for="hora de inicio">Persona</label>
-                        <input type="text" class="form-control " name="persona" id='personaM' readonly>
+                        <input type="text" class="form-control custom-select" name="persona" id='personaM' readonly style="font-size: 12px;">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="hora de fin">Servicio</label>
-                        <input type="text" class="form-control" name="servicio" id='servicioM' readonly>
+                        <label for="servicio" style="margin-left: -10px;">Servicio</label>
+                        <input type="text" class="form-control custom-select ml-2" name="servicio" id='servicioMo' readonly>
                     </div>
                 </div>
 
-                <div class="form-group row " style="margin-top: -5px;"> 
-                    <div class="form-check ml-4 col-auto">
-                        <input class="form-check-input" type="radio" name="tipod" id="laboralM" value="DL">
-                        <label class="form-check-label font-weight-bold" for="gridCheck">Dia laboral</label>
+                <div class="form-row " style="margin-top: -5px;"> 
+                    <div class="form-group col-md-6">
+                        <div class="form-check ml-1 col-auto">
+                            <input class="form-check-input" type="radio" name="tipod" id="laboralM" value="DL">
+                            <label class="form-check-label font-weight-bold" for="gridCheck">Dia laboral</label>
+                        </div><br>
+                        <div class="form-check col-auto"> 
+                            <input class="form-check-input"  style="margin-left: -10px;" type="radio" name="tipod" id="descansoM" value="V">
+                            <label class="form-check-label font-weight-bold ml-2" for="gridCheck">Vacacion</label>
+                        </div>
                     </div>
-                    <div class="form-check ml-4 col-auto"> 
-                        <input class="form-check-input" type="radio" name="tipod" id="descansoM" value="V">
-                        <label class="form-check-label font-weight-bold" for="gridCheck">Vacacion</label>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-bold" for="Gestion">Gestion</label>
+                        <input type="text" class="form-control" name="gestion" id='gestion' readonly>
                     </div>
                 </div>
                
@@ -37,7 +43,7 @@
                     <div class="form-group col-md-6">
                         {!! Form::label('areaPer', 'Area de la personas', ['class' => 'font-weight-bold' ]) !!}
                         <input type="text" name="area" id='areaM'  class="form-control custom-select" readonly >
-                        @php $areas=\App\Models\areaservicio\AreaServicio::where('servicio_id','4');  @endphp
+                        @php $areas=\App\Models\areas\Area::where('servicio_id','4');  @endphp
                         {{-- <select class="form-control custom-select" name="area" id='areaM' >
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -49,7 +55,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="turnoo">Turno</label>
-                        <select name="turno" id="turnoM" class="form-control custom-select mr-sm-2" disabled>
+                        <select name="turno" id="turnoM" class="form-control custom-select mr-sm-2">
                             <option value="" disabled selected>Elegir turno</option>
                             <option value="Mañana">Mañana</option>
                             <option value="Tarde">Tarde</option>
@@ -82,13 +88,23 @@
                     </div>
                 </div>
 
-                <div class="form-group row" style="margin-top: -10px;">
-                    <label class="col font-weight-bold">Observaciones</p>
-                    <textarea name="comentario" id="obsM" class="form-control-sm col" placeholder="Este campo es opcional" ></textarea>
+                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                    <div class="form-group col-md-8">
+                        <label class="col font-weight-bold">Observaciones</p>
+                            <textarea name="comentario" id="obsM" class="form-control-sm col" placeholder="Este campo es opcional"  style="margin-top: -10px;" ></textarea>
+                    </div>
+                    <div class="form-group col-md-4" style="margin-top: 30px;">
+                        <label class="col" >Cambio turno</label>
+                        <input class="form-check-input" type="checkbox" name="cambioT" id="cambio" style="margin-left: -23px;">
+                    </div>
                 </div>
+                {{--<div class="form-group row" style="margin-top: -10px;">
+                    <label class="col font-weight-bold">Observaciones</p>
+                    <textarea name="comentario" id="obsM" class="form-control-sm col" placeholder="Este campo es opcional"  style="margin-top: -10px;" ></textarea>
+                </div>--}}
                         
                 <div class="modal-footer" style="margin-top: -30px;">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-success' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
             {!! Form::close() !!}  

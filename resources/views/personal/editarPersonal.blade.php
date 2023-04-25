@@ -1,9 +1,9 @@
 
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="registro_personalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center sticky-top" id="exampleModalLabel">Editar Personal</h5>
+                <h5 class="modal-title text-center sticky-top" id="exampleModalLabel">Registro de Personal</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -22,30 +22,29 @@
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('item_Per', 'item de la persona', ['class' => 'font-weight-bold' ]) !!}
-                            {{-- {!! Form::text('item','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"itemM"]) !!}--}}
-                            <select class="form-control custom-select" name="item" id="itemM['idM']" required="true">
-                                <option value="" disabled >Elegir un item</option> 
-                                <option value="Item">Item</option> 
-                                <option value="Tgn">Tgn</option>
+                            {!! Form::label('item_Per', 'Tipo de contrato', ['class' => 'font-weight-bold' ]) !!}
+                            {{--<input type="text" class="form-control custom-select" name="item" id="itemM" required="true">--}}
+                            <select class="form-control custom-select" name="item" id="itemM" required="true">
+                                <option value="" disabled>Elegir un tipo de contrato</option> 
+                                @foreach($items as $id => $item) 
+                                    <option value="{{$id}}" > {{$item}} </option>  
+                                @endforeach
+                            {{--<option value="" disabled >Elegir un item</option> id="itemM['idM']"
+                                <option value="HIPIC">HIPIC</option> 
+                                <option value="TGN">TGN</option>
                                 <option value="Contrato">Contrato</option>
-                                <option value="Idh">Idh</option>
-                                <option value="Ministerial">Ministerial</option>
+                                <option value="IDH">IDH</option>
+                                <option value="Ministerial">Ministerial</option>--}}
                             </select>
                         </div>
                        
                         <div class="form-group">
-                            {!! Form::label('servicioPer', 'servicio de la persona', ['class' => 'font-weight-bold' ]) !!}
+                            {!! Form::label('servicioPer', 'Nombre del servicio', ['class' => 'font-weight-bold' ]) !!}
                            {{-- {!! Form::text('servicio','' , ['class' => 'form-control' , 'required' => 'required', 'id'=>"servicioM"]) !!} --}}
-                            <?php $servi = DB::table('repbio.servicios')->get(); ?>
                            <select class="js-example-basic-single form-control custom-select" name="servicio" id='servicioM' required="true">
                             <option value="" disabled>Elegir un servicio</option> 
-                            @foreach($servi as $item)
-                                @if($item->estado == 'Habilitado')
-                                    <option value="{{$item->nombre}}" selected >
-                                        {{$item->nombre}}
-                                    </option>  
-                                @endif                       
+                            @foreach($servicios as $id => $servicio)
+                                <option value="{{$id}}">{{$servicio}}</option>                       
                             @endforeach
                         </select>
                         </div>

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\areaservicio;
+namespace App\Models\areas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AreaServicio extends Model
+class Area extends Model
 {
     //
-    protected $table = 'repbio.areaservicio';
+    protected $table = 'repbio.areas';
 
     protected $fillable = ['id', 'nombre', 'estado', 'servicio_id'];
     
@@ -20,5 +20,4 @@ class AreaServicio extends Model
     public function person_rolturno(){
         return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
     }
-    
 }

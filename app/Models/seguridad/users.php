@@ -19,5 +19,9 @@ class users extends Authenticatable
     public function per_user(){
         return $this->belongsTo(\App\Models\seguridad\PersonaUser::class, 'persona_id');
     }
+
+    public function servicios(){
+        return $this->hasMany(\App\Models\servicios\Servicio::class);
+    }
   
 }

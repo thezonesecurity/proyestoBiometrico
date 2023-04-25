@@ -9,7 +9,7 @@ class Servicio extends Model
     //protected $table = 'NombreSCHEMA.NombreTABLA';
     protected $table = 'repbio.servicios';
 
-    protected $fillable = ['id', 'nombre', 'estado'];
+    protected $fillable = ['id', 'nombre', 'estado', 'id_responsable'];
 
     protected $dates = ['created_at','updated_at'];
 
@@ -18,7 +18,15 @@ class Servicio extends Model
     }
 
     public function areas(){
-        return $this->hasMany(\App\Models\areaservicio\AreaServicio::class);
+        return $this->hasMany(\App\Models\areas\Area::class);
     }
 
+    public function cambioturno_servicios(){
+        return $this->hasMany(\App\Models\cambioturno\CambioTurno::class);
+    }
+
+    public function user()//uno a muchos inversa
+    {
+        return $this->belongsTo(\App\Models\seguridad\users::class,'id_responsable');
+    }
 }

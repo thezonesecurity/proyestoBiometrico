@@ -10,18 +10,19 @@
     <table class="table table-striped table-sm">
         <thead>
             <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
-                <th width="4%">Nro.</th>
-                <th style="" width="">Usuario</th>
-                <th style="" width="">Servicio</th>
-                <th style="" width="">Estado</th>
-                <th style="" width="">Fecha</th>
-                <th style="" width="">Accion</th>
+                <th width="5px">Nro.</th>
+                <th style="" width="60px">Usuario</th>
+                <th style="" width="60px">Servicio</th>
+                <th style="" width="20px">Estado</th>
+                <th style="" width="20px">Gestion</th>
+                <th style="" width="100">Observacion</th>
+                <th style="" width="40">Accion</th>
             </tr>
         </thead>
         <tbody> <?php  $i=0; ?>
             @if($rolturnos->isEmpty() && $rolturnos->count() == 0) 
                 <tr>
-                    <td colspan="5" class="">No hay registros que mostrar </td>
+                    <td colspan="7" class="">No hay registros que mostrar </td>
                 </tr>
             @else 
                  @foreach ($rolturnos as $rolturno)
@@ -29,20 +30,22 @@
                         <td>{{++$i}}</td>
                         <td><span id="" >{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}</span></td>
                         <td><span id="servicio{{$rolturno->id}}" >{{$rolturno->servicios->nombre}}</span></td>
+                        {{--<td><span id="" >{{$rolturno->estado}}</span></td>--}}
                         <td><span id="" >{{$rolturno->estado}}</span></td>
-                        <td><span id="" >{{$rolturno->created_at}}</span></td>
+                        <td><span id="" >{{$rolturno->gestion}}</span></td>
+                        <td><span id="" >{{$rolturno->obsevacion}}</span></td>
                         <td>
                             @if($rolturno->estado == 'Temporal' || $rolturno->estado == 'Rechazado')
-                            <a type="button" class="btn btn-primary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" >Editar</a>
+                            {{--<a type="button" class="btn btn-primary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" >Editar</a>--}}
                             <a type="button" class="btn btn-info btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro">Seguir registrando</a>
                             <a type="button" class="btn btn-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" >Reporte PDF</a>
-                            <a data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-danger btn-sm"  type="buton">enviar</a>
+                            <a data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-success btn-sm"  type="buton">enviar</a>
 
                             @else
-                            <a type="button" class="btn btn-secondary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" disabled>Editar</a>
-                            <a type="button" class="btn btn-secondary btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro" disabled>Seguir registrando</a>
+                            {{--<button type="button" class="btn btn-secondary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" disabled>Editar</button>--}}
+                            <button type="button" class="btn btn-secondary btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro" disabled>Seguir registrando</button>
                             <a type="button" class="btn btn-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" >Reporte PDF</a>
-                            <a data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-secondary btn-sm"  type="buton" disabled>enviar</a>
+                            <button data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-secondary btn-sm"  type="buton" disabled>enviar</button>
                             @endif
                         </td>
                     </tr>

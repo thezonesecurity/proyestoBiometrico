@@ -8,7 +8,7 @@
     @endif
     <div class="box-body">
         <h3 class="box-title text-center">Lista de Areas de los Servicios H.D.B.</h3>
-        <table id="example" class="table table-bordered table-striped"  width="60%">
+        <table id="example" class="table table-sm table-bordered table-striped"  width="60%">
             <thead>
                 <tr>
                     <th>Nro.</th>
@@ -17,7 +17,7 @@
                     <th>Estado</th>
                     <th>Opciones
                       <!-- boton registrar servicio-->
-                      <button data-toggle="modal" href="#registrar_areaModal" class="btn btn-primary" style="margin-left: 60px">Registar Nueva Area</button>
+                      <button data-toggle="modal" href="#registrar_areaModal" class="btn btn-sm btn-primary" style="margin-left: 60px">Registar Nueva Area</button>
                     </th>
                 </tr>
             </thead>
@@ -36,11 +36,11 @@
                         <td>{{ $areaservi->estado }}</td>
                         <td style='background-color: ;'>
                             @if($areaservi->estado == "Habilitado")
-                            <a data-toggle="modal" href="#Actualizar_Area" class="btn btn-success col-md-3 editBtn"  type="buton" style="margin-left: 20px">Editar</a>
-                            <a href="{{ route('inhabilitar.area.servicio', $areaservi->id)}}" type="buton" class="btn btn-danger col-md-3" style="margin-left: 20px">Inhabilitar</a>
+                            <a data-toggle="modal" href="#Actualizar_Area" class="btn btn-sm btn-success editBtn"  type="buton" style="margin-left: 20px">Editar</a>
+                            <a href="{{ route('inhabilitar.area.servicio', $areaservi->id)}}" type="buton" class="btn btn-sm btn-danger" style="margin-left: 20px">Inhabilitar</a>
                             @else
-                            <a data-toggle="modal"  class=" btn btn-secondary col-md-3" disabled="true" type="buton" style="margin-left: 20px">Editar</a>
-                            <a href="{{ route('habilitar.area.servicio', $areaservi->id)}}" type="buton" class="btn btn-warning col-md-3" style="margin-left: 20px">Habilitar</a>
+                            <a data-toggle="modal"  class=" btn btn-sm btn-secondary" disabled="true" type="buton" style="margin-left: 20px">Editar</a>
+                            <a href="{{ route('habilitar.area.servicio', $areaservi->id)}}" type="buton" class="btn btn-sm btn-warning" style="margin-left: 20px">Habilitar</a>
                             @endif 
                            {{-- <a href="{{ route('eliminado.servicio', $servicio->id)}}" type="buton" class="btn btn-info">Eliminar</a>--}}
                         </td>

@@ -11,8 +11,8 @@
         <div class="modal-body">
             {!! Form::open(['route' => 'enviar.rolturno', 'method' => 'post']) !!}
                 {{Form::hidden('id', $rolturno->id)}}
-                 <p>Esta seguro que desea Enviar el rolturno del servicio <span class="font-weight-bold">{{$rolturno->servicios->nombre}}</span> corespondiente al mes de
-                    <span class="font-weight-bold">{{$rolturno->created_at}}</span>. Una vez enviado no podra realizar ningun registro ni podra editar.</p>
+                 <p>Esta seguro que desea Enviar el rolturno del servicio de <span class="font-weight-bold">{{$rolturno->servicios->nombre}}</span> corespondiente a la gestion de
+                    <span class="font-weight-bold">{{$rolturno->gestion}}</span>. Una vez enviado no podra realizar ningun registro ni podra editar. Desea Enviar?</p>
                 <div class="modal-footer">
                     {!! Form::submit('Enviar', ['class' => 'btn btn-primary' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}

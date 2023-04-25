@@ -45,25 +45,65 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/Persona/Inahabilitado/{id}', 'PersonalController@deshabilitar')->name('inhabilitar.persona');
     Route::get('/Persona/Habilitado/{id}', 'PersonalController@habilitar')->name('habilitar.persona');
 
-    //RUTAS PARA ROLTURNOS DEL PERSONAL
-    Route::get('/rol/turno', 'RolturnoController@index')->name('listar.registrar.rolturno');
-    Route::post('/registrar/rolturno/', 'RolturnoController@store')->name('guardar.rolturno');
-    Route::get('/listar/roles/turnos/', 'RolturnoController@lista')->name('listar.roles.turno');
-    Route::get('/editar/rolturno/{id}', 'RolturnoController@edit')->name('editar.rolturno');
-    Route::post('/editar/rolturno/', 'RolturnoController@update')->name('editarsave.rolturno');
-    Route::get('/eliminar/rolturno/{id}', 'RolturnoController@destroy')->name('rolturno.eliminado');
-
-    Route::get('/imprimir/rolturno/{id}', 'RolturnoController@print')->name('rolturno.imprimir.pdf');
    
-    Route::get('/area/servicio', 'RolturnoController@getAreas')->name('areas.servicio');
-    Route::post('/enviar/rolturno', 'RolturnoController@send')->name('enviar.rolturno');
+});
 
-    Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');
 
-    Route::get('/editar/rolturno/test/{id}', 'RolturnoController@gettest')->name('editar.rolturno.test');
-    Route::post('/registrar/rolturno/test', 'RolturnoController@storetest')->name('guardar.rolturno.test');
-    //ruta para practicar
-    Route::get('/tabla', 'ServicioController@mostrartabla')->name('tabla');
+Route::group(['middleware' => 'auth'], function(){
+  //RUTAS PARA ROLTURNOS DEL PERSONAL
+  Route::get('/rol/turno', 'RolturnoController@index')->name('listar.registrar.rolturno');
+  Route::post('/registrar/rolturno/', 'RolturnoController@store')->name('guardar.rolturno');
+
+  Route::get('/eliminar/rolturno/{id}', 'RolturnoController@destroy')->name('rolturno.eliminado');
+
+  Route::get('/imprimir/rolturno/{id}', 'RolturnoController@print')->name('rolturno.imprimir.pdf');
+ 
+  Route::get('/area/servicio', 'RolturnoController@getAreas')->name('areas.servicio');
+  Route::get('/persona/servicio', 'RolturnoController@getPersons')->name('servicio.personas');
+  Route::post('/enviar/rolturno', 'RolturnoController@send')->name('enviar.rolturno');
+
+  Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');
+
+  Route::get('/area/servicio/test', 'RolturnoController@getAreasTest')->name('areas.servicio.test');
+
+  Route::get('/listar/roles/turnos/', 'RolturnoController@lista')->name('listar.roles.turno');
+
+  Route::post('/registrar/rolturno/test', 'RolturnoController@storetest')->name('guardar.rolturno.test');
+
+  Route::get('/registrar/listar/rolturno/{id}', 'RolturnoController@gettest')->name('editar.rolturno.test');
+
+  Route::post('/editar/rolturno/', 'RolturnoController@actualizar')->name('editarsave.rolturno');
+
+  //ruta para practicar
+  Route::get('/tabla', 'ServicioController@mostrartabla')->name('tabla');
+});
+
+Route::group(['middleware' => 'auth'], function(){
+  //rutas para habilitacion de turnos
+  Route::get('servicio/gestion', 'RolturnoController@controlGestion')->name('gestion.registrado');
+  Route::get('/lista/habilitacion/turnos', 'HabilitacionController@index')->name('habilitar.rolturno');//--
+  Route::post('/habilitacion/turno', 'HabilitacionController@habilitacion')->name('habilitar.servicio.rolturno');//--
+
+  //rutas para cambio de turno   /editar/rolturno/test/{id}
+  /*Route::get('/listar/cambioturnos/', 'CambioTurnoController@index')->name('listar.cambio_turno');
+  Route::post('/registrar/cambioturno/', 'CambioTurnoController@store')->name('crear.cambio_turno');
+  Route::get('/verificacion/rolturno/', 'CambioTurnoController@getGestion')->name('existe.rolturno.gestion');
+  Route::get('/cambioturno/persona/servicio', 'CambioTurnoController@getPersonas')->name('servicio.personas.cambioturno');
+  Route::get('/cambioturno/persona/rolturno', 'CambioTurnoController@PersonaControl')->name('control.persona.rolturno');
+  Route::get('/cambioturno/eliminar/', 'CambioTurnoController@delete')->name('eliminar.cambioturno');*/
+
+  //rutas para tipo de contratos
+  Route::get('/listar/tipo/turnos/', 'TipoTurnosController@index')->name('listar.tipos.turnos');
+  Route::post('/registrar/tipo/turno/', 'TipoTurnosController@store')->name('guardar.tipo.turno');
+  Route::post('/editar/tipo/turno/', 'TipoTurnosController@update')->name('editarsave.tipo.turno');
+  Route::get('/tipo/turno/inahabilitado/{id}', 'TipoTurnosController@deshabilitar')->name('inhabilitar.tipo.turno');
+  Route::get('/tipo/turno/habilitado/{id}', 'TipoTurnosController@habilitar')->name('habilitar.tipo.turno');
+  //rutas para tipos de turnos
+  Route::get('/listar/tipos/contratos/', 'TipoContratosController@index')->name('listar.tipos.contratos');
+  Route::post('/registrar/tipo/contrato/', 'TipoContratosController@store')->name('guardar.tipo.contrato');
+  Route::post('/editar/tipo/contrato/', 'TipoContratosController@update')->name('editarsave.tipo.contrato');
+  Route::get('/tipo/contrato/inahabilitado/{id}', 'TipoContratosController@deshabilitar')->name('inhabilitar.tipo.contrato');
+  Route::get('/tipo/contrato/habilitado/{id}', 'TipoContratosController@habilitar')->name('habilitar.tipo.contrato');
 });
 
 //Route::get('/test',[TestController::class, 'index']);

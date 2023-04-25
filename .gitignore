@@ -8,7 +8,7 @@
 /public/dynamicTable
 /public/editable
 /public/dompdf
-
+/public/alerts
 /storage/*.key
 /vendor
 .env

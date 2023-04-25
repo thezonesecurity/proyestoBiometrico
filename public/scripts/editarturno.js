@@ -22,7 +22,8 @@ $(document).ready(function(){
 		
 		var id=$(this).val(); //console.log('id_user',id);
         var persona =$('#persona'+id).text();
-        var servicio =$('#servicio'+id).text();
+        var servicio =$('#servicio'+id).text();// console.log('id_user -> ',servicio); // $('#servicio'+id).text();
+        var gestion =$('#gestion'+id).text();     //   console.log('gestion '+gestion);
         var area =$('#area'+id).text();
         var tdia =$('#tdia'+id).text();
         var f_ini =$('#f_ini'+id).text();
@@ -35,7 +36,8 @@ $(document).ready(function(){
 		$('#editModal').modal('show');
         $('#idM').val(id);
 		$('#personaM').val(persona);
-        $('#servicioM').val(servicio);
+        $('#servicioMo').val(servicio);
+        $('#gestion').val(gestion);
         $('#areaM').val(area);
         $('#tdiaM').val(tdia);
         $('#f_iniM').val(f_ini);
@@ -44,6 +46,7 @@ $(document).ready(function(){
         $('#h_finM').val(h_fin);
         $('#turnoM').val(turno);
         $('#obsM').val(obs);
+       // console.log('gestionM '+$('#gestionM').val(gestion));
         //console.log('areaM '+tdia);
         if(tdia == 'DL'){
             $('#laboralM').prop("checked", true);
@@ -63,14 +66,13 @@ $(document).ready(function(){
             $('#f_finM').prop("disabled", false);
             $('#h_iniM').prop("disabled", true);
             $('#h_finM').prop("disabled", true);
-            $('#turnoM').prop("disabled", true);
+            $('#turnoM').prop("readonly", true);
            //$('#areaM').prop("disabled", false);
             $('#laboralM').hide();
             $('#descansoM').show();
         }
 	});
 
-   
      //PROCESO PARA SABER K AREA PERTENECE A K SERVICIO
      $(document).ready(function(){
         $('#servicio').change(function() {
@@ -81,14 +83,10 @@ $(document).ready(function(){
                 success: function(data){
                     area_per.html('<option value="" selected disabled > Selecione una opcion </option>');
                     $.each(data, function(id, value) {
-                        //if(data.estado == 'Habilitado'){
-                            area_per.append('<option value="' + id + '">' + value + '</option>');
-                       // }
+                        area_per.append('<option value="' + id + '">' + value + '</option>');
                     });
                 }
             });
-    
         });
       });
-
 });

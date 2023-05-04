@@ -1,3 +1,4 @@
+
 function limpiarform(){
   document.getElementById("fec_inicio").value = "";
       document.getElementById("fec_fin").value = "";
@@ -69,75 +70,65 @@ $(document).ready(function() {
       var area_id=document.getElementById("area").value; 
       var area=$('#area :selected').text();
       var obs=document.getElementById("obs").value;
-      //console.log(tipodia)
-      //console.log(servicio+' '+servicio_id)
-      //console.log(area+' '+area_id)
-     // console.log('-> '+turno);
-      /*
-      console.log(per_id);
-      console.log(per);
-      console.log(tipodia);
-      console.log(fec_ini);
-      console.log(fec_fin);
-      console.log(hrs_ini);
-      console.log(hrs_fin);
-      console.log(turno);
-      console.log(area);
-      console.log(obs);
-      */
+      $mes_anioL = fec_ini.substring(0, 7);
+      $mes_anioV = fec_fin.substring(0, 7);
     
       if( $('#cambio').is(':checked') ) { cambio_turno = 'V';}
 
-      console.log('camnbioturno -> '+cambio_turno)
-      if (per == 'Selecione una opcion') {
-        notificaciones('Seleccione una persona', 'error de formulario', 'error');
-        //toastr.error("Seleccione una persona");
-        //$('#per').focus();
-        return false;
-      } 
-  /*
-      if(tipodia == 'DL'){// si el checkbox laboral esta seleccionado
-        if (fec_ini == '') {
-          toastr.error("Seleccione una fecha del dia");
-          $('#fec_inicio').focus();
+      console.log('data -> '+turno_nombre)
+      
+       if (per == 'Selecione una opcion') {
+         notificaciones("Seleccione un personal", "ERROR DE FORMULARIO", 'error'); //$('#per').focus();
+         //toastr.error("Seleccione una personas", { "positionClass": "toast-bottom-right" });
+         return false;
+       } 
+       if (area == 'Selecione una opcion') {
+         notificaciones("Seleccione un area", "ERROR DE FORMULARIO", 'error'); //$('#area').focus();
+         //toastr.error("Seleccione una area", { "positionClass": "toast-bottom-right" });
+         return false;
+       } 
+       if (turno_nombre == 'Selecione una opcion') {
+         notificaciones("Seleccione un turno", "ERROR DE FORMULARIO", 'error'); //$('#turno').focus();
+         //toastr.error("Seleccione un turno", { "positionClass": "toast-bottom-right" });
+         return false;
+       }  
+       if (fec_ini == '') {
+         notificaciones("Seleccione una fecha de ingreso", "ERROR DE FORMULARIO", 'error'); //$('#fec_inicio').focus();
+         //toastr.error("Seleccione una fecha del dia", { "positionClass": "toast-bottom-right" });
+         return false;
+       } 
+       if(tipodia == 'DL'){// si el checkbox laboral esta seleccionado
+     
+        if(gestion!=$mes_anioL  && gestion!=''){
+          notificaciones("Verifique que coincidan los datos", "ERROR NO COINCIDEN EL MES, AÑO DE GESTION Y FECHA INGRESO", 'error');
           return false;
-        } 
+        }
         if (hrs_ini == '') {
-          toastr.error("Seleccione una hora de entrada");
-          $('#hrs_inicio').focus();
+          notificaciones("Seleccione un hora de entrada", "ERROR DE FORMULARIO", 'error'); //$('#hrs_inicio').focus();
+         //toastr.error("Seleccione una hora de entrada", { "positionClass": "toast-bottom-right" });
           return false;
         } 
         if (hrs_fin == '') {
-          toastr.error("Seleccione una hora de salida");
-          $('#hrs_fin').focus();
+          notificaciones("Seleccione una hora de salida", "ERROR DE FORMULARIO", 'error'); //$('#hrs_fin').focus();
+         // toastr.error("Seleccione una hora de salida", { "positionClass": "toast-bottom-right" });
           return false;
         } 
-        if (turno == '') {
-          toastr.error("Seleccione un turno");
-          $('#turno').focus();
-          return false;
-        } 
-        if (area == '') {
-          toastr.error("Seleccione una area");
-          $('#area').focus();
-          return false;
-        } 
-      
-
+      }
       if(tipodia == 'V'){ // si el checkbox vacacion esta seleccionado
-        if (fec_ini == '') {
-          toastr.error("Seleccione una fecha de salida");
-          $('#fec_inicio').focus();
-          return false;
-        } 
         if (fec_fin == '') {
-          toastr.error("Seleccione una fecha de ingreso");
-          $('#fec_fin').focus();
+          notificaciones("Seleccione una fecha de retorno", "ERROR DE FORMULARIO", 'error'); // $('#fec_fin').focus();
+          //toastr.error("Seleccione una fecha de ingreso");
           return false;
         } 
-        
+        if(gestion!=$mes_anioL  && gestion!=''){
+          notificaciones("Verifique que coincidan los datos", "ERROR NO COINCIDEN EL MES, AÑO DE GESTION Y FECHA INGRESO", 'error');
+          return false;
+        }
+         if(gestion!=$mes_anioV && gestion!=''){
+           notificaciones("Verifique que coincidan los datos", "ERROR NO COINCIDEN EL MES, AÑO DE GESTION Y FECHA RETORNO", 'error');
+           return false;
+         }
       } 
-    */
     
       //$('.titulo').after(fila);
       //$('.titulo').show();
@@ -164,10 +155,12 @@ $(document).ready(function() {
       //cuando da click obtenemos el id del boton
       $('#row' + button_id + '').remove(); //borra la fila
     });
+ 
 });
 
 
   /*
+
   $('#laboral').prop("checked", true);
   $('#laboral').on('change', function(e){//VACACION
     e.preventDefault();
@@ -226,4 +219,34 @@ $(document).ready(function() {
      document.getElementById("hrs_fin").value = "";
      document.getElementById("turno").value = "";
      document.getElementById("area").value = "";
-     document.getElementById("obs").value = "";*/
+     document.getElementById("obs").value = "";
+      //PROCESO PARA ELIMINAR UN REGISTRO DE ROL DE TURNO
+    $('#mytable').on('submit', '.form-eliminar', function(event){
+      event.preventDefault();
+      const form = $(this);
+      swal({
+        title: "Esta seguro que desea eliminar el resgistro ?",
+        text: "Esta accion no se puede deshacer!",
+        icon: 'warning',
+        buttons: {
+          cancel: 'Cancelar',
+          confirm: 'Eliminar'
+        },
+      }).then((value)=> {
+        if (value) {
+          $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(respuesta) {
+             //alert(respuesta);
+              if(respuesta == 'ok') {
+                form.parents('tr .eliminado').remove();
+                notificaciones("El registro fue elimiando correctamente", "OPERACION EXITOSA", 'success');
+              }else {  notificaciones("El registro no fue elimiando ", "OPERACION FALLIDA", 'error'); }
+            }
+          });
+        }
+      });
+    });
+    */

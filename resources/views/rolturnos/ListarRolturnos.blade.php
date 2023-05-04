@@ -38,13 +38,13 @@
                             @if($rolturno->estado == 'Temporal' || $rolturno->estado == 'Rechazado')
                             {{--<a type="button" class="btn btn-primary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" >Editar</a>--}}
                             <a type="button" class="btn btn-info btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro">Seguir registrando</a>
-                            <a type="button" class="btn btn-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" >Reporte PDF</a>
+                            <a type="button" class="btn btn-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank' >Reporte PDF</a>
                             <a data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-success btn-sm"  type="buton">enviar</a>
 
                             @else
                             {{--<button type="button" class="btn btn-secondary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" disabled>Editar</button>--}}
                             <button type="button" class="btn btn-secondary btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro" disabled>Seguir registrando</button>
-                            <a type="button" class="btn btn-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" >Reporte PDF</a>
+                            <a type="button" class="btn btn-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank' >Reporte PDF</a>
                             <button data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-secondary btn-sm"  type="buton" disabled>enviar</button>
                             @endif
                         </td>

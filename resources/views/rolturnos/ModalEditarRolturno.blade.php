@@ -43,11 +43,8 @@
                     <div class="form-group col-md-6">
                         {!! Form::label('areaPer', 'Area de la personas', ['class' => 'font-weight-bold' ]) !!}
                         <input type="text" name="area" id='areaM'  class="form-control custom-select" readonly >
-                        @php $areas=\App\Models\areas\Area::where('servicio_id','4');  @endphp
-                        {{-- <select class="form-control custom-select" name="area" id='areaM' >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="Gestion">Gestion</option>
+                        {{--@php $areas=\App\Models\areas\Area::where('servicio_id','4');  @endphp
+                         <select class="form-control custom-select" name="area" id='areaM' >
                            @foreach($areas as $area)
                             <option value="">{{$areas->nombre}}</option>
                             @endforeach
@@ -55,14 +52,12 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="turnoo">Turno</label>
-                        <select name="turno" id="turnoM" class="form-control custom-select mr-sm-2">
-                            <option value="" disabled selected>Elegir turno</option>
-                            <option value="Mañana">Mañana</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Dia">Dia</option>
-                            <option value="Noche">Noche</option>
-                            <option value="12 Hrs.">12 Hrs.</option>
-                            <option value="24 Hrs.">24 Hrs.</option>
+                        <input type="text" name="turno" id="turnoM"  class="form-control custom-select controlT1">
+                        <select name="turnoMo" id="turnoMo" class="form-control custom-select mr-sm-2 controlT2" style="display: none">
+                            <option value="" disabled selected>Selecciones un turno</option>
+                            @foreach($turnos as $id => $turno)   
+                                <option value="{{$id}}" > {{$turno}} </option>  
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -70,11 +65,11 @@
                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
                     <div class="form-group col-md-6">
                         <label for="fecha de inicio">Fecha Inicio</label>
-                        <input type="date" class="form-control" name="fecha_inicio" id="f_iniM" >
+                        <input type="date" class="form-control" name="fecha_inicio" id="f_iniM" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="fecha de fin">Fecha Fin</label>
-                        <input type="date" class="form-control "  name="fecha_fin" id="f_finM" disabled>
+                        <input type="date" class="form-control "  name="fecha_fin" id="f_finM" disabled required>
                     </div>
                 </div>
                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
@@ -95,7 +90,7 @@
                     </div>
                     <div class="form-group col-md-4" style="margin-top: 30px;">
                         <label class="col" >Cambio turno</label>
-                        <input class="form-check-input" type="checkbox" name="cambioT" id="cambio" style="margin-left: -23px;">
+                        <input class="form-check-input" type="checkbox" name="cambioT" id="cambioT" value="V" style="margin-left: -23px;">
                     </div>
                 </div>
                 {{--<div class="form-group row" style="margin-top: -10px;">
@@ -105,7 +100,7 @@
                         
                 <div class="modal-footer" style="margin-top: -30px;">
                     {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-success' ] ) !!} 
-                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
+                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
             {!! Form::close() !!}  
           </div>

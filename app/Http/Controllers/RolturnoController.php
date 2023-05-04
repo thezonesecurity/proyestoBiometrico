@@ -13,6 +13,8 @@ use App\Models\rolturno\PersonaRolturno;
 use App\Models\tipo_turnos\TipoTurno;
 use PDF;
 
+//return back()->with('status', 'el mensaje es esto');
+
 class RolturnoController extends Controller
 {
     public function index()//Request $request
@@ -179,7 +181,8 @@ class RolturnoController extends Controller
     public function tabla()
     {
         // para imprimir pdf formato de rol de turnos 
-        return view('rolturnos.tablas');
+        $per_rolturnos=PersonaRolturno::orderBy('id')->get();
+        return view('rolturnos.tablas')->with(compact('per_rolturnos'));       
     }
     
     public function edit($id)//--
@@ -220,52 +223,58 @@ class RolturnoController extends Controller
 
     public function actualizar(Request $request)
     {
-      // dd($request);
-        $id = $request->id;
-        $per_rolturno = PersonaRolturno::find($id);
-        $per_rolturno->fecha_inicio = $request->fecha_inicio;
-        $per_rolturno->fecha_fin = $request->fecha_fin;
-        $per_rolturno->hora_inicio = $request->hora_inicio;
-        $per_rolturno->hora_fin = $request->hora_fin;
-        //$per_rolturno->tipo_dia = $request->tipod;
-        $per_rolturno->turno = $request->turno;
-        //$per_rolturno->area_id = $request->area;//??????
-        $per_rolturno->obs = $request->comentario;
-        $per_rolturno->user_id = auth()->user()->id;
-        //$per_rolturno->persona_id = $request->m[$pos];;
-        //$per_rolturno->rolturno_id = $rolturno->id;
-        //dd($per_rolturno);
-        $per_rolturno->save();
-        return back();
+   //  dd($request);
+        if(isset($request)){
+            $id = $request->id;
+            $per_rolturno = PersonaRolturno::find($id);
+            $per_rolturno->fecha_inicio = $request->fecha_inicio;
+            $per_rolturno->fecha_fin = $request->fecha_fin;
+            $per_rolturno->hora_inicio = $request->hora_inicio;
+            $per_rolturno->hora_fin = $request->hora_fin;
+            //$per_rolturno->tipo_dia = $request->tipod;
+            if(isset($request->turnoMo)){ $per_rolturno->turno_id = $request->turnoMo;}
+            if($request->cambioT == null) { $per_rolturno->cambio_turno = 'F'; }
+            else {$per_rolturno->cambio_turno = 'V'; }
+            //$per_rolturno->area_id = $request->area;//??????
+            $per_rolturno->obs = $request->comentario;
+            $per_rolturno->user_id = auth()->user()->id;
+            //$per_rolturno->persona_id = $request->m[$pos];;
+            //$per_rolturno->rolturno_id = $rolturno->id;
+            //dd($per_rolturno);
+            $per_rolturno->save();
+            return back()->with('success', 'El rolturno se actualizo correctamente');
+        }
+        return back()->with('error', 'Error al actualizar el rolturno');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //dd($id);
-        $per_rolturno = PersonaRolturno::find($id);
-        //$per_rolturno->estado = 'Eliminado';
-        $per_rolturno->delete();
-        return back();
-
-/*
-        $id_rol = $per_rolturno->rolturno_id;
-        $count = PersonaRolturno::where('rolturno_id', $id_rol)->where('gestion'->$request->gestion)->count();
-        dd($count);
-        if($cont > '1'){
-            $per_rolturno->delete();
-            return back();
-        }
-        return back('error no se puede eliminar el ultimo dato');*/
+        //dd($request);
+        if(isset($request)){
+            $id = $request->id;
+            $per_rolturno = PersonaRolturno::find($id);
+            $id_rol = $per_rolturno->rolturno_id;
+            $count = PersonaRolturno::where('rolturno_id', $id_rol)->count();
+            if($count > '1'){
+                //$per_rolturno->delete();
+                //return back()->with('success', 'El rolturno se elimino correctamente');
+                return back()->with('mensaje', 'El rolturno se elimino correctamente')->with('tipo', 'success');
+            }
+            else{ return back()->with('error', 'Error en la eliminacion , No se puede dejar sin elementos esta lista'); }
+        }else abort(404);
     }
     public function send(Request $request)
     {
-        $id = $request->id;
-        //dd($id);
-        $rolturno = Rolturno::find($id);
-        $rolturno->estado = 'Pendiente';
-       // dd($rolturno);
-        $rolturno->save();
-        return back();
+        if(isset($request)){
+            $id = $request->id;
+            //dd($id);
+            $rolturno = Rolturno::find($id);
+            $rolturno->estado = 'Pendiente';
+            $rolturno->save();
+            return back();//->with('success', 'Se envio exitosamente el rolturno');
+        }else {
+            return back();//->with('error', 'Error al enviar rolturno, concacte con soporte!!');
+        }
     }
     /*
     CONSULTAS

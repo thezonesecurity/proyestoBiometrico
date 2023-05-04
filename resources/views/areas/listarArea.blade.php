@@ -3,9 +3,7 @@
 
 <div class="table-responsive d-flex justify-content-center " style="margin-left: auto" ><!--style="margin-left: 250px"-->
   <div class="col-md "> 
-    @if (session('creado'))
-    @include('servicios.mensaje')
-    @endif
+    @include('dashboard.mensaje')
     <div class="box-body">
         <h3 class="box-title text-center">Lista de Areas de los Servicios H.D.B.</h3>
         <table id="example" class="table table-sm table-bordered table-striped"  width="60%">
@@ -18,6 +16,7 @@
                     <th>Opciones
                       <!-- boton registrar servicio-->
                       <button data-toggle="modal" href="#registrar_areaModal" class="btn btn-sm btn-primary" style="margin-left: 60px">Registar Nueva Area</button>
+                      @include('areas.registrarArea')  
                     </th>
                 </tr>
             </thead>
@@ -28,19 +27,19 @@
                     </tr>
                 @else 
                     <?php $i=0; ;?>
-                    @foreach ($areas as $areaservi)
+                    @foreach ($areas as $area)
                     <tr>
                         <td>{{ ++$i }}</td>
-                        <td>{{ $areaservi->nombre }}</td>
-                        <td id="id_servicio<?php $areaservi->servicio->nombre  ?>">{{ $areaservi->servicio->nombre }}</td>
-                        <td>{{ $areaservi->estado }}</td>
+                        <td  id="area{{$area->id}}">{{ $area->nombre }}</td>
+                        <td  id="servicio{{$area->id}}">{{ $area->servicio->nombre }}</td>
+                        <td  id="estado{{$area->id}}">{{ $area->estado }}</td>
                         <td style='background-color: ;'>
-                            @if($areaservi->estado == "Habilitado")
-                            <a data-toggle="modal" href="#Actualizar_Area" class="btn btn-sm btn-success editBtn"  type="buton" style="margin-left: 20px">Editar</a>
-                            <a href="{{ route('inhabilitar.area.servicio', $areaservi->id)}}" type="buton" class="btn btn-sm btn-danger" style="margin-left: 20px">Inhabilitar</a>
+                            @if($area->estado == "Habilitado")
+                            <button type="button" class="btn btn-success btn-sm edit" value="{{$area->id}}" data-toggle="modal" data-target="#Actualizar_Area">Editar</button>
+                            <a href="{{ route('inhabilitar.area.servicio', $area->id)}}" type="buton" class="btn btn-sm btn-danger" style="margin-left: 20px">Inhabilitar</a>
                             @else
-                            <a data-toggle="modal"  class=" btn btn-sm btn-secondary" disabled="true" type="buton" style="margin-left: 20px">Editar</a>
-                            <a href="{{ route('habilitar.area.servicio', $areaservi->id)}}" type="buton" class="btn btn-sm btn-warning" style="margin-left: 20px">Habilitar</a>
+                            <button type="button" class="btn btn-secondary btn-sm edit" value="{{$area->id}}" data-toggle="modal" data-target="#Actualizar_Area" disabled>Editar</button>
+                            <a href="{{ route('habilitar.area.servicio', $area->id)}}" type="buton" class="btn btn-sm btn-warning" style="margin-left: 20px">Habilitar</a>
                             @endif 
                            {{-- <a href="{{ route('eliminado.servicio', $servicio->id)}}" type="buton" class="btn btn-info">Eliminar</a>--}}
                         </td>
@@ -52,18 +51,18 @@
         </table>
     </div>
 </div>
-    @include('areas.registrarArea')  
+    
 @stop
 
 @section('titulo')
- - Servicio
+ - Areas
 @stop
 
 @section('styles')
 @stop
 
 @section('scripts')
-{{ Html::script( asset('scripts/enviardatosareas.js') )}}
+<script type="text/javascript" src="{{ asset('scripts/admin/areas.js') }}"></script>
 @stop
 
 

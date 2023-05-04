@@ -1,6 +1,20 @@
 $(document).ready(function(){
     
+     //control para que aparescar y se oculte el input y el select de turnos
+     $('.controlT1').click(function() {
+        $('.controlT1').hide();
+        $('.controlT2').show();
+        $('.controlT2').attr("required", true);
+    });
+      //control para que aparescar y se oculte el input y el select de turnos
+      $('.cancelar').click(function() {
+        $('.controlT2').hide();
+        $('.controlT2').attr("required", false);
+        $('.controlT1').show();
+    });
+    
 	$(document).on('click', '.editbtn', function(e){
+       
         e.preventDefault();
        // console.log('item');
         /*$tr = $(this).closest('tr');
@@ -32,7 +46,15 @@ $(document).ready(function(){
         var h_fin =$('#h_fin'+id).text();//document.getElementById("fec_ini").textContent;
         var turno =$('#turno'+id).text();
         var obs =$('#obs'+id).text();
+
+        var cambio_turno =$('#cambio_turno'+id).text(); 
+       // console.log('data -> ' + cambio_turno)
 	
+       /* if (per == 'Selecione una opcion') {
+            notificaciones("Seleccione un personal", "ERROR DE FORMULARIO", 'error'); //$('#per').focus();
+            //toastr.error("Seleccione una personas", { "positionClass": "toast-bottom-right" });
+            return false;
+        }*/
 		$('#editModal').modal('show');
         $('#idM').val(id);
 		$('#personaM').val(persona);
@@ -46,6 +68,8 @@ $(document).ready(function(){
         $('#h_finM').val(h_fin);
         $('#turnoM').val(turno);
         $('#obsM').val(obs);
+
+        console.log('data -> ' + $('#turnoM').text());
        // console.log('gestionM '+$('#gestionM').val(gestion));
         //console.log('areaM '+tdia);
         if(tdia == 'DL'){
@@ -55,10 +79,13 @@ $(document).ready(function(){
             $('#f_finM').prop("disabled", true);
             $('#h_iniM').prop("disabled", false);
             $('#h_finM').prop("disabled", false);
-            $('#turnoM').prop("disabled", false);
+           // $('#turnoM').prop("disabled", false);
             //$('#areaM').prop("disabled", false);
             $('#laboralM').show();
             $('#descansoM').hide();
+            $('#cambioT').attr("disabled", false);
+            if(cambio_turno == 'V') {  $('#cambioT').prop("checked", true); } //$('#cambioT').val('VA');
+            else {  $('#cambioT').prop("checked", false); } //$('#cambioT').val('F');
         }else{
            // $('#laboralM').prop("checked", false);
             $('#descansoM').prop("checked", true);
@@ -66,27 +93,27 @@ $(document).ready(function(){
             $('#f_finM').prop("disabled", false);
             $('#h_iniM').prop("disabled", true);
             $('#h_finM').prop("disabled", true);
-            $('#turnoM').prop("readonly", true);
+           //$('#turnoM').prop("disabled", false);
            //$('#areaM').prop("disabled", false);
+           $('#cambioT').attr("disabled", true);
+          // $('#cambioT').val('F');
             $('#laboralM').hide();
             $('#descansoM').show();
         }
 	});
-
-     //PROCESO PARA SABER K AREA PERTENECE A K SERVICIO
-     $(document).ready(function(){
-        $('#servicio').change(function() {
-            const area_per = $('#areaM');
-            $.ajax({
-                url: "{{ route('areas.servi') }}",
-                data: { servicio: $('#servicio'+id).text() },
-                success: function(data){
-                    area_per.html('<option value="" selected disabled > Selecione una opcion </option>');
-                    $.each(data, function(id, value) {
-                        area_per.append('<option value="' + id + '">' + value + '</option>');
-                    });
-                }
-            });
-        });
-      });
+    $(document).on('click', '.deletebtn', function(e){
+        e.preventDefault();
+        var id=$(this).val(); 
+        var persona =$('#persona'+id).text();
+        var f_ini =$('#f_ini'+id).text();
+        var f_fin =$('#f_fin'+id).text();
+        console.log('id_user -> '+id+ ' nombre '+ persona+ ' fecha '+ f_ini);
+        $('#eliminarModal').modal('show');
+        $('#idMe').val(id);
+		$('#personaMe').val(persona);
+        $('#f_iniMe').val(f_ini);
+        $('#f_finMe').val(f_fin);
+     
+        
+    });
 });

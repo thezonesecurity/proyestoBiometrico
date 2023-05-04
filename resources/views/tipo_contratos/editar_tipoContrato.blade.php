@@ -16,8 +16,8 @@
                     <input type="text" class="form-control" name="t_contrato" id="t_contratoM">
                   </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
-                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
+                    {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
                
             {!! Form::close() !!}   

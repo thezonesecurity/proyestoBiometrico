@@ -12,6 +12,7 @@ $i=0;
 ?>
 <div class=" table-responsive d-flex justify-content-center " style="margin-left: auto" ><!--style="margin-left: 250px"-->
   <div class="col"> 
+    @include('dashboard.mensaje')
     <div class="box-body table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <h3 class="box-title text-center">Lista del personal H.D.B.</h3>
         <table id="example" class="table table-sm table-bordered table-striped"  width="90%">
@@ -50,23 +51,25 @@ $i=0;
                         <td><span id="estado" >Sin estado</span></td>
                        
                     @endif   
-                    <?php $persona=App\Models\personal\Persona::where('idper_db',$row['USERID'])->first(); ?>
+                    <?php $persona=App\Models\personal\Persona::orderBy('id')->where('idper_db',$row['USERID'])->first(); ?>
                     <td>
                         @if(isset($persona))
                             @if( $persona->estado_per == 'Habilitado' ) {{--&& $persona->idper_db !== $row['USERID']--}} 
-                                <button type="button" class="btn btn-success btn-sm edit" value="{{$row['USERID']}}" data-toggle="modal" data-target="#registro_personalModal">Editar</button>  
+                                <button type="button" class="btn btn-success btn-sm edit" value="{{$persona->id}}" data-toggle="modal" data-target="#editar_personalModal">Editar</button>  
                                 {{--<button type="button" class="btn btn-sm btn-success editModal edit" value="< ?php echo $row['USERID']; ?>"> Editar</button>--}}
                                 <a href="{{ route('inhabilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-danger">Inhabilitar</a>
                             @else
-                                 <button type="button" class="btn btn-success btn-sm edit" value="{{$row['USERID']}}" data-toggle="modal" data-target="#registro_personalModal">Editar</button>  
+                                 <button type="button" class="btn btn-success btn-sm edit" value="{{$persona->id}}" data-toggle="modal" data-target="#editar_personalModal">Editar</button>  
                                 {{--<button type="button" class="btn btn-sm btn-secondary editModal edit" value="< ?php echo $row['USERID']; ?>" disabled> Editar</button>--}}
                                 <a href="{{ route('habilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-warning">Habilitar</a>
                             @endif 
                         @else   
-                            <button type="button" class="btn btn-info btn-sm edit" value="{{$row['USERID']}}" data-toggle="modal" data-target="#registro_personalModal">Añadir</button>  
+                            <button type="button" class="btn btn-info btn-sm registrar" value="{{$row['USERID']}}" data-toggle="modal" data-target="#registro_personalModal">Añadir</button>  
+                            @include('personal.registrarPersonal')
                             {{--<button type="button" class="btn btn-sm btn-info editModal" value="< ?php echo $row['USERID']; ?>">Añadir</button>--}}
                         @endif    
                         @include('personal.editarPersonal')
+                        
                     </td>
                 </tr>
                 <?php
@@ -88,7 +91,8 @@ $i=0;
 @stop
 
 @section('scripts')
-{{ Html::script( asset('scripts/enviarpersonalmodal.js') )}}
+{{--{{ Html::script( asset('scripts/enviarpersonalmodal.js') )}}--}}
+<script type="text/javascript" src="{{ asset('scripts/admin/personal.js') }}"></script>
 @stop
 
 

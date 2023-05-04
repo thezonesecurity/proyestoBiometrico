@@ -3,9 +3,7 @@
 
 <div class="table-responsive d-flex justify-content-center " style="margin-left: auto" ><!--style="margin-left: 250px"-->
   <div class="col-md "> 
-    @if (session('creado'))
-    @include('servicios.mensaje')
-    @endif
+   @include('dashboard.mensaje')
     <div class="box-body">
         <h3 class="box-title text-center">Lista de Servicio H.D.B.</h3>
         <table id="example" class="table table-sm table-bordered table-striped"  width="60%">
@@ -18,13 +16,14 @@
                     <th>Opciones
                       <!-- boton registrar servicio-->
                       <button data-toggle="modal" href="#registrar_servicioModal" class="btn btn-sm btn-primary" style="margin-left: 60px">Registar Nuevo Servicio</button>
+                      @include('servicios.crearServicio')  
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @if($servicios->isEmpty() && $servicios->count() == 0) 
                     <tr>
-                        <td colspan="" class="">No hay ningun servicio registrado aun... </td>
+                        <td colspan="5" class="">No hay ningun servicio registrado aun... </td>
                     </tr>
                 @else 
                     <?php $i=0; ;?>
@@ -53,7 +52,7 @@
         </table>
     </div>
 </div>
-    @include('servicios.crearServicio')  
+    
 @stop
 
 @section('titulo')
@@ -72,32 +71,7 @@
 {{ Html::script( asset('DataTables/dataTables.min.css') )}}
 {{ Html::script( asset('bootstrap3/jquery/datatableservicios.js') )}}
 --}}
-<script type="text/javascript">
-    //"form-control-sm custom-select text-uppercase select2"
-        $('.select2').select2({
-            placeholder: "Seleccione una opcion",
-            allowClear: true
-        });
-</script>
-<script>
-    $(document).on('click', '.edit', function(e){
-        e.preventDefault();
-		
-		var id=$(this).val(); //console.log('id_user',id);
-        var servicio =$('#servicio'+id).text();
-        var responsable =$('#res').text();// console.log('id_user -> ',servicio); // $('#servicio'+id).text();
-       
-        var estado =$('#estado'+id).text();     //   console.log('gestion '+gestion);
-        console.log('id_user '+ id+' -> '+ responsable);
-        
-		$('#ActualizarServicio').modal('show');
-        $('#idM').val(id);
-        $('#servicioM').val(servicio);
-        $('#responsableM').val(responsable);
-        $('#estadoM').val(estado);
-    });
-    
-</script>
+<script type="text/javascript" src="{{ asset('scripts/admin/servicios.js') }}"></script>
 @stop
 
 

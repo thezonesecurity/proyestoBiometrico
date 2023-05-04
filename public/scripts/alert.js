@@ -4,7 +4,7 @@
             newestOnTop: true,
             progressBar: true,
             positionClass: "toast-bottom-right",
-            preventDuplicates: true,
+            preventDuplicates: false,
             timeOut: "5000",
         };
         if(tipo == "error"){
@@ -17,3 +17,9 @@
             toastr.warning(mensaje, titulo);
         }
 }
+ //PROCESO PARA K DESAPARESCA EL ALERT DE SESSION
+ window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(400, function(){
+        $(this).remove(); 
+    });
+}, 5000);

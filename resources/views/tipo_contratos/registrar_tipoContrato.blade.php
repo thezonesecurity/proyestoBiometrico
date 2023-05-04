@@ -16,8 +16,8 @@
               </div>
               <div class="form-group">
                     <div class="modal-footer"> 
-                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary' ] ) !!} 
-                        {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary registrar' ] ) !!} 
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
                     </div>
                 </div>
               {!! Form::close() !!}

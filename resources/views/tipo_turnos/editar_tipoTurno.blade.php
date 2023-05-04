@@ -16,7 +16,7 @@
                     <input type="text" class="form-control" name="t_turno" id="t_turnoM">
                   </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
                

@@ -34,11 +34,11 @@
                         <td>
                             @if($rolturno->estado == 'Pendiente' || $rolturno->estado == 'Rechazado')
                             <a data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class=" btn btn-success btn-sm"  type="buton">Habilitacion</a>
-                            <a type="button" class="btn btn-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" >Ver rolturno</a>
+                            <a type="button" class="btn btn-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
                             <a type="button" class="btn btn-info btn-sm " href="" >Habilitacion Temporal</a>
                             @else
                             <button data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class=" btn btn-secondary btn-sm"  type="buton" disabled>Habilitacion</button>
-                            <a type="button" class="btn btn-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" >Ver rolturno</a>
+                            <a type="button" class="btn btn-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
                            @endif
                         </td>
                     </tr>

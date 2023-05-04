@@ -11,7 +11,7 @@
 <body>
     <div class="container-fluid mt-3">
         <div class="form-group row justify-content-center align-content-center">
-            <h3>INFORME PLANILLA DE ASISTENCIA DEL PERSONAL DEL SERVICIO DE FARMACIA</h3>
+            <h3>INFORME PLANILLA DE ASISTENCIA DEL PERSONAL DEL SERVICIO DE FARMACIA</h3><br>
             <h4>CORRESPONDIENTE AL MES DE FEBRERO DEL 2023</h4>
         </div>
        
@@ -59,7 +59,7 @@
                 <th scope="col">Observacion</th>
               </tr>
             </thead>
-            <tbody>
+            {{--<tbody>
               <tr>
                 <th scope="row">1</th>
                 <td>Mark Otto</td>
@@ -101,6 +101,66 @@
                 <td>A</td>
                 <td></td>
               </tr>
+            </tbody>--}}
+            <?php  $i=0; //F6F1E9 E4DCCF F0EEED?>
+            <tbody>
+              {{--{{dd($per_rolturnos[$pos]->persona_id)}}
+             {{dd($per_rolturnos->count())}}--}}
+              @foreach ($per_rolturnos as $rolturno)
+                <tr>
+                  <th scope="row">{{++$i}}</th>
+                  <td>
+                    {{--{{ $per_rolturnos[$pos]->persona_id!=$per_rolturnos[$pos++]->persona_id? '':$per_rolturnos[$pos]->persona_id}}--}}</td>
+                  <td>24825852</td>
+                  <td>Contrato</td>
+                  <td>
+                    @for ($i = 0; $i <= $per_rolturnos->count()+1; $i++)
+                    <?php  $pos=1;//F6F1E9 E4DCCF F0EEED?>
+                        @if($i == $per_rolturnos->count()+1){@break} 
+                        @else @if($per_rolturnos[$i]->persona_id != $per_rolturnos[$i++]->persona_id)
+                               {{$i++}}
+                            @else
+                            {{$per_rolturnos[$i]->persona_id}} 
+                            @endif
+                        @endif
+                    @endfor
+                 </td>
+                  <td>Mañana</td>
+                  <td>08:00-14:00</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>V</td>
+                  <td>A</td>
+                  <td></td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
     </div>

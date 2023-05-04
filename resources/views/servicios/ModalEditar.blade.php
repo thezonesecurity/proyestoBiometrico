@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-            {!! Form::open(['route' => 'editarsave.servicio', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+            {!! Form::open(['route' => 'editarsave.servicio', 'method' => 'post', 'autocomplete'=>"off",  'id'=> 'form-editar']) !!}
                 <input type="hidden" name="id" id="idM">
                 <div class="form-group">
                     <label for="recipient-servicio" class="font-weight-bold">Servicio</label>
@@ -17,8 +17,9 @@
                   </div>
                 <div class="form-group">
                     <label for="personall" class="font-weight-bold">Responsable</label>
-                        <select class="form-control custom-select" name="responsable" id="responsableM" >
-                            <option value="">Elegir una persona</option>
+                    <input type="text" class="form-control custom-select controlT1" name="responsable" id="resM">
+                       <select class="form-control custom-select controlT2" name="responsableMo" id="responsableMo" style="display: none">
+                            <option value="" selected>Selecione una opcion</option>
                             @foreach($users as $user)   
                                 @if($user->estado == 'enable')
                                     <option value="{{$user->id}}" > {{$user->per_user->nombres}} {{$user->per_user->apellidos}}</option> 
@@ -27,8 +28,8 @@
                         </select>
                 </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
-                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
+                    {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
                
             {!! Form::close() !!}   

@@ -4,122 +4,61 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\areas\Area;
+use App\Models\servicios\Servicio;
 
 class AreaServicioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
         $areas = Area::orderBy('id')->get();
-        return view('areas.listarArea')->with('areas', $areas);
-
+        $servicios = Servicio::where('estado', 'Habilitado')->pluck('nombre', 'id');
+        return view('areas.listarArea')->with(compact('areas', 'servicios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-       // dd($request);
-
+       //dd($request);
         $area = new Area;
-        $nombre = ucwords($request->nombre);
+        $nombre = ucwords($request->area);
         $area->nombre = $nombre;
         $area->estado = 'Habilitado';
-        $area->servicio_id = $request->id_servicio;
+        $area->servicio_id = $request->servicio;
         $area->save();
        //dd($area);
-       
-        return redirect(route('listar.area.servicio'));
+        return redirect(route('listar.area.servicio'))->with('success', 'El area se registro correctamente !!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
-        //
-        //dd($request);
-        $id = $request->id_area;
+       // dd($request);
+        $id = $request->idM;
         $area = Area::find($id);
-        $nombre = ucwords($request->nombre);
+        $nombre = ucwords($request->areaM);
         $area->nombre =  $nombre;
-        $area->servicio_id = $request->id_servicio;
-        $area->save();
-        //dd($area);
-        return redirect(route('listar.area.servicio'));
-       
+        if($request->servicioMo != null) {
+            $area->servicio_id = $request->servicioMo;
+           $area->save();
+            return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+        }else {
+            $area->save();
+            return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-    
     public function deshabilitar($id)
     {
          //dd($id);
          $area = Area::find($id);
          $area->estado = 'Inhabilitado';
          $area->save();
-         return redirect(route('listar.area.servicio'));
+         return redirect(route('listar.area.servicio'))->with('warning', 'El area se deshabilito correctamente !!'); 
     }
     public function habilitar($id)
     {
          $area = Area::find($id);
          $area->estado = 'Habilitado';
          $area->save();
-         return redirect(route('listar.area.servicio'));
+         return redirect(route('listar.area.servicio'))->with('success', 'El area se habilito correctamente !!'); 
     }
 }

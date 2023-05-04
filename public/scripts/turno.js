@@ -9,9 +9,7 @@ function limpiarform(){
 }
 
 $(document).ready(function() {
-  
   //controles para habilitar y deshabilitar los input los casos de dia laboral y vacacion
-
   $('#laboral').on('change', function(e){ //DIA LABORAL
     //var selected = document.querySelector('input[type=radio][name=tipod]:checked');
  // alert(selected.value)
@@ -24,7 +22,6 @@ $(document).ready(function() {
    // $('#turno').prop("disabled", false);
     $('#area').prop("disabled", false);
    // $('#obs').prop("disabled", false);
-
   });
 
   $('#descanso').on('change', function(e){//VACACION
@@ -64,77 +61,67 @@ $(document).ready(function() {
     var area=$('#area :selected').text();
     var obs=document.getElementById("obs").value;
 
-    console.log('nombre '+turno_nombre+ ' su id '+ turno)
-    //console.log(tipodia)
-    //console.log(servicio+' '+servicio_id)
-    //console.log(area+' '+area_id)
-    /*
-    console.log(per_id);
-    console.log(per);
-    console.log(tipodia);
-    console.log(fec_ini);
-    console.log(fec_fin);
-    console.log(hrs_ini);
-    console.log(hrs_fin);
-    console.log(turno);
-    console.log(area);
-    console.log(obs);
-    */
-   
-    if (per == 'Elegir una persona') {
-      toastr.error("Seleccione una personas", { "positionClass": "toast-bottom-right" });
-       $('#per').focus();
+    $mes_anioL = fec_ini.substring(0, 7);
+    $mes_anioV = fec_fin.substring(0, 7);
+
+    //console.log('area '+area+ ' turno'+ turno)
+    if (gestion == '') {
+     notificaciones("Seleccione una gestion", "ERROR DE FORMULARIO", 'error'); //('#gestion').focus();
+     return false;
+    } 
+    if (per == 'Selecione una opcion') {
+      notificaciones("Seleccione un personal", "ERROR DE FORMULARIO", 'error'); //$('#per').focus();
+      //toastr.error("Seleccione una personas", { "positionClass": "toast-bottom-right" });
       return false;
     } 
-    /*
-     if (gestion == '') {
-        toastr.error("Seleccione una gestion", { "positionClass": "toast-bottom-right" });
-        $('#gestion').focus();
-        return false;
-      } 
-      if (area == '') {
-        toastr.error("Seleccione una area", { "positionClass": "toast-bottom-right" });
-        $('#area').focus();
-        return false;
-      } 
-      if (turno == '') {
-        toastr.error("Seleccione un turno", { "positionClass": "toast-bottom-right" });
-        $('#turno').focus();
-        return false;
-      }  */
-/*
+    if (area == 'Selecione una opcion') {
+      notificaciones("Seleccione un area", "ERROR DE FORMULARIO", 'error'); //$('#area').focus();
+      //toastr.error("Seleccione una area", { "positionClass": "toast-bottom-right" });
+      return false;
+    } 
+    if (turno_nombre == 'Selecione una opcion') {
+      notificaciones("Seleccione un turno", "ERROR DE FORMULARIO", 'error'); //$('#turno').focus();
+      //toastr.error("Seleccione un turno", { "positionClass": "toast-bottom-right" });
+      return false;
+    }  
+    if (fec_ini == '') {
+      notificaciones("Seleccione una fecha de ingreso", "ERROR DE FORMULARIO", 'error'); //$('#fec_inicio').focus();
+      //toastr.error("Seleccione una fecha del dia", { "positionClass": "toast-bottom-right" });
+      return false;
+    } 
+    
     if(tipodia == 'DL'){// si el checkbox laboral esta seleccionado
-      if (fec_ini == '') {
-        toastr.error("Seleccione una fecha del dia", { "positionClass": "toast-bottom-right" });
-        $('#fec_inicio').focus();
+     
+      if(gestion!=$mes_anioL  && gestion!=''){  //CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA(ingreso y retorno) Y GESTION
+        notificaciones("Verifique que coincidan los datos", "ERROR NO COINCIDEN EL MES, AÑO DE GESTION Y FECHA INGRESO", 'error');
         return false;
-      } 
+      }
       if (hrs_ini == '') {
-        toastr.error("Seleccione una hora de entrada", { "positionClass": "toast-bottom-right" });
-        $('#hrs_inicio').focus();
+        notificaciones("Seleccione un hora de entrada", "ERROR DE FORMULARIO", 'error'); //$('#hrs_inicio').focus();
+       //toastr.error("Seleccione una hora de entrada", { "positionClass": "toast-bottom-right" });
         return false;
       } 
       if (hrs_fin == '') {
-        toastr.error("Seleccione una hora de salida", { "positionClass": "toast-bottom-right" });
-        $('#hrs_fin').focus();
+        notificaciones("Seleccione una hora de salida", "ERROR DE FORMULARIO", 'error'); //$('#hrs_fin').focus();
+       // toastr.error("Seleccione una hora de salida", { "positionClass": "toast-bottom-right" });
         return false;
       } 
-      
+    }
     if(tipodia == 'V'){ // si el checkbox vacacion esta seleccionado
-      if (fec_ini == '') {
-        toastr.error("Seleccione una fecha de salida");
-        $('#fec_inicio').focus();
-        return false;
-      } 
       if (fec_fin == '') {
-        toastr.error("Seleccione una fecha de ingreso");
-        $('#fec_fin').focus();
+        notificaciones("Seleccione una fecha de retorno", "ERROR DE FORMULARIO", 'error'); // $('#fec_fin').focus();
+        //toastr.error("Seleccione una fecha de ingreso");
         return false;
       } 
-      
+      if(gestion!=$mes_anioL  && gestion!=''){  //CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA(ingreso y retorno) Y GESTION
+        notificaciones("Verifique que coincidan los datos", "ERROR NO COINCIDEN EL MES, AÑO DE GESTION Y FECHA INGRESO", 'error');
+        return false;
+      }
+       if(gestion!=$mes_anioV && gestion!=''){  //CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA(ingreso y retorno) Y GESTION
+         notificaciones("Verifique que coincidan los datos", "ERROR NO COINCIDEN EL MES, AÑO DE GESTION Y FECHA RETORNO", 'error');
+         return false;
+       }
     } 
-  */
-  
     //$('.titulo').after(fila);
     //$('.titulo').show();
   control=-1;
@@ -150,11 +137,11 @@ $(document).ready(function() {
   i++;
   $('.vacio').hide();//para oculta la fila de NO EXISTEN DATOS en la tabla
   //console.log('fila'+ fila);
-  
+
   $('#mytable .titulo').after(fila); //before
      limpiarform(); //para limpiar el formulario despues de registrarlo
   });
-
+  
   $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
     var button_id = $(this).attr("id");
       $('#row' + button_id + '').remove(); //borra la fila

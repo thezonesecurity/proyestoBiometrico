@@ -3,9 +3,7 @@
 
 <div class="table-responsive d-flex justify-content-center " style="margin-left: auto" ><!--style="margin-left: 250px"-->
   <div class="col-md "> 
-    @if (session('creado'))
-    @include('servicios.mensaje')
-    @endif
+    @include('dashboard.mensaje')
     <div class="box-body">
         <h3 class="box-title text-center">Lista de Tipos de Turnos</h3>
         <table id="example" class="table table-sm table-bordered table-striped"  width="60%">
@@ -57,32 +55,9 @@
 @stop
 
 @section('styles')
-
 @stop
 
 @section('scripts')
-<script type="text/javascript">
-    //"form-control-sm custom-select text-uppercase select2"
-        $('.select2').select2({
-            placeholder: "Seleccione una opcion",
-            allowClear: true
-        });
-</script>
-<script>
-    $(document).on('click', '.edit', function(e){
-        e.preventDefault();
-		
-		var id=$(this).val(); //console.log('id_user',id);
-        var nombre =$('#nombre'+id).text();
-        var estado =$('#estado'+id).text();     //   console.log('gestion '+gestion);
-        console.log('id_user '+ id+' -> '+ nombre);
-        
-		$('#ActualizarTipoTurno').modal('show');
-        $('#idM').val(id);
-        $('#t_turnoM').val(nombre);
-        $('#estadoM').val(estado);
-    });
-    
-</script>
+<script type="text/javascript" src="{{ asset('scripts/admin/turnos.js') }}"></script>
 @stop
 

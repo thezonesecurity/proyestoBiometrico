@@ -74,7 +74,7 @@
                                      <div class="form-group col">
                                          <label for="turnoo">Turno</label>
                                          <select name="turno" id="turno" class="form-control-sm custom-select mr-sm-2" >
-                                             <option value="" disabled selected>Elegir turno</option>
+                                             <option value="" disabled selected>Selecione una opcion</option>
                                              @foreach($turnos as $id => $turno)   
                                                 <option value="{{$id}}" > {{$turno}} </option>  
                                              @endforeach
@@ -88,37 +88,41 @@
                                  
                                  <div class="form-row font-weight-bold" style="margin-top: -10px;">
                                      <div class="form-group col-md-6">
-                                         <label for="fecha de inicio">Fecha Inicio</label>
+                                         <label for="fecha de inicio">Fecha Igreso</label>
                                          <input type="date" class="form-control" name="fecha_inicio" id="fec_inicio" >
                                      </div>
                                      <div class="form-group col-md-6">
-                                         <label for="fecha de fin">Fecha Fin</label>
+                                         <label for="fecha de fin">Fecha Retorno</label>
                                          <input type="date" class="form-control "  name="fecha_fin" id="fec_fin" disabled>
                                      </div>
                                  </div>
                                  <div class="form-row font-weight-bold" style="margin-top: -10px;">
                                      <div class="form-group col-md-6">
-                                         <label for="hora de inicio">Hora Inicio</label>
+                                         <label for="hora de inicio">Hora Entrada</label>
                                          <input type="time" class="form-control " name="hora_inicio" id="hrs_inicio">
                                      </div>
                                      <div class="form-group col-md-6">
-                                         <label for="hora de fin">Hora Fin</label>
+                                         <label for="hora de fin">Hora Salida</label>
                                          <input type="time" class="form-control" name="hora_fin" id="hrs_fin" >
                                      </div>
                                  </div>
  
-                                 <div class="form-group row font-weight-bold" style="margin-top: -8px;">
-                                    <div class="row-md-2"><label class="col">Observaciones</p> </div>
-                                    <div class="row-md-5 ml-5">
-                                        <label class="col" >Cambio turno</label>
-                                        <input class="form-check-input" type="checkbox" name="cambioT" id="cambio" style="margin-left: -1px;">
+                                 <div class="form-group font-weight-bold" style="margin-top: -10px;">
+                                    <div class="row">
+                                        <div class="row-md-3"><label class="col">Observaciones</p> </div>
+                                        <div class="row-md-5 ml-5">
+                                                <label class="col" >Cambio turno</label>
+                                                <input class="form-check-input" type="checkbox" name="cambioT" id="cambio" style="margin-left: -10px;">
+                                        </div>
                                     </div>
-                                    <div class="col" style="margin-top: -15px;">
-                                        <textarea name="comentario" class="form-control col" placeholder="Este campo es opcional" id="obs" ></textarea>
+                                    <div class="row-md-auto" style="margin-top: -15px;">
+                                        <div class="col" >
+                                            <textarea name="comentario" class="form-control " placeholder="Este campo es opcional" id="obs" ></textarea>
+                                        </div>
                                     </div>
                                  </div>
  
-                                 <div class="row justify-content-center align-content-center" style="margin-top: -15px;">
+                                 <div class="row justify-content-center align-content-center" style="margin-top: -1px;">
                                      <button id="adicionar" class="btn btn-success btn-sm adicionarForm" type="button"> Agregar</button>
                                      <button id="limpiar" class="btn btn-danger btn-sm ml-4 limpiarForm" type="button" > Cancelar</button>                                  
                                  </div>
@@ -146,11 +150,35 @@
                                     <th style="" width="140px">Observacion</th>
                                     <th style="" width="80px">Accion</th>
                                  </tr>
+                                 {{--@include('dashboard.mensaje')--}}
                                  
-                                 <tbody id="mostrarLista" style="display: none";> <?php  $i=0; //F6F1E9 E4DCCF F0EEED?>
+
+                                 @if(session("mensaje") && session("tipo"))
+                                    {{session("mensaje")}}
+                                @endif
+                                {{-- @if(session('success'))
+                                 <script>
+                                    $(document).ready(function() {
+                            
+                                    toastr.{{ Session::get('flash_notification.level') }}
+                                    ('{{ Session::get('flash_notification.message') }}');
+                            
+                                    });
+                                </script>
+                             @endif
+                                  {{--<a href="javascript: toastr.success('{{session('success')}}') ;"> Púlseme </a>--}}
+                                
+                                
+                                
+
+
+
+
+                                 <tbody id="mostrarLista" style="display: none"> <?php  $i=0; //F6F1E9 E4DCCF F0EEED?>
+                                    
                                     @foreach ($per_rolturnos as $rolturno)
                                         @if($rolturno->estado == 'Habilitado')             
-                                            <tr class="bg-infos" style="background-color: #F6F1E9">
+                                            <tr class="bg-infos eliminar" style="background-color: #F6F1E9">
                                                 <td>{{++$i}}</td>
                                                 <td><span id="persona{{$rolturno->id}}" >{{$rolturno->rolturno_per->nombres}}</span></td>
                                                 <td id="servi"><span id="servicio{{$rolturno->id}}" >{{$rolturno->per_rolturno->servicios->nombre}}</span></td>
@@ -169,12 +197,12 @@
                                                 <td><span id="obs{{$rolturno->id}}" >{{$rolturno->obs}}</span></td>
                                                 <td>
                                                     <button type="button" class="btn btn-success btn-sm editbtn" value="{{$rolturno->id}}" data-toggle="modal" data-target="#editModal"><i class="bi bi-pencil-square" style="font-size: 14px;"></i></button>
-                                                    <a type="button" class="btn btn-danger btn-sm debaja" href="{{route('rolturno.eliminado', $rolturno->id)}}"><i class="bi bi-trash" style="font-size: 14px;"></i> </a>
+                                                    {{--<a data-toggle="modal" href="#eliminarModal{{$rolturno->id}}" class=" btn btn-danger btn-sm"  type="buton"><i class="bi bi-trash" style="font-size: 14px;"></i></a>--}}
+                                                    <button type="button" class="btn btn-danger btn-sm deletebtn" value="{{$rolturno->id}}" data-toggle="modal" data-target="#eliminarModal"><i class="bi bi-trash" style="font-size: 14px;"></i></button>
+                                                    {{---<a type="button" class="btn btn-danger btn-sm debaja" href="{{route('rolturno.eliminado', $rolturno->id)}}"><i class="bi bi-trash" style="font-size: 14px;"></i> </a>--}}
                                                 </td>
                                             </tr>
-                                            
                                         @endif
-                                         
                                     @endforeach
                                 </tbody>
                          </table> 
@@ -192,6 +220,7 @@
  
      {!!Form::Close()!!}
      @include('rolturnos.ModalEditarRolturno')
+     @include('rolturnos.ModalEliminarRolturno')
 @stop
 
 @section('titulo')
@@ -228,6 +257,18 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+       // var  da= document.getElementById("mensaje").value; //$('#mesaje').text()
+    ///  console.log('-> '+ da);
+       function myfuncion(msm){
+        alert(msm);
+            //notificaciones(msm, 'Rolturnos', 'success');
+        };
+        /*PROCESO PARA K DESAPARESCA EL ALERT DE SESSION
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(400, function(){
+                $(this).remove(); 
+            });
+        }, 5000);*/
         
         //´PROCESO PARA MOSTRAR Y OCULTAR LA LISTA DE ROL TURNOS
         $('#mostrarLista').show();
@@ -247,7 +288,7 @@
             url: "{{ route('servicio.personas') }}",
             data: { servicio: $('#servi').text()}, //$(this).val() 
             success: function(data){
-                personas.html('<option value="" selected disabled > Selecione una opcion </option>');
+                personas.html('<option value="" selected disabled >Selecione una opcion</option>');
                 $.each(data, function(id, value) {
                     personas.append('<option value="' + id + '">' + value + '</option>');
                 });
@@ -262,7 +303,7 @@
                 data: { servicio_id: $('#servi').text()}, //$(this).val() 
                 success: function(data){
                    //alert(data);
-                    area_per.html('<option value="" selected disabled > Selecione una opcion </option>');
+                    area_per.html('<option value="" selected disabled >Selecione una opcion</option>');
                     $.each(data, function(id, value) {
                         // echo(value);
                         area_per.append('<option value="' + id + '">' + value + '</option>');

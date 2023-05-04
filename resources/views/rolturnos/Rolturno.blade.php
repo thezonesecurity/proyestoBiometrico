@@ -12,7 +12,7 @@
                             <center class="font-weight-bold">Nuevo Registro de Rol Turnos</center>
                             <tr>
                                 <div class="form-group" style="margin-top: -5px;">
-                                    {!! Form::label('servicioPer', 'Servicio de la persona', ['class' => 'font-weight-bold text-sm-left' ]) !!}
+                                    {!! Form::label('servicioPer', 'Servicio', ['class' => 'font-weight-bold text-sm-left' ]) !!}
                                     <select class="form-control-sm custom-select text-uppercase select2 ser" name="servicio" id='servicio' required="true">
                                         <option value="" selected disabled>Seleccione un servicio</option> 
                                         @foreach($servicios as $id => $item)
@@ -32,7 +32,7 @@
                                 <div class="form-group " style="margin-top: -10px;">
                                     <label for="personall" class="font-weight-bold">Personal</label>
                                     <select class="form-control-sm custom-select text-uppercase select2" name="personal" id="per" >
-                                        <option value="Elegir personal" disabled selected>Elegir una persona</option>
+                                        <option value="Elegir personal" disabled selected>Selecione una opcion</option>
                                         @foreach($personas as $id => $persona)   
                                                 <option value="{{$id}}" > {{$persona}} </option>  
                                         @endforeach
@@ -66,7 +66,7 @@
                                     <div class="form-group col">
                                         <label for="turnoo">Turno</label>
                                         <select name="turno" id="turno" class="form-control-sm custom-select mr-sm-2">
-                                            <option value="" disabled selected>Elegir tipo de turno</option>
+                                            <option value="" disabled selected>Selecione una opcion</option>
                                             @foreach($turnos as $id => $turno)   
                                                 <option value="{{$id}}" > {{$turno}} </option>  
                                              @endforeach
@@ -80,21 +80,21 @@
                                 
                                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
                                     <div class="form-group col-md-6">
-                                        <label for="fecha de inicio">Fecha Inicio</label>
+                                        <label for="fecha de inicio">Fecha Ingreso</label>
                                         <input type="date" class="form-control" name="fecha_inicio" id="fec_inicio" >
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="fecha de fin">Fecha Fin</label>
+                                        <label for="fecha de fin">Fecha Retorno</label>
                                         <input type="date" class="form-control "  name="fecha_fin" id="fec_fin" disabled>
                                     </div>
                                 </div>
                                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
                                     <div class="form-group col-md-6">
-                                        <label for="hora de inicio">Hora Inicio</label>
+                                        <label for="hora de inicio">Hora Entrada</label>
                                         <input type="time" class="form-control " name="hora_inicio" id="hrs_inicio">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="hora de fin">Hora Fin</label>
+                                        <label for="hora de fin">Hora Salida</label>
                                         <input type="time" class="form-control " name="hora_fin" id="hrs_fin" >
                                     </div>
                                 </div>
@@ -217,7 +217,7 @@
             data: { servicio_id: $(this).val() },
             success: function(data){
                // alert(data)
-                area_per.html('<option value="" selected disabled > Selecione una opcion </option>');
+                area_per.html('<option value="" selected disabled >Selecione una opcion</option>');
                 $.each(data, function(id, value, estado) {
                     area_per.append('<option value="' + id + '">' + value + '</option>');
                 });

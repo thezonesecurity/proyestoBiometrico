@@ -16,9 +16,25 @@ class PersonalController extends Controller
         //dd($items);
         return view('personal.personal')->with(compact('items', 'servicios'));
     }
+    public function store(Request $request)
+    {
+       // dd($request);
+        $newpersona = new Persona;
+        $newpersona->nombres = $request->nombre;
+        $newpersona->ci = $request->ci;
+        $newpersona->item_id = $request->item;
+        $newpersona->estado_per = 'Habilitado';
+        $newpersona->idper_db = $request->id_user;
+        $newpersona->id_servicio = $request->servicio;
+        $newpersona->user_id = auth()->user()->id; 
+       dd($newpersona);
+        $newpersona->save();
+        return redirect(route('listar.personal'))->with('success', 'El personal se registro correctamente !!'); 
+    }
 
     public function update(Request $request)
     {
+        dd($request);
         $persona=Persona::where('id_servicio',$request->servicio)->where('nombres', $request->nombre)->first(); 
        // dd($persona);
         if(isset($persona)){
@@ -30,9 +46,9 @@ class PersonalController extends Controller
             $persona->idper_db = $request->id_user;
             $persona->id_servicio = $request->servicio;
             $persona->user_id = auth()->user()->id; 
-            //dd($persona);
-            $persona->save();
-            return redirect(route('listar.personal'));
+            dd($persona);
+            //$persona->save();
+            return redirect(route('listar.personal'))->with('success', 'El personal se actualizo correctamente !!'); 
         }
         else {
             //echo 'NO existe en DB' SE HACE UN NUEVO REGISTRO;
@@ -44,9 +60,9 @@ class PersonalController extends Controller
             $newpersona->idper_db = $request->id_user;
             $newpersona->id_servicio = $request->servicio;
             $newpersona->user_id = auth()->user()->id; 
-          // dd($newpersona);
-            $newpersona->save();
-            return redirect(route('listar.personal'));
+           dd($newpersona);
+            //$newpersona->save();
+            return redirect(route('listar.personal'))->with('success', 'El personal se registro correctamente !!'); 
         }
 
     }
@@ -55,24 +71,18 @@ class PersonalController extends Controller
     {
          //dd($id);
          $iper_db = $id;
-         //dd($id_per);
          $persona = Persona::findOrFail($iper_db);
-         //dd($persona);
          $persona->estado_per = 'Inhabilitado';
-        // dd($persona);
          $persona->save();
-         return redirect(route('listar.personal'));
+         return redirect(route('listar.personal'))->with('warning', 'El personal se deshabilito correctamente !!'); 
     }
     public function habilitar($id)
     {
         //dd($id);
         $iper_db = $id;
-        //dd($id_per);
         $persona = Persona::findOrFail($iper_db);
-        //dd($persona);
         $persona->estado_per = 'Habilitado';
-       // dd($persona);
         $persona->save();
-        return redirect(route('listar.personal'));
+        return redirect(route('listar.personal'))->with('success', 'El personal se habilito correctamente !!'); 
     }
 }

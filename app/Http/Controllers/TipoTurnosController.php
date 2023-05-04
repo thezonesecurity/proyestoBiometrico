@@ -17,42 +17,41 @@ class TipoTurnosController extends Controller
     {
        // dd($request);
         $entrada = new TipoTurno;
-        $nombre= ucwords($request->t_contrato);
+        $nombre= ucwords($request->t_turno);
         $entrada->nombre = $nombre;
         $entrada->estado = 'Habilitado';
         $entrada->user_id = auth()->user()->id;
         //dd($entrada);
         $entrada->save();
-        return redirect(route('listar.tipos.turnos'))->with('creado', 'El tipo de turno se creo satisfactoriamente ...');
+        return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo de turno se registro correctamente !!');
     }
 
     public function update(Request $request)
     {
-       // dd($request);
+        //dd($request);
         $id = $request->id;
         $entrada = TipoTurno::find($id);
         $nombre = ucwords($request->t_turno);
         $entrada->nombre =  $nombre;
-        $entrada->estado = 'Habilitado';
         $entrada->user_id = auth()->user()->id;
         $entrada->save();
        // dd($entrada);
-       return redirect(route('listar.tipos.turnos'));
+       return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se actualizo correctamente !!'); 
     }
 
     public function deshabilitar($id)
     {
          //dd($id);
-         $t_contrato = TipoTurno::find($id);
-         $t_contrato->estado = 'Inhabilitado';
-         $t_contrato->save();
-         return redirect(route('listar.tipos.turnos'));
+         $t_turno = TipoTurno::find($id);
+         $t_turno->estado = 'Inhabilitado';
+         $t_turno->save();
+         return redirect(route('listar.tipos.turnos'))->with('warning', 'El tipo turno se deshabilito correctamente !!'); 
     }
     public function habilitar($id)
     {
-         $t_contrato = TipoTurno::find($id);
-         $t_contrato->estado = 'Habilitado';
-         $t_contrato->save();
-         return redirect(route('listar.tipos.turnos'));
+         $t_turno = TipoTurno::find($id);
+         $t_turno->estado = 'Habilitado';
+         $t_turno->save();
+         return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se habilito correctamente !!'); 
     }
 }

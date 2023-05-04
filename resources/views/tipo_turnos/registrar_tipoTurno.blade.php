@@ -12,12 +12,12 @@
             {!! Form::open(['route' => 'guardar.tipo.turno', 'method' => 'post', 'autocomplete'=>"off"]) !!}
               <div class="form-group">
                 <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
-                <input type="text" class="form-control" name="t_contrato" id="t_contrato">
+                <input type="text" class="form-control" name="t_turno" id="t_turno">
               </div>
               <div class="form-group">
                     <div class="modal-footer"> 
-                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary' ] ) !!} 
-                        {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary registrar' ] ) !!} 
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
                     </div>
                 </div>
               {!! Form::close() !!}

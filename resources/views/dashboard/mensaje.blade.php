@@ -5,7 +5,9 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
     <div class="alert-text">
         <h4><i class="bi bi-patch-check"></i> Mensaje del Sistema</h4>
-        <span>{{session('success')}}</span>
+        <ul><li>
+            <span>{{session('success')}}</span>
+        </li></ul>
     </div>
 </div>
 @endif
@@ -15,7 +17,9 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
     <div class="alert-text">
         <h4><i class="bi bi-patch-exclamation"></i> Mensaje del Sistema</h4>
-        <span>{{session('error')}}</span>
+        <ul><li>
+            <span>{{session('error')}}</span>
+        </li></ul>
     </div>
 </div>
 @endif
@@ -25,7 +29,9 @@
    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
    <div class="alert-text">
        <h4><i class="bi bi-patch-exclamation"></i> Mensaje del Sistema</h4>
-       <span>{{session('warning')}}</span>
+       <ul><li>
+        <span>{{session('warning')}}</span>
+       </li></ul>
    </div>
 </div>
 @endif
@@ -35,18 +41,11 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
         <div class="alert-text">
             <h5><i class="bi bi-patch-exclamation" style="font-size: 2rem; margin-right: 10px;"></i> Mensaje del Sistema</h5>
-            @foreach($errors->all() as $error)
-            <i class="bi bi-arrow-right-short"></i><span>{{ $error }}</span>
-			@endforeach
+            <ul>
+                @foreach($errors->all() as $error)
+                <li><span>{{ $error }}</span></li>
+                @endforeach
+            </ul>
         </div>
     </div>
-
-
-		{{--<div class="errors">
-			<ul>
-			@foreach($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-			</ul>
-		</div>--}}
 @endif

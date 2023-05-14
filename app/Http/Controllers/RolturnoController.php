@@ -12,6 +12,8 @@ use App\Models\rolturno\Rolturno;
 use App\Models\rolturno\PersonaRolturno;
 use App\Models\tipo_turnos\TipoTurno;
 use PDF;
+use DB;
+use Carbon\Carbon;
 
 //return back()->with('status', 'el mensaje es esto');
 
@@ -169,31 +171,79 @@ class RolturnoController extends Controller
         $rolturnos = Rolturno::orderBy('id')->get();
         return view('rolturnos.ListarRolturnos')->with(compact('rolturnos'));
     }
-    
-    public function print($id)//para pdf
+      
+    public function print($id)
     {
-         $per_rolturnos=PersonaRolturno::where('rolturno_id',$id)->get();
-      //  return view('rolturnos.ImprimirRolturnos')->with(compact('per_rolturnos'));
-       $pdf = PDF::loadView('rolturnos.ImprimirRolturnos', compact('per_rolturnos'))->setPaper('legal', 'landscape');
+        $data = PersonaRolturno::orderBy('fecha_inicio')->where('rolturno_id',$id)->get();
+        $extras = [ 'servicio' => $data[0]->per_rolturno->servicios->nombre, 'gestion' => $data[0]->per_rolturno->gestion ];
+        $personas = [];
+        $vacaciones = [];
+
+        // Agrupar por área y fecha de inicio
+        foreach ($data as $row) {
+            $area = $row->area_id;
+            $fecha = $row->fecha_inicio;
+
+            if (!isset($personas[$area][$fecha])) {
+                $personas[$area][$fecha] = [];
+            }
+            // Verificar si es una persona en vacaciones
+            if ($row->fecha_inicio !== null && $row->fecha_fin != $row->fecha_inicio && $row->fecha_fin !== null) {
+                $vacaciones[] = [
+                    'fecha_inicio' => $row->fecha_inicio,
+                    'fecha_fin' => $row->fecha_fin,
+                    'nombre_persona' => $row->rolturno_per->nombres,
+                    'ci' => $row->rolturno_per->ci,
+                    'turno' => $row->tipoTurno->nombre,
+                    'tipo_dia' => $row->tipo_dia,
+                    'hora_inicio' => $row->hora_inicio,
+                    'hora_fin' => $row->hora_fin,
+                    'observaciones' => $row->obs,
+                ];
+            } else {
+                // Agrupar personas por fecha y área
+                $personas[$area][$fecha][] = [
+                    'fecha_fin' => $row->fecha_fin,
+                    'nombre_persona' => $row->rolturno_per->nombres,
+                    'ci' => $row->rolturno_per->ci,
+                    'turno' => $row->tipoTurno->nombre,
+                    'tipo_dia' => $row->tipo_dia,
+                    'hora_inicio' => $row->hora_inicio,
+                    'hora_fin' => $row->hora_fin,
+                    'observaciones' => $row->obs,
+                ];
+            }
+        }
+        //return view('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'));
+         $pdf = PDF::loadView('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'))->setPaper('legal', 'landscape');
        return $pdf->stream('prueba.pdf');
     }
-    
+
     public function tabla()
     {
         // para imprimir pdf formato de rol de turnos 
-        $per_rolturnos=PersonaRolturno::orderBy('id')->get();
-        return view('rolturnos.tablas')->with(compact('per_rolturnos'));       
+       // $per_rolturnos=PersonaRolturno::orderBy('id')->get();
+        //return view('rolturnos.tablas')->with(compact('per_rolturnos')); 
+        $rolTurnos=PersonaRolturno::orderBy('id')->get();
+        $mesActual = Carbon::now()->format('m-Y'); //Obtiene el mes y año actual
+        $mesDias = Carbon::now()->daysInMonth; //Obtiene la cantidad de días del mes actual
+    
+        //Crea un arreglo con los días del mes actual
+        $diasMes = [];
+        for ($i = 1; $i <= $mesDias; $i++) {
+            $diasMes[] = $i;
+        }
+    
+        //Crea un arreglo con las fechas del mes actual
+        $fechasMes = [];
+        for ($i = 1; $i <= $mesDias; $i++) {
+            $fecha = Carbon::createFromDate(Carbon::now()->year, Carbon::now()->month, $i);
+            $fechasMes[] = $fecha->format('Y-m-d');
+        }
+      
+        return view('rolturnos.tablas', compact('rolTurnos', 'mesActual', 'diasMes', 'fechasMes'));      
     }
     
-    public function edit($id)//--
-    {
-        //
-        //$servicios = Servicio::all();
-       // $personas = Persona::all(); 
-       // $per_rolturnos=PersonaRolturno::where('rolturno_id',$id)->get();
-       // return view('rolturnos.editarRolturnos')->with(compact('per_rolturnos'));
-
-    }
     public function gettest($id)
     {
        // $per = Persona::where('id_servicio', 4)->pluck('nombres', 'id')->dd();
@@ -256,9 +306,8 @@ class RolturnoController extends Controller
             $id_rol = $per_rolturno->rolturno_id;
             $count = PersonaRolturno::where('rolturno_id', $id_rol)->count();
             if($count > '1'){
-                //$per_rolturno->delete();
-                //return back()->with('success', 'El rolturno se elimino correctamente');
-                return back()->with('mensaje', 'El rolturno se elimino correctamente')->with('tipo', 'success');
+                $per_rolturno->delete();
+                return back()->with('success', 'El rolturno se elimino correctamente');
             }
             else{ return back()->with('error', 'Error en la eliminacion , No se puede dejar sin elementos esta lista'); }
         }else abort(404);

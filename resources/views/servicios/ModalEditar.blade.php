@@ -9,7 +9,11 @@
           </button>
         </div>
         <div class="modal-body">
-            {!! Form::open(['route' => 'editarsave.servicio', 'method' => 'post', 'autocomplete'=>"off",  'id'=> 'form-editar']) !!}
+            {{--{!! Form::open(['route' => 'editarsave.servicio', 'method' => 'post', 'autocomplete'=>"off",  'id'=> 'form-editarServicio']) !!}--}}
+   
+            <form action="{{route('editarsave.servicio')}}" method="post" id="form-editarServicio" autocomplete="off">
+            
+            @csrf
                 <input type="hidden" name="id" id="idM">
                 <div class="form-group">
                     <label for="recipient-servicio" class="font-weight-bold">Servicio</label>
@@ -28,15 +32,16 @@
                         </select>
                 </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
-                    {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal" ] ) !!}
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary' ] ) !!} 
+                    {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal", 'id'=>"cancelarBtnM"] ) !!}
                 </div>
-               
-            {!! Form::close() !!}   
+            </form>
+      
+            {{--{!! Form::close() !!}  --}}
+              
       </div>
     </div>
   </div>   
-
 
 <!--
 <div class="container">

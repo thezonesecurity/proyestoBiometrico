@@ -150,32 +150,9 @@
                                     <th style="" width="140px">Observacion</th>
                                     <th style="" width="80px">Accion</th>
                                  </tr>
-                                 {{--@include('dashboard.mensaje')--}}
-                                 
-
-                                 @if(session("mensaje") && session("tipo"))
-                                    {{session("mensaje")}}
-                                @endif
-                                {{-- @if(session('success'))
-                                 <script>
-                                    $(document).ready(function() {
-                            
-                                    toastr.{{ Session::get('flash_notification.level') }}
-                                    ('{{ Session::get('flash_notification.message') }}');
-                            
-                                    });
-                                </script>
-                             @endif
-                                  {{--<a href="javascript: toastr.success('{{session('success')}}') ;"> Púlseme </a>--}}
-                                
-                                
-                                
-
-
-
+                                 @include('dashboard.mensaje')
 
                                  <tbody id="mostrarLista" style="display: none"> <?php  $i=0; //F6F1E9 E4DCCF F0EEED?>
-                                    
                                     @foreach ($per_rolturnos as $rolturno)
                                         @if($rolturno->estado == 'Habilitado')             
                                             <tr class="bg-infos eliminar" style="background-color: #F6F1E9">
@@ -228,7 +205,6 @@
 @stop
 
 @section('styles')
-
 {{--<link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">--}}
 <style>
     #este {
@@ -257,18 +233,6 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-       // var  da= document.getElementById("mensaje").value; //$('#mesaje').text()
-    ///  console.log('-> '+ da);
-       function myfuncion(msm){
-        alert(msm);
-            //notificaciones(msm, 'Rolturnos', 'success');
-        };
-        /*PROCESO PARA K DESAPARESCA EL ALERT DE SESSION
-        window.setTimeout(function() {
-            $(".alert").fadeTo(500, 0).slideUp(400, function(){
-                $(this).remove(); 
-            });
-        }, 5000);*/
         
         //´PROCESO PARA MOSTRAR Y OCULTAR LA LISTA DE ROL TURNOS
         $('#mostrarLista').show();
@@ -365,8 +329,7 @@
             document.getElementById("obs").value = "";
             document.getElementById("area").value = "";
         });
-        //PROCESO PARA ELIMINAR UN REGISTRO DE ROL DE TURNO
-       
+        
     });
 
    /* 

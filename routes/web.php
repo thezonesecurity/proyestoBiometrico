@@ -11,15 +11,15 @@ Route::get('logout', 'LoginController@logout')->name('logout');
 Route::group(['middleware' => 'auth'], function(){
   Route::get('/', 'HomeController@index')->name('inicio');
   //RUTAS PARA SERVICIOS
-  Route::get('/Servicios', 'ServicioController@index')->name('listar.servicio');
+  Route::get('/listar/servicios/', 'ServicioController@index')->name('listar.servicio');
   Route::get('/CrearServicio', 'ServicioController@create')->name('crear.servicio');
-  Route::post('/GuardarServicio', 'ServicioController@store')->name('guardar.servicio');
-  
-  //Route::get('/EditarServicio/{id}', 'ServicioController@edit')->name('editar.servicio');
-  Route::post('/ActualizarServicio/', 'ServicioController@update')->name('editarsave.servicio');
-  Route::get('/Servicio/Inahabilitado/{id}', 'ServicioController@deshabilitar')->name('inhabilitar.servicio');
-  Route::get('/Servicio/Habilitado/{id}', 'ServicioController@habilitar')->name('habilitar.servicio');
-  Route::get('/Servicio/Eliminado/{id}', 'ServicioController@destroy')->name('eliminado.servicio');
+  Route::post('/registrar/servicio/', 'ServicioController@store')->name('registrar.servicio');
+  Route::post('/servicio/actualizar', 'ServicioController@update')->name('editarsave.servicio');
+  Route::get('/servicio/Inahabilitado/{id}', 'ServicioController@deshabilitar')->name('inhabilitar.servicio');
+  Route::get('/servicio/Habilitado/{id}', 'ServicioController@habilitar')->name('habilitar.servicio');
+  Route::get('/servicio/Eliminado/{id}', 'ServicioController@destroy')->name('eliminado.servicio');
+  //ruta para practicar
+  Route::get('/tabla', 'ServicioController@mostrartabla')->name('tabla');
 
   //RUTAS PARA AREAS
   Route::get('/listar/areas/servicio', 'AreaServicioController@index')->name('listar.area.servicio');
@@ -29,13 +29,14 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/area/servicio/habilitado/{id}', 'AreaServicioController@habilitar')->name('habilitar.area.servicio');
 
 });
+
 Route::group(['middleware' => 'auth'], function(){
     //RUTAS PARA EL PERSONAL
-    Route::get('/Personal', 'PersonalController@index')->name('listar.personal');
-    Route::post('/persona/registrar/', 'PersonalController@store')->name('registrar.persona.nueva');
-    Route::post('actualizar/personal/', 'PersonalController@update')->name('editar.personal');
-    Route::get('/Persona/Inahabilitado/{id}', 'PersonalController@deshabilitar')->name('inhabilitar.persona');
-    Route::get('/Persona/Habilitado/{id}', 'PersonalController@habilitar')->name('habilitar.persona');
+    Route::get('/listar/personal', 'PersonalController@index')->name('listar.personal');
+    Route::post('/registrar/persona/', 'PersonalController@store')->name('registrar.persona.nueva');
+    Route::post('/actualizar/personal/', 'PersonalController@update')->name('editar.personal');
+    Route::get('/persona/inahabilitado/{id}', 'PersonalController@deshabilitar')->name('inhabilitar.persona');
+    Route::get('/persona/habilitado/{id}', 'PersonalController@habilitar')->name('habilitar.persona');
 
 });
 
@@ -58,8 +59,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 Route::group(['middleware' => 'auth'], function(){
   //RUTAS PARA ROLTURNOS DEL PERSONAL
-  Route::get('/rol/turno', 'RolturnoController@index')->name('listar.registrar.rolturno');
-  Route::post('/registrar/rolturno/', 'RolturnoController@store')->name('guardar.rolturno');
+  Route::get('/registrar/rol/turno', 'RolturnoController@index')->name('listar.registrar.rolturno');
+  Route::post('/rolturno/registrar/', 'RolturnoController@store')->name('guardar.rolturno');
 
   Route::post('/eliminar/rolturno/', 'RolturnoController@destroy')->name('rolturno.eliminado');
 
@@ -69,7 +70,7 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/persona/servicio', 'RolturnoController@getPersons')->name('servicio.personas');
   Route::post('/enviar/rolturno', 'RolturnoController@send')->name('enviar.rolturno');
 
-  Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');
+  Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');//--
 
   Route::get('/area/servicio/test', 'RolturnoController@getAreasTest')->name('areas.servicio.test');
 
@@ -81,8 +82,6 @@ Route::group(['middleware' => 'auth'], function(){
 
   Route::post('/editar/rolturno/', 'RolturnoController@actualizar')->name('editarsave.rolturno');
 
-  //ruta para practicar
-  Route::get('/tabla', 'ServicioController@mostrartabla')->name('tabla');
 });
 
 Route::group(['middleware' => 'auth'], function(){

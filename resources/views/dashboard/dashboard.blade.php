@@ -11,6 +11,7 @@
     <link href="{{ asset("bootstrap4/style/dashboard.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("bootstrap-icons/bootstrap-icons.css")}}" rel="stylesheet" type="text/css" />
     {{--<link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">--}}
+    <link href="{{ asset("datatables/jquery.dataTables.min.css")}}" rel="stylesheet" type="text/css" />
 
     @section('styles') @show
 </head>

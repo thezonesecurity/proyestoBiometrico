@@ -2,8 +2,8 @@
 @section('contenido')
 <br>
 <div class="col-md-10 box-body table-responsive" style="margin-left: 50px">
-<p>titulo</p>
-<table style="width:100%" id="example2" class="table table-bordered table-striped"  width="60%">
+<p>------------------titulo--------------</p>
+<table style="width:100%" id="listaExample" class="table table-bordered table-striped"  width="100%">
     <thead>
         <tr>
             <th>Name</th>
@@ -145,11 +145,17 @@
 @stop
 
 @section('styles')
-{{ Html::style( asset('DataTables/datatables.min.css') )}}
-{{ Html::style( asset('DataTables/DataTables-1.13.2/css/dataTables.bootstrap4.min.css') )}}
+{{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
 @stop
 
 @section('scripts')
-{{ Html::script( asset('DataTables/dataTables.min.css') )}}
-{{ Html::script( asset('bootstrap3/jquery/datatableservicio.js') )}}
+<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('#listaExample').DataTable({
+            "lengthMenu": [[5, 15 , 30, 60, -1], [5, 15 , 30, 60, "All"]]
+        });
+    });
+</script>
 @stop

@@ -9,15 +9,15 @@
           </button>
         </div>
         <div class="modal-body">
-            {!! Form::open(['route' => 'guardar.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+            {!! Form::open(['route' => 'guardar.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off", 'id'=> 'formRegistrarTipoContrato']) !!}
               <div class="form-group">
                 <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
-                <input type="text" class="form-control" name="t_contrato" id="t_contrato">
+                <input type="text" class="form-control" name="tipo_contrato" id="t_contrato">
               </div>
               <div class="form-group">
                     <div class="modal-footer"> 
                         {!! Form::submit('Guardar', ['class' => 'btn btn-primary registrar' ] ) !!} 
-                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal", 'id'=>"limpiarmodal" ] ) !!}
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary limpiar', 'data-dismiss'=>"modal", 'id'=>"cancelarBtn" ] ) !!}
                     </div>
                 </div>
               {!! Form::close() !!}

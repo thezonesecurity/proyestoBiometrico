@@ -9,7 +9,7 @@ class Rolturno extends Model
     //
     protected $table = 'repbio.rolturnos';
 
-    protected $fillable = ['id', 'user_id', 'servicio_id', 'estado'];
+    protected $fillable = ['id', 'gestion', 'user_id', 'servicio_id', 'estado'];
 
     protected $dates = ['created_at','updated_at'];
 

@@ -9,15 +9,15 @@
           </button>
         </div>
         <div class="modal-body">
-            {!! Form::open(['route' => 'editarsave.tipo.turno', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+            {!! Form::open(['route' => 'editarsave.tipo.turno', 'method' => 'post', 'autocomplete'=>"off", 'id'=> 'formEditarTipoTurno']) !!}
                 <input type="hidden" name="id" id="idM">
                 <div class="form-group">
                     <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
-                    <input type="text" class="form-control" name="t_turno" id="t_turnoM">
+                    <input type="text" class="form-control" name="tipo_turnoM" id="tipo_turno_M">
                   </div>
                 <div class="modal-footer">
                     {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
-                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}
+                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary limpiarM', 'data-dismiss'=>"modal", 'id' => 'cancelarBtn'] ) !!}
                 </div>
                
             {!! Form::close() !!}   

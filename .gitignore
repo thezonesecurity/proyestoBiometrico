@@ -9,6 +9,7 @@
 /public/editable
 /public/dompdf
 /public/alerts
+/public/jquery-validate
 /storage/*.key
 /vendor
 .env

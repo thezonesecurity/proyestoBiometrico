@@ -30,9 +30,10 @@
                     <i class="bi bi-building"></i>
                     <span>Lista de rol de turnos</span>
                 </a>
-                {{--<a href="{{route('listar.cambio_turno')}}" title="Cambio de Turno">
+                {{--{{route('listar.cambio_turno')}}--}
+                    <a href="{{route('tabla')}}" title="Cambio de Turno">
                     <i class="bi bi-people"></i>
-                    <span>cambio de turno</span>
+                    <span>tabla</span>
                 </a>--}}
                 <a href="{{route('habilitar.rolturno')}}" title="Habilitacion de Rolturnos">
                     <i class="bi bi-calendar4-week"></i>

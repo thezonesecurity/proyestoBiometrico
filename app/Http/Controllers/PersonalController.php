@@ -13,28 +13,116 @@ class PersonalController extends Controller
     {
         $items=TipoContrato::orderBy('id')->where('estado', 'Habilitado')->pluck('nombre', 'id');
         $servicios=Servicio::orderBy('id')->where('estado', 'Habilitado')->pluck('nombre', 'id');
-        //dd($items);
         return view('personal.personal')->with(compact('items', 'servicios'));
     }
+   
     public function store(Request $request)
     {
-       // dd($request);
+       //dd($request);
+        $validatedData = $request->validate([
+            'id_per' => 'required',
+            'nombre' => 'required',//readonly
+            'ci' => 'required',//readonly
+            'item' => 'required',
+            'servicio' => 'required',
+        ]);
+       //dd($validatedData);
         $newpersona = new Persona;
-        $newpersona->nombres = $request->nombre;
-        $newpersona->ci = $request->ci;
-        $newpersona->item_id = $request->item;
+        $newpersona->nombres = $validatedData['nombre']; //$request->nombre;
+        $newpersona->ci = $validatedData['ci']; //$request->ci;
+        $newpersona->item_id = $validatedData['item'];
         $newpersona->estado_per = 'Habilitado';
-        $newpersona->idper_db = $request->id_user;
-        $newpersona->id_servicio = $request->servicio;
+        $newpersona->idper_db = $validatedData['id_per'];
+        $newpersona->id_servicio = $validatedData['servicio'];
         $newpersona->user_id = auth()->user()->id; 
-       dd($newpersona);
+        //dd($newpersona);
         $newpersona->save();
         return redirect(route('listar.personal'))->with('success', 'El personal se registro correctamente !!'); 
     }
 
     public function update(Request $request)
     {
-        dd($request);
+        //dd($request);
+        $validatedData = $request->validate([
+            'id_user' => 'required',
+            'nombre' => 'required',//readonly
+            'ci' => 'required',//readonly
+            'itemM' => 'required',
+            'itemMo' => 'required_if:$request->itemMo != "", "" ',
+            'servicioMo' => 'required',
+            'servicioMo' => 'required_if:$request->servicioMo != "", "" ',
+        ]);
+       // dd($validatedData['id_user']);
+        $idM = explode(',', $validatedData['id_user']); // $idM[0]=id , $idM[1]=idper_db
+        //dd($idM[0]);
+        $persona = persona::findOrFail($idM[0]);
+        //$persona->nombres = $validatedData['nombre'];
+       // $persona->ci = $validatedData['ci'];
+       if($validatedData['itemMo'] != null) {
+         $persona->item_id = $validatedData['itemMo'];
+       }
+       if($validatedData['servicioMo'] != null) {
+         $persona->id_servicio = $validatedData['servicioMo'];
+       }
+        $persona->user_id = auth()->user()->id; 
+        $persona->idper_db = $idM[1];
+        //dd($persona);
+        $persona->save();
+        return redirect(route('listar.personal'))->with('success', 'El personal se actualizo correctamente !!'); 
+    }
+
+    public function deshabilitar($id)
+    {
+         //dd($id);
+         $iper_db = $id;
+         $persona = Persona::findOrFail($iper_db);
+         $persona->estado_per = 'Inhabilitado';
+         $persona->save();
+         return redirect(route('listar.personal'))->with('success', 'El personal se deshabilito correctamente !!'); 
+    }
+    public function habilitar($id)
+    {
+        //dd($id);
+        $iper_db = $id;
+        $persona = Persona::findOrFail($iper_db);
+        $persona->estado_per = 'Habilitado';
+        $persona->save();
+        return redirect(route('listar.personal'))->with('success', 'El personal se habilito correctamente !!'); 
+    }
+}
+  /*
+  ---------------------del store-------------
+   dd($request);
+        $newpersona = new Persona;
+        $newpersona->nombres = $request->nombre;
+        $newpersona->ci = $request->ci;
+        $newpersona->item_id = $request->item;
+        $newpersona->estado_per = 'Habilitado';
+        $newpersona->idper_db = $request->id_per;
+        $newpersona->id_servicio = $request->servicio;
+        $newpersona->user_id = auth()->user()->id; 
+       // dd($newpersona);
+        $newpersona->save();
+ ----------------update--------------
+  $data = $request->id_user;
+        $idM = explode(',', $data); // $idM[0]=id , $idM[1]=idper_db
+       // dd($request);
+        $persona = persona::find($idM[0]);
+        //$persona->nombres = $request->nombre;
+       // $persona->ci = $request->ci;
+       if($request->itemMo != null) {
+         $persona->item_id = $request->itemMo;
+       }
+       if($request->servicioMo != null) {
+         $persona->id_servicio = $request->servicioMo;
+       }
+        $persona->user_id = auth()->user()->id; 
+        $persona->idper_db = $idM[1];
+        //dd($persona);
+        $persona->save();
+ */
+
+ /*
         $persona=Persona::where('id_servicio',$request->servicio)->where('nombres', $request->nombre)->first(); 
        // dd($persona);
         if(isset($persona)){
@@ -64,25 +152,4 @@ class PersonalController extends Controller
             //$newpersona->save();
             return redirect(route('listar.personal'))->with('success', 'El personal se registro correctamente !!'); 
         }
-
-    }
-
-    public function deshabilitar($id)
-    {
-         //dd($id);
-         $iper_db = $id;
-         $persona = Persona::findOrFail($iper_db);
-         $persona->estado_per = 'Inhabilitado';
-         $persona->save();
-         return redirect(route('listar.personal'))->with('warning', 'El personal se deshabilito correctamente !!'); 
-    }
-    public function habilitar($id)
-    {
-        //dd($id);
-        $iper_db = $id;
-        $persona = Persona::findOrFail($iper_db);
-        $persona->estado_per = 'Habilitado';
-        $persona->save();
-        return redirect(route('listar.personal'))->with('success', 'El personal se habilito correctamente !!'); 
-    }
-}
+        */

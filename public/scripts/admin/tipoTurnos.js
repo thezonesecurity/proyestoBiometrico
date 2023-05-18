@@ -34,7 +34,7 @@ $(document).ready(function() {
     var id=$(this).val(); //console.log('id_user',id);
     var nombre =$('#nombre'+id).text();
     var estado =$('#estado'+id).text();   
-    console.log('id_user '+ id+' -> '+ nombre);
+    //console.log('id_user '+ id+' -> '+ nombre);
         
     $('#ActualizarTipoTurno').modal('show');
       $('#idM').val(id);
@@ -45,7 +45,7 @@ $(document).ready(function() {
     $("#cancelarBtn").click(function() {//para limpiar los avisos de la validacion del formulario modal editar
       $("#formEditarTipoTurno").validate().resetForm();
     });
-    console.log('id_user ->  '+ id+' -> '+ $('#tipo_turno_M').val());
+   // console.log('id_user ->  '+ id+' -> '+ $('#tipo_turno_M').val());
     $('#formEditarTipoTurno').validate({ //validacion del formulario modal  editar
       rules: {
           tipo_turnoM: {

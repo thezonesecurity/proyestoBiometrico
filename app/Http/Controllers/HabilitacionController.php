@@ -14,7 +14,7 @@ class HabilitacionController extends Controller
 {
     public function index()
     {
-        //}
+        //dd(auth()->user()->servicioUsers[0]->nombre);
         $rolturnos = Rolturno::orderBy('id')->get();
         return view('habilitacionTurnos.listadoTurnos')->with(compact('rolturnos'));
     }
@@ -23,7 +23,7 @@ class HabilitacionController extends Controller
     {
        // dd(auth()->user()->id);
      //dd($request);
-       $rolturno = Rolturno::find($request->id); 
+       $rolturno = Rolturno::findOrFail($request->id); 
        if($request->accion == 'Aceptado'){
             $rolturno->estado = $request->accion; // 'Aceptado';
             $rolturno->obsevacion = $request->obs;
@@ -37,5 +37,18 @@ class HabilitacionController extends Controller
        }
        return back();//view('habilitacionTurnos.listadoTurnos');
     }  
+    public function anualcionRolturno($id)
+    {
+      if(isset($id)){
+            //$id = $request->id;
+            $rolturno = Rolturno::findOrFail($id);
+            $rolturno->estado = 'Pendiente';
+            //$rolturno->user_id = auth()->user()->id;
+            $rolturno->save();
+            return back()->with('success', 'La accion se realizo  correctamente !!');
+        }else {
+          return back()->with('error', 'La accion no se realizo correctamente !!');
+        }
+    }
    
 }

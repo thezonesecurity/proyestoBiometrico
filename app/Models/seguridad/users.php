@@ -20,8 +20,8 @@ class users extends Authenticatable
         return $this->belongsTo(\App\Models\seguridad\PersonaUser::class, 'persona_id');
     }
 
-    public function servicios(){
-        return $this->hasMany(\App\Models\servicios\Servicio::class);
+    public function servicioUsers(){
+        return $this->hasMany(\App\Models\servicios\Servicio::class , 'id_responsable');
     }
   
 }

@@ -75,7 +75,7 @@ $(document).ready(function() {
     
       if( $('#cambio').is(':checked') ) { cambio_turno = 'V';}
 
-      console.log('data -> '+turno_nombre)
+     // console.log('data -> '+turno_nombre)
       
        if (per == 'Selecione una opcion') {
          notificaciones("Seleccione un personal", "ERROR DE FORMULARIO", 'error'); //$('#per').focus();

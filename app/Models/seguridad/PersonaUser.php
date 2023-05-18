@@ -14,6 +14,6 @@ class PersonaUser extends Model
     protected $dates = ['created_at','updated_at'];
 
     public function user_per(){
-        return $this->hasOne(\App\Models\seguridad\users::class);
+        return $this->hasOne(\App\Models\seguridad\users::class, 'persona_id');
     }
 }

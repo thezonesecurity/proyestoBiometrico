@@ -18,6 +18,6 @@ class Area extends Model
     }
 
     public function person_rolturno(){
-        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
+        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class,  'area_id');
     }
 }

@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth'], function(){
   Route::post('/eliminar/rolturno/', 'RolturnoController@destroy')->name('rolturno.eliminado');
 
   Route::get('/imprimir/rolturno/{id}', 'RolturnoController@print')->name('rolturno.imprimir.pdf');
+  Route::get('/imprimir/rolturno/pdf/{id}', 'RolturnoController@printPrueba')->name('imprimir.pdf');
  
   Route::get('/area/servicio', 'RolturnoController@getAreas')->name('areas.servicio');
   Route::get('/persona/servicio', 'RolturnoController@getPersons')->name('servicio.personas');
@@ -86,9 +87,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 Route::group(['middleware' => 'auth'], function(){
   //rutas para habilitacion de turnos
-  Route::get('servicio/gestion', 'RolturnoController@controlGestion')->name('gestion.registrado');
+  Route::get('/servicio/gestion/', 'RolturnoController@controlGestion')->name('gestion.registrado');
   Route::get('/lista/habilitacion/turnos', 'HabilitacionController@index')->name('habilitar.rolturno');//--
-  Route::post('/habilitacion/turno', 'HabilitacionController@habilitacion')->name('habilitar.servicio.rolturno');//--
+  Route::post('/habilitacion/turno/', 'HabilitacionController@habilitacion')->name('habilitar.servicio.rolturno');//--
+  Route::get('/deshacer/accion/rolturno/{id}', 'HabilitacionController@anualcionRolturno')->name('anular.accion.rolturno');//--
 
   //rutas para cambio de turno   /editar/rolturno/test/{id}
   /*Route::get('/listar/cambioturnos/', 'CambioTurnoController@index')->name('listar.cambio_turno');

@@ -9,7 +9,7 @@
             </button>
           </div>
           <div class="modal-body">
-            {!! Form::open(['route' => 'editarsave.rolturno', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+            {!! Form::open(['route' => 'editarsave.rolturno', 'method' => 'post', 'autocomplete'=>"off", 'id'=>'form-editarRolturno']) !!}
                 <input type="hidden" class="form-control " name="id" id='idM'>
                 <div class="form-row font-weight-bold" style="margin-top: -px;">
                     <div class="form-group col-md-6">
@@ -29,32 +29,33 @@
                             <label class="form-check-label font-weight-bold" for="gridCheck">Dia laboral</label>
                         </div><br>
                         <div class="form-check col-auto"> 
-                            <input class="form-check-input"  style="margin-left: -10px;" type="radio" name="tipod" id="descansoM" value="V">
+                            <input class="form-check-input" type="radio" name="tipod" id="descansoM" value="V" style="margin-left: -10px;">
                             <label class="form-check-label font-weight-bold ml-2" for="gridCheck">Vacacion</label>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="font-weight-bold" for="Gestion">Gestion</label>
-                        <input type="text" class="form-control" name="gestion" id='gestion' readonly>
+                        <label class="font-weight-bold" for="Gestion">Mes</label>
+                        <input type="text" class="form-control controlMesM" name="gestion" id='gestion' readonly>
+                        <small id="validacionMesM" class="form-text"></small>
                     </div>
                 </div>
                
-                <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                <div class="form-row" style="margin-top: -10px;">
                     <div class="form-group col-md-6">
                         {!! Form::label('areaPer', 'Area de la personas', ['class' => 'font-weight-bold' ]) !!}
-                        <input type="text" name="area" id='areaM'  class="form-control custom-select" readonly >
-                        {{--@php $areas=\App\Models\areas\Area::where('servicio_id','4');  @endphp
-                         <select class="form-control custom-select" name="area" id='areaM' >
-                           @foreach($areas as $area)
-                            <option value="">{{$areas->nombre}}</option>
+                        <input type="text" name="area" id='areaM'  class="form-control custom-select controlT3" readonly>
+                        {{--<select name="areaMo" id="areaMo" class="form-control custom-select mr-sm-2 controlT4" style="display: none">
+                            <option value="" disabled selected>Selecione una opcion</option>
+                            @foreach($areas as $id => $area)   
+                                <option value="{{$id}}" > {{$area}} </option>  
                             @endforeach
                         </select>--}}
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="turnoo">Turno</label>
+                        <label for="turnoo" class="font-weight-bold">Turno</label>
                         <input type="text" name="turno" id="turnoM"  class="form-control custom-select controlT1">
                         <select name="turnoMo" id="turnoMo" class="form-control custom-select mr-sm-2 controlT2" style="display: none">
-                            <option value="" disabled selected>Selecciones un turno</option>
+                            <option value="" selected>Selecione una opcion</option>
                             @foreach($turnos as $id => $turno)   
                                 <option value="{{$id}}" > {{$turno}} </option>  
                             @endforeach
@@ -62,34 +63,37 @@
                     </div>
                 </div>
                 
-                <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                <div class="form-row" style="margin-top: -10px;">
                     <div class="form-group col-md-6">
-                        <label for="fecha de inicio">Fecha Inicio</label>
-                        <input type="date" class="form-control" name="fecha_inicio" id="f_iniM" required>
+                        <label for="fecha de inicio" class="font-weight-bold">Fecha Inicio</label>
+                        <input type="date" class="form-control controlFechaInicioM fechaDLM" name="fecha_inicio" id="f_iniM" required>
+                        <small id="validacionFechaIngresoM" class="form-text"></small>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="fecha de fin">Fecha Fin</label>
-                        <input type="date" class="form-control "  name="fecha_fin" id="f_finM" disabled required>
+                        <label for="fecha de fin" class="font-weight-bold">Fecha Fin</label>
+                        <input type="date" class="form-control controlFechaVacacionM fechaVM"  name="fecha_fin" id="f_finM" disabled required>
+                        <small id="validacionFechaRetornoM" class="form-text"></small>
                     </div>
                 </div>
-                <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                <div class="form-row" style="margin-top: -10px;">
                     <div class="form-group col-md-6">
-                        <label for="hora de inicio">Hora Inicio</label>
+                        <label for="hora de inicio" class="font-weight-bold">Hora Inicio</label>
                         <input type="time" class="form-control " name="hora_inicio" id="h_iniM">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="hora de fin">Hora Fin</label>
+                        <label for="hora de fin" class="font-weight-bold">Hora Fin</label>
                         <input type="time" class="form-control " name="hora_fin" id="h_finM" >
                     </div>
                 </div>
 
-                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                 <div class="form-row" style="margin-top: -10px;">
                     <div class="form-group col-md-8">
                         <label class="col font-weight-bold">Observaciones</p>
-                            <textarea name="comentario" id="obsM" class="form-control-sm col" placeholder="Este campo es opcional"  style="margin-top: -10px;" ></textarea>
+                        <textarea name="comentario" id="obsM" class="form-control-sm col" placeholder="Este campo es opcional"  style="margin-top: -10px;" ></textarea>
+                        <small id="validacionErrorM" class="form-text"></small>
                     </div>
                     <div class="form-group col-md-4" style="margin-top: 30px;">
-                        <label class="col" >Cambio turno</label>
+                        <label class="col font-weight-bold" >Cambio turno</label>
                         <input class="form-check-input" type="checkbox" name="cambioT" id="cambioT" value="V" style="margin-left: -23px;">
                     </div>
                 </div>
@@ -99,8 +103,8 @@
                 </div>--}}
                         
                 <div class="modal-footer" style="margin-top: -30px;">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-success' ] ) !!} 
-                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal" ] ) !!}
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-success enviar' ] ) !!} 
+                    {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal", 'id'=> 'cancelarBtnM' ] ) !!}
                 </div>
             {!! Form::close() !!}  
           </div>

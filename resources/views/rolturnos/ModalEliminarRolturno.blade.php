@@ -10,11 +10,15 @@
           </div>
           <div class="modal-body">
             {!! Form::open(['route' => 'rolturno.eliminado', 'method' => 'post', 'autocomplete'=>"off"]) !!}
+              <div class="text-center font-weight-bold">
+                <img src="{{asset('bootstrap4/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
+                <h4>Esta seguro de eliminar ?</h4>
+              </div>
                 <input type="hidden" class="form-control " name="id" id='idMe'>
                 <p>Se eliminara el rolturno del personal <input class="font-weight-bold" id="personaMe" disabled  style="border: 0;"> 
                     corespondiente a la fecha de <input class="font-weight-bold mr-15" id="f_iniMe" disabled  style="border: 0;"><br> Esta accion no se puede deshacer!</p>
                 <div class="modal-footer" style="margin-top: -30px;">
-                    {!! Form::submit('Eliminar', ['class' => 'btn btn-success' ] ) !!} 
+                    {!! Form::submit('Eliminar', ['class' => 'btn btn-danger' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal" ] ) !!}
                 </div>
             {!! Form::close() !!}  

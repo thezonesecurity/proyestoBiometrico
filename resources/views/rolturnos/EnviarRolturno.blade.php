@@ -10,8 +10,12 @@
         </div>
         <div class="modal-body">
             {!! Form::open(['route' => 'enviar.rolturno', 'method' => 'post']) !!}
+                <div class="text-center font-weight-bold">
+                  <img src="{{asset('bootstrap4/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
+                  <h4>Esta seguro de enviar ?</h4>
+                </div>
                 {{Form::hidden('id', $rolturno->id)}}
-                 <p>Esta seguro que desea Enviar el rolturno del servicio de <span class="font-weight-bold">{{$rolturno->servicios->nombre}}</span> corespondiente a la gestion de
+                 <p>Se enviar el rolturno del servicio de <span class="font-weight-bold">{{$rolturno->servicios->nombre}}</span> corespondiente a la gestion de
                     <span class="font-weight-bold">{{$rolturno->gestion}}</span>. Una vez enviado no podra realizar ningun registro ni podra editar. Desea Enviar?</p>
                 <div class="modal-footer">
                     {!! Form::submit('Enviar', ['class' => 'btn btn-primary' ] ) !!} 

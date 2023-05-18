@@ -51,7 +51,7 @@ $(document).ready(function() {
     var item=$('#item'+id).text(); 
     var servicio=$('#servicio'+id).text();
     var estadoper=$('#estado'+id).text();
-   console.log('id -> '+ id + ' persona '+ nameper+ ' ci '+ ciper + ' items '+ item+ ' servicio '+ servicio)
+  // console.log('id -> '+ id + ' persona '+ nameper+ ' ci '+ ciper + ' items '+ item+ ' servicio '+ servicio)
     
     $('#editarModal').modal('show'); //SE PASA LOS DATOS AL MODAL EDITAR
     $('#idM').val(id);

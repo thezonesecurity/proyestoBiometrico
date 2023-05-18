@@ -1,4 +1,5 @@
-function limpiarform(){
+
+/*function limpiarform(){
   document.getElementById("fec_inicio").value = "";
       document.getElementById("fec_fin").value = "";
       document.getElementById("hrs_inicio").value = "";
@@ -65,6 +66,7 @@ $(document).ready(function() {
     $mes_anioV = fec_fin.substring(0, 7);
 
     //console.log('area '+area+ ' turno'+ turno)
+    
     if (gestion == '') {
      notificaciones("Seleccione una gestion", "ERROR DE FORMULARIO", 'error'); //('#gestion').focus();
      return false;
@@ -122,6 +124,8 @@ $(document).ready(function() {
          return false;
        }
     } 
+
+    
     //$('.titulo').after(fila);
     //$('.titulo').show();
   control=-1;
@@ -198,6 +202,9 @@ $(document).ready(function() {
     <td>'+tipodia+'<input type="hidden" name="tdia[]" class="form-control" value="'+tipodia+'"></td>
     <td>'+turno+'<input type="hidden" name="turno[]" class="form-control" value="'+turno+'"></td>*/
   // var data = JSON.stringify(fila)
+
+
+
 
   /*
    //document.getElementById("per").value = "";

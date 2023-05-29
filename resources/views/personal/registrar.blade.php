@@ -21,17 +21,22 @@
                 
                 <div class="form-group">
                     {!! Form::label('item_Per', 'Tipo de contrato', ['class' => 'font-weight-bold' ]) !!}
-                    <select class="form-control custom-select" name="item" id="item">
-                        <option value="" disabled selected>Selecione una opcion</option> 
+                    <select class="form-control controlItem valorItem" name="item" id="item">
+                        <option value="" selected>Selecione una opcion</option> 
                         @foreach($items as $id => $item) 
-                            <option value="{{$id}}" > {{$item}} </option>  
+                            <option value="{{$id}}" >{{$item}}</option>  
                         @endforeach
                     </select>
                 </div>
-            
+
+                <div class="form-group" >
+                    <label for="recipient-fonfoFianciamiento" class="font-weight-bold controlNFFN" style="display: none;">Nro. fondo de financiamiento</label>
+                    <input type="number" class="form-control controlNFFI" name="numFinanciamiento" id="numFinanciamiento" placeholder="Ingrese numero fondo de financiamiento" style="display: none;">
+                </div>
+
                 <div class="form-group">
                     {!! Form::label('servicioPer', 'Nombre del servicio', ['class' => 'font-weight-bold' ]) !!}
-                <select class="form-control custom-select" name="servicio" id='servicio'>
+                <select class="form-control custom-select valorServicio" name="servicio" id='servicio'>
                         <option value="" disabled selected>Selecione una opcion</option> 
                         @foreach($servicios as $id => $servicio)
                             <option value="{{$id}}">{{$servicio}}</option>                       

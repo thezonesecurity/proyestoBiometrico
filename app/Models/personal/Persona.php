@@ -9,7 +9,7 @@ class Persona extends Model
     //
     protected $table = 'repbio.personas';
 
-    protected $fillable = ['id', 'nombres', 'ci', 'item_id', 'estado_per', 'idper_db', 'id_servicio', 'user_id']; //cambiar id_per por id
+    protected $fillable = ['id', 'nombres', 'ci', 'item_id', 'num_financ', 'estado_per', 'idper_db', 'id_servicio', 'user_id']; //cambiar id_per por id
 
     protected $dates = ['created_at','updated_at'];
 

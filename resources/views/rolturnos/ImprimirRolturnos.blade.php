@@ -27,7 +27,7 @@
                     <th width="22%" >Nombre persona</th>
                     <th width="8%" >Nro. C.I.</th>
                     <th width="10%" >Turno</th>
-                    {{--<th width="9%" >Tipo dia</th>--}}
+                    <th width="9%" >Tipo dia</th>
                     <th width="9%" >Hora Entrada</th>
                     <th width="8%" >Hora Salida</th>
                     <th width="" >Observaciones</th>
@@ -37,9 +37,10 @@
                 @foreach($personas as $area => $fechas)
                     <tr>
                         @php $area=\App\Models\areas\Area::where('id',$area)->first(); $vac=1; @endphp
-                        <td colspan="9"  style="background-color: #ddd"><strong>{{ $area->nombre }}</strong></td>
+                        <td colspan="10"  style="background-color: #ddd"><strong>{{ $area->nombre }}</strong></td>
                     </tr>
                     @foreach($fechas as $fecha => $personas)
+                         
                         @foreach($personas as $key => $persona)
                             <tr>
                                 @if($key === 0)
@@ -50,7 +51,7 @@
                                 <td>{{ $persona['nombre_persona'] }}</td>
                                 <td>{{ $persona['ci'] }}</td>
                                 <td>{{ $persona['turno'] }}</td>
-                                {{--<td>{{ $persona['tipo_dia'] }}</td>--}}
+                                <td>{{ $persona['tipo_dia'] }}</td>
                                 <td>{{ $persona['hora_inicio'] }}</td>
                                 <td>{{ $persona['hora_fin'] }}</td>
                                 <td>{{ $persona['observaciones'] }}</td>
@@ -61,7 +62,7 @@
                 <!-- Agregar una fila especial para las personas con fecha_inicio y fecha_fin no nulas -->
                 @if(isset($vacaciones))
                     <tr>
-                        <td colspan="9"  style="background-color: #ddd"><strong>Vacacion</strong></td>
+                        <td colspan="10"  style="background-color: #ddd"><strong>Otros</strong></td>
                     </tr>
                     @foreach($vacaciones as $vacacion)
                     <tr>
@@ -71,7 +72,7 @@
                         <td>{{ $vacacion['nombre_persona'] }}</td>
                         <td>{{ $vacacion['ci'] }}</td>
                         <td>{{ $vacacion['turno'] }}</td>
-                        {{--<td>{{ $vacacion['tipo_dia'] }}</td>--}}
+                        <td>{{ $vacacion['tipo_dia'] }}</td>
                         <td>{{ $vacacion['hora_inicio'] }}</td>
                         <td>{{ $vacacion['hora_fin'] }}</td>
                         <td>{{ $vacacion['observaciones'] }}</td>

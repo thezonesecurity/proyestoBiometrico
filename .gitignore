@@ -10,6 +10,7 @@
 /public/dompdf
 /public/alerts
 /public/jquery-validate
+/public/assets
 /storage/*.key
 /vendor
 .env

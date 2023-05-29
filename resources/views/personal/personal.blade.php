@@ -19,7 +19,7 @@ $serverName ="DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propieda
 $connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"S1af2023");//prueba
 $conn = sqlsrv_connect( $serverName, $connectionInfo) or die(print_r(sqlsrv_errors(), true));
 
-$sql="select * FROM USERINFO"; //ORDER BY USERID;  personas
+$sql="select USERID, NAME, BADGENUMBER from USERINFO"; //ORDER BY USERID;  personas
 $res=sqlsrv_query($conn,$sql);
 $i=0;
 ?>
@@ -36,14 +36,12 @@ $i=0;
                     <th scope="col">C.I.</th>
                     <th scope="col">Tipo Contrato</th>
                     <th scope="col">Servicio</th>
+                    <th scope="col">Nro. Fondo F</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Opciones</th>
                   </tr>
             </thead>
             <tbody>
-                @if(!($row=sqlsrv_fetch_array($res)))
-                <tr><td> Error en la conexion DB. contecte con soporte !!</td></tr>
-                @endif
                 <?php while($row=sqlsrv_fetch_array($res) ) {?>
                     
                     @if(isset($row))
@@ -56,10 +54,15 @@ $i=0;
                                 <td><span id="item{{$persona->id}}" >{{$persona->PersonaItem->nombre}}</span></td>
                                 <?php $servicio=App\Models\servicios\Servicio::where('id',$persona->id_servicio)->first(); ?>
                                 <td><span id="servicio{{$persona->id}}" >{{$servicio->nombre}}</span></td>
+                                @if(isset($persona->num_financ))
+                                    <td><span id="numFinanc{{$persona->id}}" >{{$persona->num_financ}}</span></td>
+                                @else
+                                    <td><span id="numFinanc{{$persona->id}}" >No tiene</span></td>
+                                @endif
                                 <td><span id="estado{{$persona->id}}" >{{$persona->estado_per}}</span></td>
                                 <td>
                                     @if( $persona->estado_per == 'Habilitado' ) 
-                                        <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$persona->id}},{{$row['USERID']}}" data-toggle="modal" data-target="#editarModal">Editar</button> {{--{{$persona->id}},{{$row['USERID']}}--}}
+                                        <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$persona->id}},{{$row['USERID']}}" data-toggle="modal" data-target="#editarModal">Editar</button>
                                         <a href="{{ route('inhabilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-outline-danger">Inhabilitar</a>
                                     @else
                                         <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$persona->id}},{{$row['USERID']}}" data-toggle="modal" data-target="#editarModal" disabled>Editar</button>  
@@ -69,6 +72,7 @@ $i=0;
                             @else
                                 <td><span id="item" >Sin item</span></td>
                                 <td><span id="servicio" >Sin servicio</span></td>
+                                <td><span id="num" >Sin fondo F.</span></td>
                                 <td><span id="estado" >Sin estado</span></td>
                                 <td>
                                     <div>{{--las dos lineas siguientes no son funcionales pero son requisito para el modal de registrar--}}
@@ -100,7 +104,7 @@ $i=0;
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
-<script type="text/javascript" src="{{ asset('scripts/admin/personal.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/scripts/admin/personal.js') }}"></script>
 
 <script>
     $(document).ready(function () {

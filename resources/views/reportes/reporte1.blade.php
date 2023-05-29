@@ -2,7 +2,7 @@
 @section('contenido')
 <br>
 <div class="col-md-10 box-body table-responsive" style="margin-left: 50px">
-<p>------------------titulo--------------</p>
+<p>------------------titulod--------------</p>
 <table style="width:100%" id="listaExample" class="table table-bordered table-striped"  width="100%">
     <thead>
         <tr>

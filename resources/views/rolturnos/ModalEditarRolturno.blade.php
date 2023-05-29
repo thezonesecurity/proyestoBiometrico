@@ -13,7 +13,7 @@
                 <input type="hidden" class="form-control " name="id" id='idM'>
                 <div class="form-row font-weight-bold" style="margin-top: -px;">
                     <div class="form-group col-md-6">
-                        <label for="hora de inicio">Persona</label>
+                        <label for="persomass">Persona</label>
                         <input type="text" class="form-control custom-select" name="persona" id='personaM' readonly style="font-size: 12px;">
                     </div>
                     <div class="form-group col-md-6">
@@ -22,7 +22,18 @@
                     </div>
                 </div>
 
-                <div class="form-row " style="margin-top: -5px;"> 
+                <div class="form-row font-weight-bold" style="margin-top: -5px;"> 
+                    <div class="form-group col-md-6">
+                        <label for="t dia" class="font-weight-bold" >Tipo Dia</label>
+                        <input type="text" class="form-control custom-select" name="tipod" id='tipoDiaM' readonly style="font-size: 12px;">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-bold" for="Gestion">Mes</label>
+                        <input type="text" class="form-control controlMesM" name="gestion" id='gestion' readonly>
+                        <small id="validacionMesM" class="form-text"></small>
+                    </div>
+                </div>
+                {{--<div class="form-row " style="margin-top: -5px;"> 
                     <div class="form-group col-md-6">
                         <div class="form-check ml-1 col-auto">
                             <input class="form-check-input" type="radio" name="tipod" id="laboralM" value="DL">
@@ -38,7 +49,7 @@
                         <input type="text" class="form-control controlMesM" name="gestion" id='gestion' readonly>
                         <small id="validacionMesM" class="form-text"></small>
                     </div>
-                </div>
+                </div>--}}
                
                 <div class="form-row" style="margin-top: -10px;">
                     <div class="form-group col-md-6">

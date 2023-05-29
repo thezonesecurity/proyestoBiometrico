@@ -5,21 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <!-- Seccion estilos -->
-     <link rel="stylesheet" href="{{ asset("bootstrap4/style/stylelogin.css")}}"> <!-- href="{ asset('styles/stylelogin.css') }}">-->
+     <link rel="stylesheet" href="{{ asset("assets/styles/stylelogin.css")}}"> <!-- href="{ asset('styles/stylelogin.css') }}">-->
      <link href="{{ asset("bootstrap4/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" /> <!-- "{ asset('css/bootstrap.min.css') }}"> ------>
     <!-- Fin Seccion estilos jumbotron -->
     <title>Document</title>
 </head>
-<body class="bg-info">
+<body class="formas">
     
-    <div class="container" >
+    <div class="container " >
             <div class="boxlogin">
                 <form method="POST" action="{{ route('login_post') }}"  name="flogin" id="flogin" class="border p-3 form" autocomplete="off" >
                    @csrf
                     <div class="img-responsive ">
-                        <img class="imagelogin" src="{{ asset('bootstrap4/img/hdb2.jfif') }}" >
+                        <img class="imagelogin" src="{{ asset('assets/img/hdb2.jpg') }}" >
                     </div>
-                    <h3 class="text-center fw-bold">Sing In</h3>
+                    <h3 class="text-center fw-bold title_name">Iniciar Sesion</h3>
                     <div class="form-group ">
                         <div class="input-group">
                             <label class="sr-only" for="correo">{{ __('Usuario') }}</label>

@@ -34,7 +34,7 @@
                              <center class="font-weight-bold">Seguir Registrando Rol Turnos</center>
                              <tr>
                                  <div class="form-group">
-                                     {!! Form::label('servicioPer', 'Servicio de la persona', ['class' => 'font-weight-bold text-sm-left' ]) !!}
+                                     {!! Form::label('servicioPer', 'Servicio', ['class' => 'font-weight-bold text-sm-left' ]) !!}
                                      <input type="text" class="form-control" name="servicioM" id='servicioM' readonly>
                                      <input type="hidden" class="form-control" name="s" id='servicio' readonly>   
                                  </div>
@@ -47,7 +47,7 @@
 
                                  <div class="form-group " style="margin-top: -10px;">
                                      <label for="personall" class="font-weight-bold">Personal</label>
-                                     <select class="form-control-sm custom-select text-uppercase select2" name="personal" id="per" >
+                                     <select class="form-control-sm custom-select text-uppercase select2 " name="personal" id="per" >
                                      </select>
                                  </div>
 
@@ -56,8 +56,17 @@
                                      <select class="form-control-sm custom-select text-uppercase select2" name="area" id='area' >
                                      </select>
                                  </div>
- 
-                                 <div class="form-group row " id="product1" style="margin-top: -10px;"> 
+                                 <div class="form-group" style="margin-top: -10px;">
+                                    <label for="ti dia" class="font-weight-bold">Tipo dia</label>
+                                    <select class="form-control-sm custom-select" name="tipodia" id="tipodia">
+                                        <option value="DL" selected>Dia Laboral</option>
+                                        <option value="V">Vacacion</option>
+                                        <option value="CV">Cuenta Vacacion</option>
+                                        <option value="BM">Baja Medica</option>
+                                        <option value="PE">Permiso Especial</option>
+                                    </select>
+                                </div>
+                                 {{--<div class="form-group row " id="product1" style="margin-top: -10px;"> 
                                      <div class="form-check ml-3 col-auto">
                                          <input class="form-check-input" type="radio" name="tipod" id="laboral" value="DL" checked>
                                          <label class="form-check-label font-weight-bold" for="gridCheck">Dia laboral</label>
@@ -66,11 +75,11 @@
                                          <input class="form-check-input" type="radio" name="tipod" id="descanso" value="V">
                                          <label class="form-check-label font-weight-bold" for="gridCheck">Vacacion</label>
                                      </div>
-                                 </div>
+                                 </div>--}}
                                  
-                                 <div class="form-row font-weight-bold " style="margin-top: -10px;">
+                                 <div class="form-row" style="margin-top: -10px;" >
                                      <div class="form-group col">
-                                         <label for="turnoo">Turno</label>
+                                         <label for="turnoo" class="font-weight-bold">Turno</label>
                                          <select name="turno" id="turno" class="form-control-sm custom-select mr-sm-2" >
                                              <option value="" disabled selected>Selecione una opcion</option>
                                              @foreach($turnos as $id => $turno)   
@@ -80,34 +89,34 @@
                                      </div>
                                  </div>
                                  
-                                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                                 <div class="form-row " style="margin-top: -10px;">
                                      <div class="form-group col-md-6">
-                                         <label for="fecha de inicio">Fecha Igreso</label>
+                                         <label for="fecha de inicio" class="font-weight-bold" >Fecha Igreso</label>
                                          <input type="date" class="form-control controlFechaInicio fechaDL" name="fecha_inicio" id="fec_inicio">
                                          <small id="validacionFechaIngreso" class="form-text"></small>
                                      </div>
                                      <div class="form-group col-md-6">
-                                         <label for="fecha de fin">Fecha Retorno</label>
+                                         <label for="fecha de fin" class="font-weight-bold" >Fecha Retorno</label>
                                          <input type="date" class="form-control controlFechaVacacion fechaV"  name="fecha_fin" id="fec_fin" disabled>
                                          <small id="validacionFechaRetorno" class="form-text"></small>
                                      </div>
                                  </div>
-                                 <div class="form-row font-weight-bold" style="margin-top: -10px;">
+                                 <div class="form-row " style="margin-top: -10px;">
                                      <div class="form-group col-md-6">
-                                         <label for="hora de inicio">Hora Entrada</label>
+                                         <label for="hora de inicio" class="font-weight-bold" >Hora Entrada</label>
                                          <input type="time" class="form-control " name="hora_inicio" id="hrs_inicio">
                                      </div>
                                      <div class="form-group col-md-6">
-                                         <label for="hora de fin">Hora Salida</label>
+                                         <label for="hora de fin" class="font-weight-bold" >Hora Salida</label>
                                          <input type="time" class="form-control" name="hora_fin" id="hrs_fin" >
                                      </div>
                                  </div>
  
-                                 <div class="form-group font-weight-bold" style="margin-top: -10px;">
+                                 <div class="form-group" style="margin-top: -10px;">
                                     <div class="row">
-                                        <div class="row-md-3"><label class="col">Observaciones</p> </div>
+                                        <div class="row-md-3 font-weight-bold" ><label class="col">Observaciones</p> </div>
                                         <div class="row-md-5 ml-5">
-                                                <label class="col" >Cambio turno</label>
+                                                <label class="col font-weight-bold" >Cambio turno</label>
                                                 <input class="form-check-input" type="checkbox" name="cambioT" id="cambio" style="margin-left: -10px;">
                                         </div>
                                     </div>
@@ -199,8 +208,13 @@
 {{--<script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
 <script type="text/javascript" src="{{ asset('scripts/jefe_servicio/turnoTesto.js') }}"></script> NO USADO--}}
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
-<script type="text/javascript" src="{{ asset('scripts/jefe_servicio/editarturno.js') }}"></script>
-
+<script type="text/javascript" src="{{ asset('assets/scripts/jefe_servicio/editarturno.js') }}"></script>
+<script type="text/javascript">
+    $('.select2').select2({
+        placeholder: "Seleccione una opcion",
+        allowClear: true
+    });
+</script>
 <script>
  $(document).ready(function(){
     var exiteGestion = 0, countF_iniMes=0,countF_finMes=0;
@@ -257,8 +271,42 @@
             $('#mostrar1').show();
             $('#mostrarLista').hide();
         });
-    //CONTROLES PARA HABILITAR Y DESHABILITAR LOS INPUTS EN LOS CASOS DE LABORAL Y VACACION
-    $('#laboral').on('change', function(e){ //CASO DIA LABORAL
+    //CONTROLES PARA HABILITAR Y DESHABILITAR LOS INPUTS EN LOS CASOS DE DIA LABORAL Y OTROS VACACION ...
+     $('#tipodia').on('click', function(e){
+            e.preventDefault();
+            var tdia = $('#tipodia :selected').text();
+            if(tdia == 'Dia Laboral'){//CASO DIA LABORAL
+                $('#laboral').prop("checked", true);
+                $('#descanso').prop("checked", false);
+                $('#fec_fin').prop("disabled", true);
+                $('#hrs_inicio').prop("disabled", false);
+                $('#hrs_fin').prop("disabled", false);
+                // $('#turno').prop("disabled", false);
+                $('#cambio').attr("disabled", false);
+                $('#area').prop("disabled", false);
+                // $('#obs').prop("disabled", false);
+            }else{// CASO VACACION, CUENTA VACACION, BAJA MEDICA, PERMISO ESPECIAL
+                $('#laboral').prop("checked", false);
+                $('#descanso').prop("checked", true);
+                $('#fec_inicio').prop("disabled", false);
+                $('#fec_fin').prop("disabled", false);
+                $('#hrs_inicio').prop("disabled", true);
+                $('#hrs_fin').prop("disabled", true);
+                //$('#turno').prop("disabled", false);
+                $('#cambio').attr("disabled", true);
+                $('#cambio').prop("checked", false);
+                $('#area').prop("disabled", false);
+                // $('#obs').prop("disabled", false);
+            }
+         });
+        //PROCESO PARA LIMPIAR LAS ALERTAS DE FECHA FIN SI VUELVE SELECCIONAR DIA LABORAL
+        $('#tipodia').click(function() {//
+            if($('#tipodia :selected').val() == 'DL'){
+                    limpiarfec_finMes();
+                    countF_finMes=0;
+            }
+         });
+   /* $('#laboral').on('change', function(e){ //CASO DIA LABORAL
         //var selected = document.querySelector('input[type=radio][name=tipod]:checked');
         e.preventDefault();
         $('#laboral').prop("checked", true);
@@ -285,7 +333,7 @@
         $('#cambio').prop("checked", false);
         $('#area').prop("disabled", false);
         // $('#obs').prop("disabled", false);
-    });
+    });*/
     //PROCESO PARA LISTAR AREAS DE SERVICIO ESPECIFICO
     $('#servicioM').val($('#servi').text());
     $('#gestionM').val($('#gesti').text());
@@ -318,8 +366,8 @@
             var fec_ini = $('.fechaDL').val();
             var mes = $('.controlMes').val();
             $mes_anioL = fec_ini.substring(0, 7);
-            var tipodia = $('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('dd 2 '+ $mes_anioL);
-            if(tipodia == 'DL' && mes != $mes_anioL  && mes != ''){
+            //var tipodia = $('#tipodia :selected').val() //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('dd 2 '+ $mes_anioL);
+            if( mes != $mes_anioL  && mes != ''){//tipodia == 'DL' &&
                 $(".controlMes").addClass('is-invalid');
                 $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
                 $(".controlFechaInicio").addClass('is-invalid');
@@ -336,8 +384,8 @@
             var fec_fin = $('.fechaV').val();
             var mes = $('.controlMes').val();
             $mes_anioV = fec_fin.substring(0, 7); //validacionFechaRetorno
-            var tipodia = $('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('entro '+ fec_fin+ ' mes '+ mes+ 't dia'+ tipodia);
-            if(tipodia == 'V' && mes != $mes_anioV  && mes != ''){
+            var tipodia = $('#tipodia :selected').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('entro '+ fec_fin+ ' mes '+ mes+ 't dia'+ tipodia);
+            if(tipodia != 'DL' && mes != $mes_anioV  && mes != ''){
                 $(".controlMes").addClass('is-invalid');
                 $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
                 $(".controlFechaVacacion").addClass('is-invalid');
@@ -364,7 +412,7 @@
         var gestion = document.getElementById("gestionM").value; //console.log('gestion ser '+ gestion);
         var per_id = $('#per').val();
         var fec_ini = $('#fec_inicio').val();
-        var tipodia = $('input[name=tipod]:checked','#form_reg_rolturno').val();
+        var tipodia = $('#tipodia').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val();
         var fec_fin = document.getElementById("fec_fin").value;
         var hrs_ini=document.getElementById("hrs_inicio").value;
         var hrs_fin=document.getElementById("hrs_fin").value;
@@ -404,8 +452,8 @@
             notificaciones("Seleccione una hora de salida", "ERROR DE FORMULARIO", 'error'); //$('#hrs_fin').focus();
             return false;
             } 
-       }
-        if(tipodia == 'V' && fec_fin == ''){ // si el checkbox vacacion esta seleccionado
+        }
+        if(tipodia != 'DL' && fec_fin == ''){ // si el checkbox vacacion esta seleccionado
             notificaciones("Seleccione una fecha de retorno", "ERROR DE FORMULARIO", 'error'); // $('#fec_fin').focus();
             return false;
         } 
@@ -461,7 +509,7 @@
                 data: formData
     
             }).done(function(resp){
-            // alert(resp);
+                // alert(resp);
                 if(resp=='ok'){ //resp=='error'
                     toastr.success("Se registro correctamente", "REGISTRO EXITOSO DE ROL DE TURNO", { "positionClass": "toast-bottom-right"});
                     setTimeout(function(){	
@@ -481,13 +529,7 @@
     });
 });
 </script>
-<script type="text/javascript">
-    //"form-control-sm custom-select text-uppercase select2"
-        $('.select2').select2({
-            placeholder: "Seleccione una opcion",
-            allowClear: true
-        });
-    </script>
+
 {{---
 <script type="text/javascript">
 

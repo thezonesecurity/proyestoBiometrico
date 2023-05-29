@@ -24,7 +24,7 @@ class Rolturno extends Model
 
     public function user()//uno a muchos inversa
     {
-        return $this->belongsTo(\App\Models\seguridad\users::class,'user_id');
+        return $this->belongsTo(\App\Models\seguridad\users::class, 'user_id');
     }
     
     public function per_rolturnos(){

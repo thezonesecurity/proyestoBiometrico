@@ -16,8 +16,9 @@ class ReportesController extends Controller
     public function index()
     {
         //}
-        $rolturnos = Rolturno::all();
-        return view('habilitacionTurnos.listadoTurnos')->with(compact('rolturnos'));
+      //  $rolturnos = Rolturno::all();
+      //  return view('habilitacionTurnos.listadoTurnos')->with(compact('rolturnos'));
+      return view('reportes.reporte1');
     }
     
     public function habilitacion(Request $request)

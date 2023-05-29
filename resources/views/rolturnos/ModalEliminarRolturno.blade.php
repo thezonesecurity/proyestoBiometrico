@@ -11,7 +11,7 @@
           <div class="modal-body">
             {!! Form::open(['route' => 'rolturno.eliminado', 'method' => 'post', 'autocomplete'=>"off"]) !!}
               <div class="text-center font-weight-bold">
-                <img src="{{asset('bootstrap4/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
+                <img src="{{asset('assets/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
                 <h4>Esta seguro de eliminar ?</h4>
               </div>
                 <input type="hidden" class="form-control " name="id" id='idMe'>

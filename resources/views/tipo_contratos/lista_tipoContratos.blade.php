@@ -68,7 +68,7 @@
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
-<script type="text/javascript" src="{{ asset('scripts/admin/tipoContratos.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/scripts/admin/tipoContratos.js') }}"></script>
 
 <script>
     $(document).ready(function () {

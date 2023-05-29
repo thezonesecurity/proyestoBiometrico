@@ -5,10 +5,6 @@
 
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-    .error {
-    color: red;}
-</style>
 @stop
 
 @section('contenido')
@@ -37,27 +33,29 @@
                 </tr>
             @else 
                  @foreach ($rolturnos as $rolturno)
+                 {{--dd($rolturno->servicios->user->per_user->nombres)--}}
                     <tr>
-                        <td>{{++$i}}</td>
-                        <td><span id="" >{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}</span></td>
-                        <td><span id="servicio{{$rolturno->id}}" >{{$rolturno->servicios->nombre}}</span></td>
-                        <td><span id="" >{{$rolturno->estado}}</span></td>
-                        <td><span id="" >{{$rolturno->gestion}}</span></td>
-                        <td><span id="" >{{$rolturno->obsevacion}}</span></td>
-                        <td>
+                        <td width="3%">{{++$i}}</td>
+                        <td width="20%"><span id="responsable{{$rolturno->id}}"  >{{$rolturno->servicios->user->per_user->nombres}} {{$rolturno->servicios->user->per_user->apellidos}}</span></td> {{--{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}--}}
+                        <td width="17%"><span id="servicio{{$rolturno->id}}"  >{{$rolturno->servicios->nombre}}</span></td>
+                        <td width="8%"><span id="estado{{$rolturno->id}}"  >{{$rolturno->estado}}</span></td>
+                        <td  width="8%"><span id="gestion{{$rolturno->id}}" >{{$rolturno->gestion}}</span></td>
+                        <td  width="%"><span id="comentario{{$rolturno->id}}" >{{$rolturno->obsevacion}}</span></td>
+                        <td  width="19%">
                             @if($rolturno->estado == 'Pendiente') {{--|| $rolturno->estado == 'Rechazado'--}}
-                            <a data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class=" btn btn-success btn-sm"  type="buton">Habilitacion</a>
-                            <a type="button" class="btn btn-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                            <a data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class="btn btn-outline-success btn-sm habilitacionBtn1"  type="buton">Habilitacion</a> 
+                            <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
                             @else
-                            <button data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class=" btn btn-secondary btn-sm"  type="buton" disabled>Habilitacion</button>
-                            <a type="button" class="btn btn-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                            <a data-toggle="modal"  class="btn btn-outline-secondary btn-sm habilitacionBtn"  type="buton" disabled>Habilitacion</a>
+                            <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
                            @endif
                            @if($rolturno->estado == 'Aceptado')
-                           <a type="button" class="btn btn-warning btn-sm" href="{{route('anular.accion.rolturno', $rolturno->id)}}">Anular Accion</a>
+                           <a type="button" data-toggle="modal" class="btn btn-outline-warning btn-sm CambioAccionBtn" href="#cambioRolTurno{{ $rolturno->id }}">Cambio Accion</a>{{-- style="display: none;"--}}
                            @endif
                         </td>
                     </tr>
                     @include('habilitacionTurnos.ModalHabilitar')
+                    @include('habilitacionTurnos.ModalCambioRolTurno')
                  @endforeach
             @endif
         </tbody>
@@ -68,7 +66,7 @@
 @section('scripts')
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
-
+<script type="text/javascript" src="{{ asset('assets/scripts/admin/habilitacion.js') }}"></script>
 <script>
     $(document).ready(function () {
         $('#listaHabilitacionTurnos').DataTable({

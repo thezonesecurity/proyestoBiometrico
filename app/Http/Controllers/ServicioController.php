@@ -75,12 +75,6 @@ class ServicioController extends Controller
          return redirect(route('listar.servicio'))->with('success', 'El servicio se habilito correctamente !!'); 
     }
 
-    public function mostrartabla()
-    {
-        // NO USADO
-        return view('servicios.tablas');
-    }
-
     public function destroy($id)
     {
         //NO USADO

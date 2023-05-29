@@ -14,7 +14,7 @@ class HabilitacionController extends Controller
 {
     public function index()
     {
-        //dd(auth()->user()->servicioUsers[0]->nombre);
+        //dd(auth()->user()->servicioUsers[0]->nombre); //$user->per_user->nombres
         $rolturnos = Rolturno::orderBy('id')->get();
         return view('habilitacionTurnos.listadoTurnos')->with(compact('rolturnos'));
     }
@@ -22,33 +22,52 @@ class HabilitacionController extends Controller
     public function habilitacion(Request $request)
     {
        // dd(auth()->user()->id);
-     //dd($request);
-       $rolturno = Rolturno::findOrFail($request->id); 
-       if($request->accion == 'Aceptado'){
-            $rolturno->estado = $request->accion; // 'Aceptado';
-            $rolturno->obsevacion = $request->obs;
-           // dd($rolturno);
-            $rolturno->save();
-       }else{
-            $rolturno->estado = $request->accion; // 'Rechazado';
-            $rolturno->obsevacion = $request->obs;
-           // dd($rolturno);
-            $rolturno->save();
-       }
-       return back();//view('habilitacionTurnos.listadoTurnos');
-    }  
-    public function anualcionRolturno($id)
-    {
-      if(isset($id)){
-            //$id = $request->id;
-            $rolturno = Rolturno::findOrFail($id);
-            $rolturno->estado = 'Pendiente';
-            //$rolturno->user_id = auth()->user()->id;
-            $rolturno->save();
-            return back()->with('success', 'La accion se realizo  correctamente !!');
-        }else {
-          return back()->with('error', 'La accion no se realizo correctamente !!');
+       $validatedData = $request->validate([
+        'id' => 'required',
+        'accion' => 'required',
+        'obsMH' => 'required|regex:/^[a-zA-Z0-9 ]{5,60}+$/',
+      ]);
+    //dd($request);
+     if(isset($validatedData['id'])){
+        $rolturno = Rolturno::findOrFail($validatedData['id']); 
+        if($request->accion == 'Aceptado'){
+              $rolturno->estado = $validatedData['accion']; // 'Aceptado';
+              $rolturno->obsevacion = $validatedData['obsMH'];
+        }else{
+              $rolturno->estado = $validatedData['accion']; // 'Rechazado';
+              $rolturno->obsevacion = $validatedData['obsMH'];   
         }
+        $rolturno->save();
+        return back()->with('success', 'La accion se realizo  correctamente !!');;//view('habilitacionTurnos.listadoTurnos');
+      }else {
+        return back()->with('error', 'La accion no se realizo correctamente !!');
+      }
+    }  
+
+    public function CambioRolturno(Request $request)
+    {
+      //dd($request);
+      $validatedData = $request->validate([
+        'id' => 'required',
+        'accion' => 'required',
+        'obsMC' => 'required|regex:/^[a-zA-Z0-9 ]{5,60}+$/',
+      ]);
+      
+      if(isset($validatedData['id'])){
+        $rolturno = Rolturno::findOrFail($validatedData['id']);
+        if($request->accion == 'CambioTurno'){
+          $rolturno->estado = 'Temporal'; // 'Aceptado';
+          $rolturno->obsevacion = $validatedData['obsMC'];
+        }else{
+              $rolturno->estado = 'Pendiente'; // 'Rechazado';
+              $rolturno->obsevacion =$validatedData['obsMC'];
+        }
+        $rolturno->user_id = auth()->user()->id;
+        $rolturno->save();
+        return back()->with('success', 'La accion se realizo  correctamente !!');
+      }else {
+        return back()->with('error', 'La accion no se realizo correctamente !!');
+      }
     }
    
 }

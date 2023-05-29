@@ -25,8 +25,8 @@ class RolturnoController extends Controller
         $servicios = Servicio::where( 'estado', 'Habilitado')->pluck('nombre', 'id');
         $personas = Persona::where('estado_per', 'Habilitado')->pluck('nombres', 'id'); 
         $turnos = TipoTurno::where('estado', 'Habilitado')->pluck('nombre', 'id');
-        
-        return view('rolturnos.Rolturno')->with(compact('servicios', 'personas', 'turnos'));
+        $nombreServicio = auth()->user()->servicioUsers[0]->nombre;
+        return view('rolturnos.Rolturno')->with(compact('servicios', 'personas', 'turnos', 'nombreServicio'));
     }
 
     //funcion para saber k areas pertecencen a cada servicio
@@ -44,93 +44,102 @@ class RolturnoController extends Controller
     }
     public function getAreas()
     {
-        $areas = Area::when(request()->input('servicio_id'), function($query){
+        $servicio= Servicio::where('nombre', request()->input('nombreServicio'))->get(); 
+        //return response()->json($servicio[0]->id);
+        $areas = Area::where('servicio_id', $servicio[0]->id)->where('estado', 'Habilitado')->pluck('nombre', 'id');
+       /* $areas = Area::when(request()->input('servicio_id'), function($query){
             $query->where('servicio_id', request()->input('servicio_id'))->where( 'estado', 'Habilitado');
-        })->pluck('nombre', 'id');
+        })->pluck('nombre', 'id');*/
         return response()->json($areas);
     }
 
     public function store(Request $request)
     { 
-       // return $request;
-       if($request->m){
-        $rolturno = new Rolturno;
-        $rolturno->gestion = $request->gestion;
-        $rolturno->user_id = auth()->user()->id;
-        $rolturno->servicio_id = $request->servicio; //$request->servicio; //;
-        $rolturno->estado = 'Temporal';
-        $rolturno->save();
-        $pos=0;
-        foreach ($request->m as $rolturno_id) {
-            $per_rolturno = new PersonaRolturno;
-           //$request->l[$pos];
-                $per_rolturno->fecha_inicio = $request->f_ini[$pos];
-                $per_rolturno->fecha_fin = $request->f_fin[$pos]; //
-                $per_rolturno->hora_inicio = $request->h_ini[$pos];
-                $per_rolturno->hora_fin = $request->h_fin[$pos];
-                $per_rolturno->tipo_dia = $request->tdia[$pos];
-                $per_rolturno->turno_id = $request->t[$pos];
-                $per_rolturno->obs = $request->obs[$pos];
-                $per_rolturno->cambio_turno = 'F';
-                $per_rolturno->estado = 'Habilitado';
-                $per_rolturno->user_id = auth()->user()->id;
-                $per_rolturno->area_id = $request->area_per[$pos];
-                $per_rolturno->persona_id = $request->m[$pos];;
-                $per_rolturno->rolturno_id = $rolturno->id;
-                //dd($per_rolturno);
-               $per_rolturno->save();
-                $pos++;
-            }
-            return 'ok';
-       }
-       else return 'error';
+        //return $request;
+        $servicio= Servicio::where('nombre',$request->servicio )->first(); 
+        if(isset($servicio)){
+            if($request->m){
+                $rolturno = new Rolturno;
+                $rolturno->gestion = $request->gestion;
+                $rolturno->user_id = auth()->user()->id;
+                $rolturno->servicio_id = $servicio->id; //$request->servicio;
+                $rolturno->estado = 'Temporal';
+                $rolturno->save();
+                $pos=0;
+                foreach ($request->m as $rolturno_id) {
+                    $per_rolturno = new PersonaRolturno;
+                   //$request->l[$pos];
+                        $per_rolturno->fecha_inicio = $request->f_ini[$pos];
+                        $per_rolturno->fecha_fin = $request->f_fin[$pos]; //
+                        $per_rolturno->hora_inicio = $request->h_ini[$pos];
+                        $per_rolturno->hora_fin = $request->h_fin[$pos];
+                        $per_rolturno->tipo_dia = $request->tdia[$pos];
+                        $per_rolturno->turno_id = $request->t[$pos];
+                        $per_rolturno->obs = $request->obs[$pos];
+                        $per_rolturno->cambio_turno = 'F';
+                        $per_rolturno->estado = 'Habilitado';
+                        $per_rolturno->user_id = auth()->user()->id;
+                        $per_rolturno->area_id = $request->area_per[$pos];
+                        $per_rolturno->persona_id = $request->m[$pos];;
+                        $per_rolturno->rolturno_id = $rolturno->id;
+                        //dd($per_rolturno);
+                       $per_rolturno->save();
+                        $pos++;
+                    }
+                    return 'ok';
+               }
+               else {return 'error';}
+        }else{ return 'error'; }
     }
     
     public function storetest(Request $request)
     {
        //return $request;
        $nom_servi = Servicio::where('nombre', $request->servicioM)->pluck('id');
-     
-        $existe_rolturno = Rolturno::where('servicio_id', $nom_servi[0])->where('gestion', $request->gestionM)->first();
-        //dd($existe_rolturno);
-        $pos=0;
-         if(isset($existe_rolturno) && $existe_rolturno->gestion == $request->gestionM){ //isset($existe_rolturno)){
-             $existe_rolturno->user_id = auth()->user()->id;
-            // $existe_rolturno->gestion = $request->gestionM;
-            // $existe_rolturno->servicio_id = $request->servicio; //$request->servicio; //;
-             $existe_rolturno->estado = 'Temporal';
-             $existe_rolturno->save();
-            
-             foreach ($request->m as $rolturno_id) {
-               // $nom_servi = $request->servi[$pos];
-                 $per_rolturno = new PersonaRolturno;
-                //$request->l[$pos];
-                     $per_rolturno->fecha_inicio = $request->f_ini[$pos];
-                     $per_rolturno->fecha_fin = $request->f_fin[$pos]; //
-                     $per_rolturno->hora_inicio = $request->h_ini[$pos];
-                     $per_rolturno->hora_fin = $request->h_fin[$pos];
-                     $per_rolturno->tipo_dia = $request->tdia[$pos];
-                     $per_rolturno->turno_id = $request->t[$pos];
-                     $per_rolturno->cambio_turno = $request->cambio_turno[$pos];
-                     $per_rolturno->obs = $request->obs[$pos];
-                     $per_rolturno->estado = 'Habilitado';
-                     $per_rolturno->user_id = auth()->user()->id;
-                     $per_rolturno->area_id = $request->area_per[$pos];
-                     $per_rolturno->persona_id = $request->m[$pos];;
-                     $per_rolturno->rolturno_id = $existe_rolturno->id;
-                     //dd($per_rolturno);
-                     $per_rolturno->save();
-                     $pos++;
-                 }  
-            return 'ok';
-         }
-         else{ return 'error'; }
+       if(isset($nom_servi)) {
+            $existe_rolturno = Rolturno::where('servicio_id', $nom_servi[0])->where('gestion', $request->gestionM)->first();
+            //dd($existe_rolturno);
+            $pos=0;
+            if(isset($existe_rolturno) && $existe_rolturno->gestion == $request->gestionM){ //isset($existe_rolturno)){
+                $existe_rolturno->user_id = auth()->user()->id;
+                // $existe_rolturno->gestion = $request->gestionM;
+                // $existe_rolturno->servicio_id = $request->servicio; //$request->servicio; //;
+                $existe_rolturno->estado = 'Temporal';
+                $existe_rolturno->save();
+                
+                foreach ($request->m as $rolturno_id) {
+                // $nom_servi = $request->servi[$pos];
+                    $per_rolturno = new PersonaRolturno;
+                    //$request->l[$pos];
+                        $per_rolturno->fecha_inicio = $request->f_ini[$pos];
+                        $per_rolturno->fecha_fin = $request->f_fin[$pos]; //
+                        $per_rolturno->hora_inicio = $request->h_ini[$pos];
+                        $per_rolturno->hora_fin = $request->h_fin[$pos];
+                        $per_rolturno->tipo_dia = $request->tdia[$pos];
+                        $per_rolturno->turno_id = $request->t[$pos];
+                        $per_rolturno->cambio_turno = $request->cambio_turno[$pos];
+                        $per_rolturno->obs = $request->obs[$pos];
+                        $per_rolturno->estado = 'Habilitado';
+                        $per_rolturno->user_id = auth()->user()->id;
+                        $per_rolturno->area_id = $request->area_per[$pos];
+                        $per_rolturno->persona_id = $request->m[$pos];;
+                        $per_rolturno->rolturno_id = $existe_rolturno->id;
+                        //dd($per_rolturno);
+                        $per_rolturno->save();
+                        $pos++;
+                    }  
+                return 'ok';
+            }
+            else { return 'error'; }
+        } else { return 'error'; }
     }
 
     public function lista()
     {
        // dd(auth()->user()->id);
-        $rolturnos = Rolturno::orderBy('id')->get();
+       //$nombreServicio = auth()->user()->servicioUsers[0]->nombre;
+        $id_servicio = auth()->user()->servicioUsers[0]->id;
+        $rolturnos = Rolturno::orderBy('id')->where('servicio_id', $id_servicio)->get();
         return view('rolturnos.ListarRolturnos')->with(compact('rolturnos'));
     }
       
@@ -140,7 +149,6 @@ class RolturnoController extends Controller
         $extras = [ 'servicio' => $data[0]->per_rolturno->servicios->nombre, 'gestion' => $data[0]->per_rolturno->gestion ];
         $personas = [];
         $vacaciones = [];
-
         // Agrupar por área y fecha de inicio
         foreach ($data as $row) {
             $area = $row->area_id;
@@ -177,12 +185,8 @@ class RolturnoController extends Controller
             }
         }
         //return view('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'));
-         $pdf = PDF::loadView('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'))->setPaper('legal', 'landscape');
-       return $pdf->stream('prueba.pdf');
-    }
-    public function printPrueba($id)
-    {
-        dd($id);
+        $pdf = PDF::loadView('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'))->setPaper('legal', 'landscape');
+        return $pdf->stream('prueba.pdf');
     }
     public function tabla()
     {
@@ -230,9 +234,8 @@ class RolturnoController extends Controller
     public function controlGestion(Request $request)
     {
         //EN CASO DE SERVICIOS K TENGAN SUB-SERVICIOS SE TOMARA EN CUENTA EL AREA   para este control
-       //return $request->datos2;
-        $rolturno = Rolturno::where('servicio_id', $request->datos1)->where('gestion', $request->datos2)->first();
-        //return $rolturno->gestion;
+       $servicio= Servicio::where('nombre', request()->input('datos1'))->get();
+        $rolturno = Rolturno::where('servicio_id', $servicio[0]->id)->where('gestion', $request->datos2)->first();
         if(isset($rolturno) && $rolturno->gestion == $request->datos2) return 'existe';
         else return 'no existe';//$rolturno; //
     }
@@ -253,7 +256,7 @@ class RolturnoController extends Controller
             'fecha_fin' => 'required_if:$request->tipod == "V", "" ',
             'hora_inicio' => 'required_if:$request->tipod == "DL", "" ',
             'hora_fin' => 'required_if:$request->tipod == "DL", "" ',
-            'comentario' => ['regex:/^[a-zA-Zñ0-9 ]{5,150}$/']
+            //'comentario' => ['regex:/^[a-zA-Zñ0-9 ]{5,150}$/']
         ]);
         $per_rolturno = PersonaRolturno::findOrFail($validatedData['id']);
         $per_rolturno->fecha_inicio = $validatedData['fecha_inicio'];
@@ -268,7 +271,7 @@ class RolturnoController extends Controller
             $per_rolturno->fecha_fin = $validatedData['fecha_fin'];
         }
         $per_rolturno->user_id = auth()->user()->id;
-        $per_rolturno->obs = $validatedData['comentario'];
+        $per_rolturno->obs = $request->comentario;// $validatedData['comentario'];
         $per_rolturno->save();
         return back()->with('success', 'El rolturno se actualizo correctamente');
     }

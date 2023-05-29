@@ -14,7 +14,7 @@ class Servicio extends Model
     protected $dates = ['created_at','updated_at'];
 
     public function rolturno(){
-        return $this->hasMany(\App\Models\rolturno\Rolturno::class);
+        return $this->hasMany(\App\Models\rolturno\Rolturno::class, 'servicio_id');
     }
 
     public function areas(){

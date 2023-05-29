@@ -13,7 +13,7 @@ class users extends Authenticatable
     protected $guarded = ['id'];
 
     public function rolturno() {
-        return $this->hasMany(\App\Models\rolturno\Rolturno::class);
+        return $this->hasMany(\App\Models\rolturno\Rolturno::class, 'user_id');
     }
 
     public function per_user(){

@@ -13,8 +13,10 @@
                 
                         <input type="hidden" name="id_user" id="idM"> {{--hidden--}}
                         <div class="form-group ">
-                            {!! Form::label('Nombre Completo', 'Nombre completo de la persona', ['class' => 'font-weight-bold' ]) !!}
-                            {!! Form::text('nombre','' , ['class' => ' form-control' , 'required' => 'required', 'id'=>"nombreM", 'readonly' => 'true']) !!}
+                            <label for="for nombre" class="font-weight-bold">Nombre Completo</label>
+                            <input type="text" class="form-control" name="nombrePersonal" id="nombreM"  style="text-transform: uppercase;">
+                            {{--{!! Form::label('Nombre Completo', 'Nombre completo de la persona', ['class' => 'font-weight-bold' ]) !!}
+                            {!! Form::text('nombre','' , ['class' => ' form-control' , 'required' => 'required', 'id'=>"nombreM", 'readonly' => 'false']) !!}--}}
                         </div>
                         <div class="form-group">
                             {!! Form::label('ciPer', 'CI de la persona', ['class' => 'font-weight-bold' ]) !!}

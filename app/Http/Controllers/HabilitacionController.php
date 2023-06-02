@@ -21,53 +21,32 @@ class HabilitacionController extends Controller
     
     public function habilitacion(Request $request)
     {
+      //dd($request);
        // dd(auth()->user()->id);
        $validatedData = $request->validate([
         'id' => 'required',
         'accion' => 'required',
-        'obsMH' => 'required|regex:/^[a-zA-Z0-9 ]{5,60}+$/',
+        'comentario' => 'required|regex:/^[a-zA-Z0-9 ]{5,60}+$/',
       ]);
-    //dd($request);
-     if(isset($validatedData['id'])){
-        $rolturno = Rolturno::findOrFail($validatedData['id']); 
-        if($request->accion == 'Aceptado'){
-              $rolturno->estado = $validatedData['accion']; // 'Aceptado';
-              $rolturno->obsevacion = $validatedData['obsMH'];
-        }else{
-              $rolturno->estado = $validatedData['accion']; // 'Rechazado';
-              $rolturno->obsevacion = $validatedData['obsMH'];   
-        }
-        $rolturno->save();
-        return back()->with('success', 'La accion se realizo  correctamente !!');;//view('habilitacionTurnos.listadoTurnos');
-      }else {
-        return back()->with('error', 'La accion no se realizo correctamente !!');
-      }
-    }  
-
-    public function CambioRolturno(Request $request)
-    {
-      //dd($request);
-      $validatedData = $request->validate([
-        'id' => 'required',
-        'accion' => 'required',
-        'obsMC' => 'required|regex:/^[a-zA-Z0-9 ]{5,60}+$/',
-      ]);
-      
       if(isset($validatedData['id'])){
-        $rolturno = Rolturno::findOrFail($validatedData['id']);
-        if($request->accion == 'CambioTurno'){
-          $rolturno->estado = 'Temporal'; // 'Aceptado';
-          $rolturno->obsevacion = $validatedData['obsMC'];
-        }else{
-              $rolturno->estado = 'Pendiente'; // 'Rechazado';
-              $rolturno->obsevacion =$validatedData['obsMC'];
-        }
-        $rolturno->user_id = auth()->user()->id;
-        $rolturno->save();
+        $rolturno = Rolturno::findOrFail($validatedData['id']); 
+        if($validatedData['accion'] == 'Cambio_turno'){
+          $rolturno->estado = 'Temporal'; 
+          $rolturno->obsevacion = $validatedData['comentario'];
+          $rolturno->save();
+        }else if($validatedData['accion'] == 'Anular_accion'){
+          $rolturno->estado = 'Pendiente'; 
+          $rolturno->obsevacion = $validatedData['comentario'];
+          $rolturno->save();
+         }else{
+          $rolturno->estado = $validatedData['accion']; // 'Aceptado' o 'Rechazado';
+          $rolturno->obsevacion = $validatedData['comentario'];   
+          $rolturno->save();
+         }
         return back()->with('success', 'La accion se realizo  correctamente !!');
       }else {
         return back()->with('error', 'La accion no se realizo correctamente !!');
       }
-    }
+    }  
    
 }

@@ -11,7 +11,7 @@
         <div class="modal-body">
             {!! Form::open(['route' => 'enviar.rolturno', 'method' => 'post']) !!}
                 <div class="text-center font-weight-bold">
-                  <img src="{{asset('bootstrap4/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
+                  <img src="{{asset('assets/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
                   <h4>Esta seguro de enviar ?</h4>
                 </div>
                 {{Form::hidden('id', $rolturno->id)}}

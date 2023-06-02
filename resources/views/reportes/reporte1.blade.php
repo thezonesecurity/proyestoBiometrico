@@ -1,161 +1,90 @@
 @extends("dashboard/dashboard") <!--extends se situa en views-->
-@section('contenido')
-<br>
-<div class="col-md-10 box-body table-responsive" style="margin-left: 50px">
-<p>------------------titulod--------------</p>
-<table style="width:100%" id="listaExample" class="table table-bordered table-striped"  width="100%">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011-04-25</td>
-            <td>$320,800</td>
-        </tr>
-        <tr>
-            <td>Garrett Winters</td>
-            <td>Accountant</td>
-            <td>Tokyo</td>
-            <td>63</td>
-            <td>2011-07-25</td>
-            <td>$170,750</td>
-        </tr>
-        <tr>
-            <td>Ashton Cox</td>
-            <td>Junior Technical Author</td>
-            <td>San Francisco</td>
-            <td>66</td>
-            <td>2009-01-12</td>
-            <td>$86,000</td>
-        </tr>
-        <tr>
-            <td>Cedric Kelly</td>
-            <td>Senior Javascript Developer</td>
-            <td>Edinburgh</td>
-            <td>22</td>
-            <td>2012-03-29</td>
-            <td>$433,060</td>
-        </tr>
-        <tr>
-            <td>Airi Satou</td>
-            <td>Accountant</td>
-            <td>Tokyo</td>
-            <td>33</td>
-            <td>2008-11-28</td>
-            <td>$162,700</td>
-        </tr>
-        <tr>
-            <td>Brielle Williamson</td>
-            <td>Integration Specialist</td>
-            <td>New York</td>
-            <td>61</td>
-            <td>2012-12-02</td>
-            <td>$372,000</td>
-        </tr>
-        <tr>
-            <td>Herrod Chandler</td>
-            <td>Sales Assistant</td>
-            <td>San Francisco</td>
-            <td>59</td>
-            <td>2012-08-06</td>
-            <td>$137,500</td>
-        </tr>
-        
-        <tr>
-            <td>Cara Stevens</td>
-            <td>Sales Assistant</td>
-            <td>New York</td>
-            <td>46</td>
-            <td>2011-12-06</td>
-            <td>$145,600</td>
-        </tr>
-        <tr>
-            <td>Hermione Butler</td>
-            <td>Regional Director</td>
-            <td>London</td>
-            <td>47</td>
-            <td>2011-03-21</td>
-            <td>$356,250</td>
-        </tr>
-        <tr>
-            <td>Lael Greer</td>
-            <td>Systems Administrator</td>
-            <td>London</td>
-            <td>21</td>
-            <td>2009-02-27</td>
-            <td>$103,500</td>
-        </tr>
-        <tr>
-            <td>Jonas Alexander</td>
-            <td>Developer</td>
-            <td>San Francisco</td>
-            <td>30</td>
-            <td>2010-07-14</td>
-            <td>$86,500</td>
-        </tr>
-        <tr>
-            <td>Shad Decker</td>
-            <td>Regional Director</td>
-            <td>Edinburgh</td>
-            <td>51</td>
-            <td>2008-11-13</td>
-            <td>$183,000</td>
-        </tr>
-        <tr>
-            <td>Michael Bruce</td>
-            <td>Javascript Developer</td>
-            <td>Singapore</td>
-            <td>29</td>
-            <td>2011-06-27</td>
-            <td>$183,000</td>
-        </tr>
-        <tr>
-            <td>Donna Snider</td>
-            <td>Customer Support</td>
-            <td>New York</td>
-            <td>27</td>
-            <td>2011-01-25</td>
-            <td>$112,000</td>
-        </tr>
-    </tbody>
-    <tfoot>
-        <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-        </tr>
-    </tfoot>
-</table>
-</div>
-
+@section('titulo')
+ - Reportes
 @stop
 
 @section('styles')
-{{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
+<link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
+<style>
+  .error {
+  color: red;}
+</style>
 @stop
 
+@section('contenido')
+
+<div class="containers">
+    <div class="row">
+      <div class="col">
+        <h4 class="box-title text-center font-weight-bold">Formulario de reportes</h4>
+        <form action="{{route('primer.reporte.rolturno')}}" method="post" class="border border-info" id="form_reportOne" autocomplete="off">
+            @csrf
+          <div class="form-row m-2">
+            <div class="form-group col-md-2">
+              <label for="select1" class="font-weight-bold">Tipo item</label>
+              <select class="form-control" name="tipo_contrato" id="t_contrato">
+                <option value="" selected>Selecione una opcion</option>
+                <option value="all">Todos</option>
+                @foreach($items as $id => $item) 
+                    <option value="{{$id}}" >{{$item}}</option>  
+                @endforeach
+            </select>
+            </div>
+            {{--<div class="form-group col-md-2">
+              <label for="select2" class="font-weight-bold">Personas</label>
+              <select class="form-control" name="persona" id="persona">
+                <option value="vacio" disabled selected>Selecione una opcion</option>
+                <option value="1">Todos</option>
+                <option value="2">Con contratos</option>
+                <option value="3">Con Items</option>
+              </select>
+            </div>--}}
+            <div class="form-group col-md-2">
+              <label for="select3" class="font-weight-bold">Persona</label>
+              <select class="form-control custom-select text-uppercase select2" name="persona" id='persona'>
+                <option value="vacio" disabled selected>Selecione una opcion</option>
+                <option value="all">Todos</option>
+                @foreach($personas as $id => $persona)   
+                    <option value="{{$id}}" >{{$persona}}</option>  
+                @endforeach
+            </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="month1" class="font-weight-bold">Fecha inicio</label>
+                <input type="date" class="form-control" name="fecha_inicio" id="fec_ini">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="month2" class="font-weight-bold">Fecha fin</label>
+                <input type="date" class="form-control" name="fecha_fin" id="fin_fin">
+            </div>
+            <div class="form-group col-md-4 row justify-content-center align-content-center mt-4">
+                <button type="submit" class="btn btn-success text-white">Buscar</button>
+                <button type="submit" class="btn btn-warning ml-3 text-white">PDF</button>
+                <button type="submit" class="btn btn-info ml-3 text-white">Excel</button>
+                <button type="reset" id="cancelarBtn"  class="btn btn-secondary ml-3 text-white">Cancelar</button> {{--name="accion" value="Aceptado"--}}
+            </div>
+          </div>
+        </form>
+        {{---lista--}}
+      </div>
+    </div>
+  </div>
+  
+@stop
+
+
 @section('scripts')
-<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script>
-    $(document).ready(function () {
-        $('#listaExample').DataTable({
-            "lengthMenu": [[5, 15 , 30, 60, -1], [5, 15 , 30, 60, "All"]]
-        });
-    });
+<script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
+<script type="text/javascript">
+  $('.select2').select2({
+      placeholder: "Seleccione una opcion",
+      allowClear: true
+  });
 </script>
+
+<script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
+<script type="text/javascript" src="{{ asset('assets/scripts/admin/reportesOne.js') }}"></script>
+
+
 @stop

@@ -5,6 +5,10 @@
 
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
+<style>
+    .error {
+    color: red;}
+</style>
 @stop
 
 @section('contenido')
@@ -42,20 +46,18 @@
                         <td  width="8%"><span id="gestion{{$rolturno->id}}" >{{$rolturno->gestion}}</span></td>
                         <td  width="%"><span id="comentario{{$rolturno->id}}" >{{$rolturno->obsevacion}}</span></td>
                         <td  width="19%">
-                            @if($rolturno->estado == 'Pendiente') {{--|| $rolturno->estado == 'Rechazado'--}}
-                            <a data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class="btn btn-outline-success btn-sm habilitacionBtn1"  type="buton">Habilitacion</a> 
+                            <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar?</button>
                             <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                            {{--@if( $rolturno->estado != 'Temporal') {{--$rolturno->estado != 'Pendiente' && || $rolturno->estado == 'Rechazado'--}
+                                <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar</button>
+                                <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
                             @else
-                            <a data-toggle="modal"  class="btn btn-outline-secondary btn-sm habilitacionBtn"  type="buton" disabled>Habilitacion</a>
-                            <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
-                           @endif
-                           @if($rolturno->estado == 'Aceptado')
-                           <a type="button" data-toggle="modal" class="btn btn-outline-warning btn-sm CambioAccionBtn" href="#cambioRolTurno{{ $rolturno->id }}">Cambio Accion</a>{{-- style="display: none;"--}}
-                           @endif
+                                <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno" disabled>Habilitar</button>
+                                <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                            @endif--}}
+                            @include('habilitacionTurnos.ModalHabilitar')
                         </td>
                     </tr>
-                    @include('habilitacionTurnos.ModalHabilitar')
-                    @include('habilitacionTurnos.ModalCambioRolTurno')
                  @endforeach
             @endif
         </tbody>
@@ -66,7 +68,9 @@
 @section('scripts')
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/habilitacion.js') }}"></script>
+
 <script>
     $(document).ready(function () {
         $('#listaHabilitacionTurnos').DataTable({
@@ -90,3 +94,19 @@
     });
 </script>
 @stop
+
+
+  {{--<a data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class="btn btn-outline-success btn-sm habilitacionBtn1"  type="buton">Habilitacion</a>--}}
+                             {{---
+                            @if($rolturno->estado == 'Pendiente') {{--|| $rolturno->estado == 'Rechazado'--}
+                            <a data-toggle="modal" href="#habilitar{{ $rolturno->id }}" class="btn btn-outline-success btn-sm habilitacionBtn1"  type="buton">Habilitacion</a> 
+                            <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                            @else
+                            <a data-toggle="modal"  class="btn btn-outline-secondary btn-sm habilitacionBtn"  type="buton" disabled>Habilitacion</a>
+                            <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                           @endif
+                           @if($rolturno->estado == 'Aceptado')
+                           <a type="button" data-toggle="modal" class="btn btn-outline-warning btn-sm CambioAccionBtn" href="#cambioRolTurno{{ $rolturno->id }}">Cambio Accion</a>{{-- style="display: none;"--}
+                           @endif
+                           --}}
+                           {{--@include('habilitacionTurnos.ModalCambioRolTurno')--}}

@@ -10,6 +10,7 @@
 
 @section('contenido')
 
+    @include('dashboard.mensaje')
     <div class="row justify-content-center align-content-center">
        <h4> <span >Lista de roles de turnos</span> </h4>
        <a type="button" class="btn btn-warning btn-sm " href="{{route('tablas')}}" >tabla</a>

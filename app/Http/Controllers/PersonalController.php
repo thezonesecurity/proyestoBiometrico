@@ -47,7 +47,7 @@ class PersonalController extends Controller
         //dd($request);
         $validatedData = $request->validate([
             'id_user' => 'required',
-            'nombre' => 'required',//readonly
+            'nombrePersonal' => 'required|regex:/^[a-zA-ZÑñ. ]{5,99}+$/',
             'ci' => 'required',//readonly
             'itemM' => 'required',
             'itemMo' => 'required_if:$request->itemMo != "", "" ',
@@ -55,17 +55,16 @@ class PersonalController extends Controller
             'servicioM' => 'required',
             'servicioMo' => 'required_if:$request->servicioMo != "", "" ',
         ]);
-       // dd($validatedData['id_user']);
-        $idM = explode(',', $validatedData['id_user']); // $idM[0]=id , $idM[1]=idper_db
-        $persona = persona::findOrFail($idM[0]);
-        //$persona->nombres = $validatedData['nombre'];
-       // $persona->ci = $validatedData['ci'];
-       if($validatedData['itemMo'] != null) {  $persona->item_id = $validatedData['itemMo']; };
-       if($validatedData['servicioMo'] != null) { $persona->id_servicio = $validatedData['servicioMo']; }
-       if($validatedData['numFinanciamientoM'] != '0'){ $persona->num_financ = $validatedData['numFinanciamientoM']; }
-       else { $persona->num_financ = null; }
+        // dd($validatedData['id_user']);
+        //$idM = explode(',', $validatedData['id_user']); // $idM[0]=id , $idM[1]=idper_db
+        $persona = persona::findOrFail($validatedData['id_user']);
+        $persona->nombres = strtoupper($validatedData['nombrePersonal']);
+        // $persona->ci = $validatedData['ci'];
+        if($validatedData['itemMo'] != null) {  $persona->item_id = $validatedData['itemMo']; };
+        if($validatedData['servicioMo'] != null) { $persona->id_servicio = $validatedData['servicioMo']; }
+        if($validatedData['numFinanciamientoM'] != '0'){ $persona->num_financ = $validatedData['numFinanciamientoM']; }
+        else { $persona->num_financ = null; }
         $persona->user_id = auth()->user()->id; 
-        $persona->idper_db = $idM[1];
         //dd($persona);
         $persona->save();
         return redirect(route('listar.personal'))->with('success', 'El personal se actualizo correctamente !!'); 

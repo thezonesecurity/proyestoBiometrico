@@ -166,7 +166,7 @@
     </table>
     <div class="col col-md-12" style="margin-top: -12px;">
         <center>
-            <button type="button" id="registrar" class="btn btn-success btn-sm ml-4"> Guardar</button>
+            <button type="button" id="registrar" class="btn btn-success btn-sm ml-4">Guardar</button>
         </center>
     </div>
     {!!Form::Close()!!}
@@ -479,7 +479,7 @@
                if(resp=='ok'){ //resp=='error'
                     toastr.success("REGISTRO EXITOSO DE ROL DE TURNO...", { "positionClass": "toast-bottom-right" });	
                     setTimeout(function(){	
-                        window.location="{{ route('listar.registrar.rolturno') }}";
+                        window.location="{{ route('listar.roles.turno') }}";
                     },4000);
                 }
                 else {

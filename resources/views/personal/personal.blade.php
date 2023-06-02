@@ -15,8 +15,8 @@
 @section('contenido')
 {{--dd($data)--}}
 <?php
-$serverName ="DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
-$connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"S1af2023");//prueba
+$serverName = "DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
+$connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"Sice2023");//Sice2023
 $conn = sqlsrv_connect( $serverName, $connectionInfo) or die(print_r(sqlsrv_errors(), true));
 
 $sql="select USERID, NAME, BADGENUMBER from USERINFO"; //ORDER BY USERID;  personas
@@ -28,7 +28,7 @@ $i=0;
     @include('dashboard.mensaje')
     <div class="box-body table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <h3 class="box-title text-center">Lista del personal H.D.B.</h3>
-        <table id="listarPersonas" class="table table-sm table-bordered table-striped" width="100%">{{--listarPersonas--}}
+        <table id="listarPersonas" class="table table-sm table-bordered table-striped" width="100%"  style="font-size: 13px;">{{--listarPersonas--}}
             <thead>
                 <tr>
                     <th scope="col" >Nro.</th>       
@@ -45,11 +45,17 @@ $i=0;
                 <?php while($row=sqlsrv_fetch_array($res) ) {?>
                     
                     @if(isset($row))
+                    <?php $persona=App\Models\personal\Persona::orderBy('id')->where('idper_db',$row['USERID'])->first(); ?>
                       <tr>
                             <td>{{++$i}}</td>
-                            <td><span id="nombre<?php echo $row['USERID']; ?>" >{{$row['NAME']}}</span></td>
-                            <td><span id="ci<?php echo $row['USERID']; ?>" >{{$row['BADGENUMBER']}}</span></td>
-                            <?php $persona=App\Models\personal\Persona::orderBy('id')->where('idper_db',$row['USERID'])->first(); ?>
+                            {{--<td><span id="nombre< ?php echo $row['USERID']; ?>" >{{utf8_encode($row['NAME'])}}</span></td>--}}
+                            
+                            @if(isset($persona->nombres))
+                            <td><span id="nombre{{$persona->id}}" >{{$persona->nombres}}</span></td>
+                            @else
+                                <td><span id="nombre<?php echo $row['USERID']; ?>" >{{utf8_encode($row['NAME'])}}</span></td>
+                            @endif
+                            <td><span id="ci{{$persona->id}}" >{{$row['BADGENUMBER']}}</span></td>   
                             @if(isset($persona)) 
                                 <td><span id="item{{$persona->id}}" >{{$persona->PersonaItem->nombre}}</span></td>
                                 <?php $servicio=App\Models\servicios\Servicio::where('id',$persona->id_servicio)->first(); ?>
@@ -62,14 +68,26 @@ $i=0;
                                 <td><span id="estado{{$persona->id}}" >{{$persona->estado_per}}</span></td>
                                 <td>
                                     @if( $persona->estado_per == 'Habilitado' ) 
-                                        <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$persona->id}},{{$row['USERID']}}" data-toggle="modal" data-target="#editarModal">Editar</button>
+                                        <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModal">Editar</button>{{--{{$persona->id}},{{$row['USERID']}}--}}
                                         <a href="{{ route('inhabilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-outline-danger">Inhabilitar</a>
                                     @else
-                                        <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$persona->id}},{{$row['USERID']}}" data-toggle="modal" data-target="#editarModal" disabled>Editar</button>  
+                                        <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModal" disabled>Editar</button>  
                                         <a href="{{ route('habilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-outline-warning"><span class="font-weight-bold">Habilitar</span></a>
                                     @endif 
                                 </td>
                             @else
+                           {{--  < ?php $newpersona = new App\Models\personal\Persona;
+                             $newpersona->nombres = utf8_encode($row['NAME']); //$request->nombre;
+                            $newpersona->ci = $row['BADGENUMBER']; //$request->ci;
+                            $newpersona->item_id = 1;
+                            $newpersona->num_financ = 0;
+                            $newpersona->estado_per = 'Habilitado';
+                            $newpersona->idper_db = $row['USERID'];
+                            $newpersona->id_servicio = 2;
+                            $newpersona->user_id = 28;
+                            //dd($newpersona);
+                            $newpersona->save();
+                            ?>--}}
                                 <td><span id="item" >Sin item</span></td>
                                 <td><span id="servicio" >Sin servicio</span></td>
                                 <td><span id="num" >Sin fondo F.</span></td>

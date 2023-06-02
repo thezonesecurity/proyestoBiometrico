@@ -54,28 +54,21 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/tipo/contrato/habilitado/{id}', 'TipoContratosController@habilitar')->name('habilitar.tipo.contrato');
 });
 
-
 Route::group(['middleware' => 'auth'], function(){
   //RUTAS PARA ROLTURNOS DEL PERSONAL
   Route::get('/registrar/rol/turno', 'RolturnoController@index')->name('listar.registrar.rolturno');
   Route::post('/rolturno/registrar/', 'RolturnoController@store')->name('guardar.rolturno');
-
   Route::post('/eliminar/rolturno/', 'RolturnoController@destroy')->name('rolturno.eliminado');
-
   Route::get('/imprimir/rolturno/{id}', 'RolturnoController@print')->name('rolturno.imprimir.pdf');
- 
+
   Route::get('/area/servicio', 'RolturnoController@getAreas')->name('areas.servicio');
   Route::get('/persona/servicio', 'RolturnoController@getPersons')->name('servicio.personas');
   Route::post('/enviar/rolturno', 'RolturnoController@send')->name('enviar.rolturno');
-
-  Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');//--
+  Route::get('/imprimir/tabla', 'RolturnoController@tabla')->name('tablas');//--prueba
 
   Route::get('/area/servicio/test', 'RolturnoController@getAreasTest')->name('areas.servicio.test');
-
   Route::get('/listar/roles/turnos/', 'RolturnoController@lista')->name('listar.roles.turno');
-
   Route::post('/registrar/rolturno/test', 'RolturnoController@storetest')->name('guardar.rolturno.test');
-
   Route::get('/registrar/listar/rolturno/{id}', 'RolturnoController@gettest')->name('editar.rolturno.test');
 
   Route::post('/editar/rolturno/', 'RolturnoController@actualizar')->name('editarsave.rolturno');
@@ -86,10 +79,13 @@ Route::group(['middleware' => 'auth'], function(){
   //rutas para habilitacion de turnos
   Route::get('/lista/habilitacion/turnos', 'HabilitacionController@index')->name('habilitar.rolturno');//--
   Route::post('/habilitacion/turno/', 'HabilitacionController@habilitacion')->name('habilitar.servicio.rolturno');//--
-  Route::post('/deshacer/accion/rolturno/', 'HabilitacionController@cambioRolturno')->name('anular.accion.rolturno');//--
 
   //rutas pra reportes
-  Route::get('/reportes/roturnos/', 'ReportesController@index')->name('primer.reporte.rolturno');
+  Route::get('/lista/reportes/roturnos/', 'ReportesController@index')->name('lista.reporte.rolturno');
+  Route::post('/reportes/roturnos/', 'ReportesController@reportOne')->name('primer.reporte.rolturno');
+
+  Route::get('/lista/reportes/roturnos2/', 'ReportesController@index2')->name('lista.reporte.rolturno.two');
+  Route::get('/lista/reportes/roturnos3/', 'ReportesController@index3')->name('lista.reporte.rolturno.three');
   //rutas para cambio de turno   /editar/rolturno/test/{id}
   /*Route::get('/listar/cambioturnos/', 'CambioTurnoController@index')->name('listar.cambio_turno');
   Route::post('/registrar/cambioturno/', 'CambioTurnoController@store')->name('crear.cambio_turno');

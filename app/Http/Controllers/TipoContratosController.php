@@ -17,13 +17,12 @@ class TipoContratosController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'tipo_contrato' => ['required', 'regex:/^[a-zA-Z ]{5,50}$/'], //'required|min:5|max:50|alpha_num_spaces', //numeric|alpha|alpha_num_spaces,
+            'tipo_contrato' => ['required', 'regex:/^[a-zA-ZÑñ ]{2,40}$/'], //'required|min:5|max:50|alpha_num_spaces', //numeric|alpha|alpha_num_spaces,
         ]);
         
       // dd($request);
         $newtcontrato = new TipoContrato;
-        $nombre= ucwords($validatedData['tipo_contrato']);
-        $newtcontrato->nombre = $nombre;
+        $newtcontrato->nombre = ucfirst(strtolower($validatedData['tipo_contrato'])); 
         $newtcontrato->estado = 'Habilitado';
         $newtcontrato->user_id = auth()->user()->id;
         //dd($newtcontrato);
@@ -33,35 +32,45 @@ class TipoContratosController extends Controller
 
     public function update(Request $request)
     {
+        //return response()->json($request);
         $validatedData = $request->validate([
             'id' => 'numeric',
-            'tipo_contratoM' => ['required', 'regex:/^[a-zA-Z ]{5,50}$/'],
+            'contrato' => ['required', 'regex:/^[a-zA-ZÑñ ]{2,40}$/'],
         ]);
-
         $t_contrato = TipoContrato::findOrFail($validatedData['id']);
-        $nombre = ucwords($validatedData['tipo_contratoM']);
-        $t_contrato->nombre =  $nombre;
+        $t_contrato->nombre =  $validatedData['contrato'];
         $t_contrato->user_id = auth()->user()->id;
         $t_contrato->save();
        // dd($t_contrato);
-       return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo de contrato se actualizo correctamente !!');
+       return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
     }
 
-    public function deshabilitar($id)
+    public function deshabilitar(Request $request)
     {
-         //dd($id);
+         //dd($request);
+         $id = $request->id;
          $t_contrato = TipoContrato::findOrFail($id);
-         $t_contrato->estado = 'Inhabilitado';
-         $t_contrato->save();
-         return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo turno se deshabilito correctamente !!'); 
+         if($request->accion == 'D'){
+            $t_contrato->estado = 'Deshabilitado';
+            $t_contrato->save();
+            return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo turno se deshabilito correctamente !!'); 
+         }else{
+            $t_contrato->estado = 'Habilitado';
+            $t_contrato->save();
+            return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo turno se habilito correctamente !!'); 
+         }
     }
-    public function habilitar($id)
+    /*public function habilitar($id)
     {
          $t_contrato = TipoContrato::findOrFail($id);
          $t_contrato->estado = 'Habilitado';
          $t_contrato->save();
-         return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo turno se habilito correctamente !!'); 
-    }
+        
+          $t_contrato = TipoContrato::findOrFail($id);
+         $t_contrato->estado = 'Inhabilitado';
+         $t_contrato->save();
+         return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo turno se deshabilito correctamente !!'); 
+    }*/
 }
 
 /*
@@ -81,4 +90,17 @@ dd($request);
         $entrada->nombre =  $nombre;
         $entrada->user_id = auth()->user()->id;
         $entrada->save();
+    ------------otro uptado ajax
+  $validatedData = $request->validate([
+            'id' => 'numeric',
+            'tipo_contratoM' => ['required', 'regex:/^[a-zA-Z ]{5,50}$/'],
+        ]);
+
+        $t_contrato = TipoContrato::findOrFail($validatedData['id']);
+        $nombre = ucwords($validatedData['tipo_contratoM']);
+        $t_contrato->nombre =  $nombre;
+        $t_contrato->user_id = auth()->user()->id;
+        $t_contrato->save();
+       // dd($t_contrato);
+       return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo de contrato se actualizo correctamente !!');
 */

@@ -4,7 +4,6 @@
 @stop
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
 <style>
     #este {
@@ -24,8 +23,8 @@
 @stop
 
 @section('contenido')    
-   
-    {!! Form::open(array('id'=>'form_reg_rolturno','autocomplete'=>'off', 'class'=>'border border-5 form-control-sm')) !!}
+
+{!! Form::open(array('id'=>'form_reg_rolturno','autocomplete'=>'off', 'class'=>'border border-5 form-control-sm')) !!}
    @csrf
     <table class="table table-sm" >
         <tr>
@@ -53,18 +52,16 @@
                                 </div>
                                 <div class="form-group " style="margin-top: -10px;">
                                     <label for="personall" class="font-weight-bold">Personal</label>
-                                    <select class="form-control-sm custom-select text-uppercase select2" name="personal" id="per" >
+                                    <select class="form-control-sm custom-select text-uppercase select2" style="width: 100%" name="personal" id="per" >
                                         <option value="Elegir personal" disabled selected>Selecione una opcion</option>
                                         @foreach($personas as $id => $persona)   
-                                                <option value="{{$id}}" > {{$persona}} </option>  
+                                                <option value="{{$id}}" >{{$persona}}</option>  
                                         @endforeach
                                     </select>
                                 </div>
-                                
                                 <div class="form-group" style="margin-top: -10px;">
                                     {!! Form::label('areaPer', 'Area de la persona', ['class' => 'font-weight-bold' ]) !!}
-                                    <select class="form-control-sm custom-select text-uppercase select2 controlArea" name="area" id='area' >
-                                        
+                                    <select class="form-control-sm custom-select select2 controlArea" style="width: 100%" name="area" id='area' >  
                                     </select>
                                 </div>
                                 <div class="form-group" style="margin-top: -10px;">
@@ -77,29 +74,17 @@
                                         <option value="PE">Permiso Especial</option>
                                     </select>
                                 </div>
-                                {{--<div class="form-group row " id="product1" style="margin-top: -10px;"> 
-                                    <div class="form-check ml-4 col-auto">
-                                        <input class="form-check-input" type="radio" name="tipod" id="laboral" value="DL" checked>
-                                        <label class="form-check-label font-weight-bold" for="gridCheck">Dia laboral</label>
-                                    </div>
-                                    <div class="form-check ml-4 col-auto"> 
-                                        <input class="form-check-input" type="radio" name="tipod" id="descanso" value="V">
-                                        <label class="form-check-label font-weight-bold" for="gridCheck">Vacacion</label>
-                                    </div>
-                                </div>--}}
-                                
                                 <div class="form-row " style="margin-top: 10px;">
                                     <div class="form-group col">
                                         <label for="turnoo">Turno</label>
                                         <select name="turno" id="turno" class="form-control-sm custom-select mr-sm-2">
                                             <option value="" disabled selected>Selecione una opcion</option>
                                             @foreach($turnos as $id => $turno)   
-                                                <option value="{{$id}}" > {{$turno}} </option>  
+                                                <option value="{{$id}}" >{{$turno}}</option>  
                                              @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                
                                 <div class="form-row" style="margin-top: -10px;">
                                     <div class="form-group col-md-6">
                                         <label for="fecha de inicio">Fecha Ingreso</label>
@@ -122,13 +107,11 @@
                                         <input type="time" class="form-control " name="hora_fin" id="hrs_fin" >
                                     </div>
                                 </div>
-
                                 <div class="form-group row " style="margin-top: -10px;">
                                     <label class="col">Observaciones</p>
                                     <textarea name="comentario" class="form-control-sm col" placeholder="Este campo es opcional" id="obs"></textarea>
                                     <small id="validacionError" class="form-text"></small>
                                 </div>
-
                                 <div class="row justify-content-center align-content-center" style="margin-top: -20px;">
                                     <button id="adicionar" class="btn btn-success btn-sm add" type="button"> Agregar</button>
                                     <button id="limpiar" class="btn btn-danger btn-sm ml-4" type="button" > Cancelar</button>                                  
@@ -169,125 +152,37 @@
             <button type="button" id="registrar" class="btn btn-success btn-sm ml-4">Guardar</button>
         </center>
     </div>
-    {!!Form::Close()!!}
+{!!Form::Close()!!}
    
 @stop
 
 @section('scripts')
+<script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
+<script type="text/javascript">
+    $('.select2').select2({
+        placeholder: "Seleccione una opcion",
+        allowClear: true,
+        ancho : 'resolver'
+    });
+</script>
 
 <script type="text/javascript" src="{{ asset('assets/scripts/jefe_servicio/turno.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
 <script>
     $(document).ready(function() {
-        
          var exiteGestion = 0, countF_iniMes=0,countF_finMes=0;
-          //FUNCIONES PARA LIMPIAR EL FORMULARIO Y LAS ALERTAS DE VALIDACION
-          function limpiarServicioGestion(){ //caso de si ya esta registrado el servicio y la gestion
-            $(".controlServicio").removeClass('is-invalid');
-            $('#validacionServicio').text('Error ya se tiene registrado el rol turno para ese Mes !!!').removeClass('text-danger').hide();
-            $(".controlMes").removeClass('is-invalid');
-            $('#validacionMes').text('Error ya se tiene registrado el rol turno para ese Mes !!!').removeClass('text-danger').hide();
-            $('#validacionError').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
-         }
-         function limpiarfec_iniMes(){ //caso para ver si los mismos datos de mes y fecha inicio
-            $(".controlMes").removeClass('is-invalid');
-            $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').removeClass('text-danger').hide();
-            $(".controlFechaInicio").removeClass('is-invalid');
-            $('#validacionFechaIngreso').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').removeClass('text-danger').hide();
-            $('#validacionError').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
-         }
-         function limpiarfec_finMes(){ //caso para ver si los mismos datos de mes y fecha fin
-            $(".controlMes").removeClass('is-invalid');
-            $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').removeClass('text-danger').hide();
-            $(".controlFechaVacacion").removeClass('is-invalid');
-            $('#validacionFechaRetorno').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').removeClass('text-danger').hide();
-            $('#validacionError').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
-         }
-        function limpiarform(){
-            document.getElementById("servicio").value = "";//no limpia
-            document.getElementById("per").value = "";//no limpia
-            document.getElementById("gestion").value = "";
-            document.getElementById("area").value = "";
-            document.getElementById("turno").value = "";
-            document.getElementById("fec_inicio").value = "";
-            document.getElementById("fec_fin").value = "";
-            document.getElementById("hrs_inicio").value = "";
-            document.getElementById("hrs_fin").value = "";
-            document.getElementById("obs").value = "";
-            $('#validacionError').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
-        }
-        function limpiarformParcial(){
-            document.getElementById("fec_inicio").value = "";
-            document.getElementById("fec_fin").value = "";
-            document.getElementById("hrs_inicio").value = "";
-            document.getElementById("hrs_fin").value = "";
-            document.getElementById("obs").value = "";
-        }
-         //CONTROLES PARA HABILITAR Y DESHABILITAR LOS INPUTS EN LOS CASOS DE LABORAL Y VACACION
-         $('#tipod').on('click', function(e){
-            e.preventDefault();
-            var tdia = $('#tipod :selected').text();
-            if(tdia == 'Dia Laboral'){//CASO DIA LABORAL
-                $('#laboral').prop("checked", true);
-                $('#descanso').prop("checked", false);
-                $('#fec_fin').prop("disabled", true);
-                $('#hrs_inicio').prop("disabled", false);
-                $('#hrs_fin').prop("disabled", false);
-                // $('#turno').prop("disabled", false);
-                $('#area').prop("disabled", false);
-                // $('#obs').prop("disabled", false);
-            }else{// CASO VACACION, CUENTA VACACION, BAJA MEDICA, PERMISO ESPECIAL
-                $('#laboral').prop("checked", false);
-                $('#descanso').prop("checked", true);
-                $('#fec_inicio').prop("disabled", false);
-                $('#fec_fin').prop("disabled", false);
-                $('#hrs_inicio').prop("disabled", true);
-                $('#hrs_fin').prop("disabled", true);
-                //$('#turno').prop("disabled", false);
-                $('#area').prop("disabled", false);
-                // $('#obs').prop("disabled", false);
-            }
-         });
-         /*$('#laboral').on('change', function(e){ //CASO DIA LABORAL
-            //var selected = document.querySelector('input[type=radio][name=tipod]:checked');
-            // alert(selected.value)
-            e.preventDefault();
-            $('#laboral').prop("checked", true);
-            $('#descanso').prop("checked", false);
-            $('#fec_fin').prop("disabled", true);
-            $('#hrs_inicio').prop("disabled", false);
-            $('#hrs_fin').prop("disabled", false);
-            // $('#turno').prop("disabled", false);
-            $('#area').prop("disabled", false);
-              // $('#obs').prop("disabled", false);
-        });
-
-        $('#descanso').on('change', function(e){// CASO VACACION
-            e.preventDefault();
-            $('#laboral').prop("checked", false);
-            $('#descanso').prop("checked", true);
-            $('#fec_inicio').prop("disabled", false);
-            $('#fec_fin').prop("disabled", false);
-            $('#hrs_inicio').prop("disabled", true);
-            $('#hrs_fin').prop("disabled", true);
-            //$('#turno').prop("disabled", false);
-            $('#area').prop("disabled", false);
-             // $('#obs').prop("disabled", false);
-        });*/
-
-        //* PROCESO PARA LISTAR AREAS DE UN SERVICIO ESPECIFICO
+       //*1
+         //* PROCESO PARA LISTAR AREAS DE UN SERVICIO ESPECIFICO
         const area_per = $('#area');
         $.ajax({
             url: '{{ route('areas.servicio') }}',
             data: { nombreServicio: $('#servicio').val() },
             success: function(data){ //alert(data)
-                area_per.html('<option value="" selected disabled >Selecione una opcion</option>');
+                area_per.html('<option value="" selected>Selecione una opcion</option>');
                 $.each(data, function(id, value, estado) {
                     area_per.append('<option value="' + id + '">' + value + '</option>');
                 });
             }
         });
-        
         //* PROCESO PARA SABER SI YA ESTA REGISTRADO EL SERVICIO Y LA GESTION DE ROL TURNO
         $('.controlMes').change(function() {
             $.ajax({
@@ -295,7 +190,6 @@
                 type:'GET',
                 data: { datos1: document.getElementById("servicio").value, datos2: document.getElementById("gestion").value, datos3: document.getElementById("area").value },
                 success: function(data){
-                //   alert(data)
                     if(data == 'existe'){ //resp=='error'
                         $(".controlServicio").addClass('is-invalid');//no funciona
                         $('#validacionServicio').text('Error ya se tiene registrado el rol turno para ese Mes !!!').addClass('text-danger').show();
@@ -303,74 +197,21 @@
                         $('#validacionMes').text('Error ya se tiene registrado el rol turno para ese Mes !!!').addClass('text-danger').show();
                         exiteGestion=1;
                     }else {
-                        limpiarServicioGestion()
+                        limpiarServicioGestion();
                         exiteGestion=0;
                     }  
                     return false;
                 }
              });
         });
-        //* CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA INGRESO Y MES [CASO DIA LABORAL]
-        $('.controlFechaInicio').change(function() {
-            var fec_ini = $('.fechaDL').val();
-            var mes = $('.controlMes').val();
-            $mes_anioL = fec_ini.substring(0, 7);
-            var tipodia = $('#tipod :selected').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('dd 2 '+ $mes_anioL);
-            //console.log('dl '+ tipodia);
-            if( mes != $mes_anioL  && mes != ''){//tipodia == 'DL' &&
-                $(".controlMes").addClass('is-invalid');
-                $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
-                $(".controlFechaInicio").addClass('is-invalid');
-                $('#validacionFechaIngreso').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
-                countF_iniMes=1;
-            }else{
-                limpiarfec_iniMes()
-                countF_iniMes=0;
-            }
-            return false;
-        });
-        //PROCESO PARA LIMPIAR LAS ALERTAS DE FECHA FIN SI VUELVE SELECCIONAR DIA LABORAL
-        $('#tipod').click(function() {//
-            if($('#tipod :selected').val() == 'DL'){
-                limpiarfec_finMes();
-                countF_finMes=0;
-            }
-         });
-        //* CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA INGRESO Y MES [CASO VACACION]
-        $('.controlFechaVacacion').change(function() {
-            var fec_fin = $('.fechaV').val();
-            var mes = $('.controlMes').val();
-            $mes_anioV = fec_fin.substring(0, 7); //validacionFechaRetorno
-            var tipodia = $('#tipod :selected').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('entro '+ fec_fin+ ' mes '+ mes+ 't dia'+ tipodia);
-          //  console.log('N dl '+ tipodia);
-            if(tipodia != 'DL' && mes != $mes_anioV  && mes != ''){
-                $(".controlMes").addClass('is-invalid');
-                $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
-                $(".controlFechaVacacion").addClass('is-invalid');
-                $('#validacionFechaRetorno').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
-                countF_finMes=1;
-            }else{
-                limpiarfec_finMes()
-                countF_finMes=0;
-            }
-            return false;
-        });
-       //PROCESO PARA LIMPIAR EL FORMULARIO
-       $('#limpiar').click(function() {//para limpiar el formulario  cuando cancelas
-            limpiarform();
-            limpiarServicioGestion();
-            limpiarfec_iniMes();
-            limpiarfec_finMes();
-        });
-        
+        //*2
         //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO
         var i = 1, fila; //contador para asignar id al boton que borrara la fila
         $('#adicionar').click(function() {
-            //obtenemos el valor de todos los input
-            var per = $('#per :selected').text();
+            var per = $('#per :selected').text();//obtenemos el valor de todos los input
             var per_id = $('#per').val();
+            var tipodia = $('#tipod :selected').val(); 
             var fec_ini = $('#fec_inicio').val();
-            var tipodia = $('#tipod :selected').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val();
             var fec_fin = document.getElementById("fec_fin").value;
             var hrs_ini=document.getElementById("hrs_inicio").value;
             var hrs_fin=document.getElementById("hrs_fin").value;
@@ -378,7 +219,7 @@
             var turno_nombre=$('#turno :selected').text();
             var gestion = document.getElementById("gestion").value; 
             //var servicio_id=document.getElementById("servicio").value; 
-            var servicio =  document.getElementById("servicio").value; //$('#servicio :selected').text();
+            var servicio =  document.getElementById("servicio").value;
             var area_id=document.getElementById("area").value; 
             var area=$('#area :selected').text();
             var obs=document.getElementById("obs").value;
@@ -437,14 +278,12 @@
             fila = '<tr  id="row' + i + '"><td>' + i + '</td> <td>'+per+'<input type="hidden" name="m[]" class="form-control" value="'+per_id+'"></td><td>'+servicio+'<input type="hidden" name="servi[]" class="form-control" value="'+servicio+'"></td><td>'+area+'<input type="hidden" name="area_per[]" class="form-control" value="'+area_id+'"></td><td>'+gestion+'<input type="hidden" name="mes[]" class="form-control" value="'+gestion+'"></td><td>'+tipodia+'<input type="hidden" name="tdia[]" class="form-control" value="'+tipodia+'"></td><td>'+fec_ini+'<input type="hidden" name="f_ini[]" class="form-control" value="'+fec_ini+'"></td><td>'+fec_fin+'<input type="hidden" name="f_fin[]" class="form-control" value="'+fec_fin+'"></td><td>'+hrs_ini+'<input type="hidden" name="h_ini[]" class="form-control" value="'+hrs_ini+'"></td><td>'+hrs_fin+'<input type="hidden" name="h_fin[]" class="form-control" value="'+hrs_fin+'"></td><td>'+turno_nombre+'<input type="hidden" name="t[]" class="form-control" value="'+turno+'"></td><td>'+obs+'<input type="hidden" name="obs[]" class="form-control" value="'+obs+'"></td><td><button type="button" name="remove" id="' + i + '" class="btn  btn-sm btn-danger btn_remove">Quitar</button></td></tr>';  
             i++;
             $('.vacio').hide();//para oculta la fila de NO EXISTEN DATOS en la tabla
-            //console.log('fila'+ fila);
-            
+           
             if(exiteGestion == 0 && countF_iniMes == 0 && countF_finMes == 0){
                 $('#mytable .titulo').after(fila); //before //se añade los datos a la lista
                 limpiarformParcial(); //para limpiar el formulario despues de registrarlo
                 $('#validacionError').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
             }else{
-                //console.log('error ');
                 $('#validacionError').text('Error verifique los errores del formulario !!!').addClass('text-danger').show();
             }
         });
@@ -465,7 +304,7 @@
                 toastr.error("Agregue datos mediante el formulario", "NO EXISTE ROLES DE TURNOS DEL PERSONAL!!!", { "positionClass": "toast-bottom-right" });
                 return false;
             }
-            var formData = new FormData(document.getElementById("form_reg_rolturno")); //form_reg_rolturno
+            var formData = new FormData(document.getElementById("form_reg_rolturno"));
             
             $.ajax({
                 url:"{{route('guardar.rolturno')}}",
@@ -483,7 +322,6 @@
                     },4000);
                 }
                 else {
-                //alert(resp);
                 toastr.error("ERROR NO SE PUDO REALIZAR EL REGISTRO", { "positionClass": "toast-bottom-right" });	
                     setTimeout(function(){	
                         window.location="{{ route('listar.registrar.rolturno') }}";
@@ -496,170 +334,4 @@
     });
 </script>
 
-<script type="text/javascript">
-    $('.select2').select2({
-        placeholder: "Seleccione una opcion",
-        allowClear: true
-    });
-</script>
-{{--
-<script type="text/javascript">
-  $(document).ready(function(){
-    //PROCESO PARA SABER SI YA ESTA REGISTRADO EL SERVICIO Y LA GESTION DE ROL TURNO
-    $(document).on('click', '.add', function(e) { 
-        e.preventDefault();
-       // const datos = [document.getElementById("servicio").value, document.getElementById("gestion").value]; //form_reg_rolturno
-        //console.log(' area -> '+ $('#area :selected').text() +' su id -> '+  document.getElementById("area").value);
-        $.ajax({
-            url: "{{ route('gestion.registrado') }}",
-            data: { datos1: document.getElementById("servicio").value, datos2: document.getElementById("gestion").value, datos3: document.getElementById("area").value },
-            success: function(data){
-             //   alert(data)
-                if(data == 'existe'){ //resp=='error'
-                    $(".controlServicio").addClass('is-invalid');//no funciona
-                    $('#validacionServicio').text('Error ya se tiene registrado el rol turno para ese Mes !!!').addClass('text-danger').show();
-                    $(".controlMes").addClass('is-invalid');
-                    $('#validacionMes').text('Error ya se tiene registrado el rol turno para ese Mes !!!').addClass('text-danger').show();
-                }else {
-                    $(".controlServicio").removeClass('is-invalid');//no funciona
-                    $('#validacionServicio').text('Error ya se tiene registrado el rol turno para ese Mes !!!').removeClass('text-danger').hide();
-                    $(".controlMes").removeClass('is-invalid');
-                    $('#validacionMes').text('Error ya se tiene registrado el rol turno para ese Mes !!!').removeClass('text-danger').hide();
-                }  
-                return false;
-                /* if(data == 'existe'){
-                    toastr.error("ERROR YA SE TIENE REGISTRADO EL ROL TURNO PARA ESA GESTION",{"positionClass": "toast-bottom-right"});	
-                    setTimeout(function(){	
-                        window.location="{{ route('listar.registrar.rolturno') }}";
-                    },4000);
-                   
-                   return false;
-                   }  */
-            }
-        });
-    });
-
-    //PROCESO PARA LISTAR AREAS DE SERVICIO ESPECIFICO
-    $('#servicio').change(function() {
-        const area_per = $('#area');
-        //var servi =  $('#servicio').val();
-      // console.log('aaa '+ servi);
-        $.ajax({
-            url: "{{ route('areas.servicio') }}",
-            data: { servicio_id: $(this).val() },
-            success: function(data){
-               // alert(data)
-                area_per.html('<option value="" selected disabled >Selecione una opcion</option>');
-                $.each(data, function(id, value, estado) {
-                    area_per.append('<option value="' + id + '">' + value + '</option>');
-                });
-            }
-        });
-    });
-    
-     //PROCESOS PARA GUARDAR MULTIPLES DATOS
-    $("#registrar").click(function(e){
-        var cant=0;
-        $("input[name^='m']").each(function(){
-            cant++;
-        });
-        if (cant == 0) {
-            toastr.error("Agregue datos mediante el formulario", "NO EXISTE ROLES DE TURNOS DEL PERSONAL!!!", {
-                "positionClass": "toast-bottom-right"
-            });
-            //$('#adicionar').focus();
-            return false;
-        }
-        //console.log('cantidad '+cont);
-        //*
-        e.preventDefault();
-        //$('#boton1').attr('disabled', true).text('Registrando...');
-        var f= $(this);
-        //console.log('cantidad '+f);
-        var formData = new FormData(document.getElementById("form_reg_rolturno")); //form_reg_rolturno
-        
-        $.ajax({
-            url:"{{route('guardar.rolturno')}}",
-            type:'POST',
-            dataType: "html",
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData
-        }).done(function(resp){
-        //alert(resp);
-            if(resp=='ok'){ //resp=='error'
-                toastr.success("REGISTRO EXITOSO DE ROL DE TURNO...");	
-                setTimeout(function(){	
-                    window.location="{{ route('listar.registrar.rolturno') }}";
-                },4000);
-             }
-            else {
-               //alert(resp);
-               toastr.error("ERROR NO SE PUDO REALIZAR EL REGISTRO");	
-                setTimeout(function(){	
-                    window.location="{{ route('listar.registrar.rolturno') }}";
-                },4000);
-            }
-        });
-        document.getElementById("obs").value = "";
-        document.getElementById("area").value = "";
-    });
-
-  });
-</script>
---}}
 @stop
-
-
-{{--<thead>
-                        <tr>
-                            <th width="10px">Nro.</th>
-                            <th style="text-align: center;" width="10px">Persona</th>
-                            <th style="text-align: center;" width="10px">tipo dia</th>
-                            <th style="text-align: center;" width="10px">Fecha ini</th>
-                            <th style="text-align: center;" width="10px">Fecha fin</th>
-                            <th style="text-align: center;" width="10px">Hora ini</th>
-                            <th style="text-align: center;" width="10px">Hora fin</th>
-                            <th style="text-align: center;" width="10px">turo</th>
-                            <th style="text-align: center;" width="10px">Area</th>
-                            <th style="text-align: center;" width="10px">Observacion</th>
-                            <th style="text-align: center;" width="10px">Accion</th>
-                        </tr>
-                      </thead>
-                      <tbody style=" border: 1px solid rgba(0, 0, 255, 0.239); width: 100px;  word-wrap: break-word;">
-                        
-                        <tr class="titulo" style="background-color: red;display: none;">
-                            <th width="10px">Nro.</th>
-                            <th style="text-align: center;">Persona</th>
-                            <th style="text-align: center;">Fecha</th>
-                            <th style="text-align: center;">Horaf</th>
-                            <th style="text-align: center;">turo</th>
-                            <th style="text-align: center;">area</th>
-                            <th style="text-align: center;">Observacion</th>
-                            <th style="text-align: center;">Accion</th>
-                        </tr>--}} 
-                        {{--
-                      </tbody>--}}
-
-
-    {{--jquery *
-        //alert(formData)
-       /*
-        console.log('formdata');
-        console.log(formData.get('personal'));
-        console.log(formData.get('area'));
-        console.log(formData.get('comentario'));
-        console.log(formData.get('tipod'));
-        console.log(formData.get('fecha_inicio'));
-        console.log(formData.get('fecha_fin'));
-        console.log(formData.get('hora_inicio'));
-        console.log(formData.get('hora_fin'));
-        console.log(formData.get('turno'));
-        */
-        //$array = explode(",", formData.get('personal'));//convertiendo string a arrar(personal[nombrecompleto,idper_db])
-        //dd('nombre '.$array[0].' id es '.$array[1]);
-        //console.log('nombre '+$array[0]+' id es '+$array[1]);
-       
-        //console.log(formData);
-        --}}

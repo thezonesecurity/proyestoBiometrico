@@ -15,8 +15,8 @@
                 <h4>Esta seguro de eliminar ?</h4>
               </div>
                 <input type="hidden" class="form-control " name="id" id='idMe'>
-                <p>Se eliminara el rolturno del personal <input class="font-weight-bold" id="personaMe" disabled  style="border: 0;"> 
-                    corespondiente a la fecha de <input class="font-weight-bold mr-15" id="f_iniMe" disabled  style="border: 0;"><br> Esta accion no se puede deshacer!</p>
+                <p>Se eliminara el rolturno de la persona <span id="personaMe" class="font-weight-bold"></span>
+                  corespondiente a la fecha de <span id="f_iniMe" class="font-weight-bold"></span><br> Esta accion no se puede deshacer!</p>
                 <div class="modal-footer" style="margin-top: -30px;">
                     {!! Form::submit('Eliminar', ['class' => 'btn btn-danger' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal" ] ) !!}

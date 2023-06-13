@@ -19,11 +19,11 @@ class Persona extends Model
     }*/
 
     public function rolturnos_per(){
-        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
+        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class, 'persona_id');
     }
     public function PersonaItem()//uno a muchos inversa
     {
-        return $this->belongsTo(\App\Models\tipo_contratos\TipoContrato::class,'item_id');
+        return $this->belongsTo(\App\Models\tipo_contratos\TipoContrato::class, 'item_id');
     }
 
 }

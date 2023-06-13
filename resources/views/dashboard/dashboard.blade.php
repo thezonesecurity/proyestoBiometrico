@@ -10,10 +10,10 @@
     <link href="{{ asset("bootstrap4/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" />
     <link href={{ asset("alerts/toastr.min.css")}} rel="stylesheet" />
     <link href="{{ asset("bootstrap-icons/bootstrap-icons.css")}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("datatables/jquery.dataTables.min.css")}}" rel="stylesheet" type="text/css" />
-
+    {{--<link href="{{ asset("datatables/jquery.dataTables.min.css")}}" rel="stylesheet" type="text/css" />NO USADO--}}
     <link href="{{ asset("assets/styles/style_plantilla.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("assets/styles/boxicons.min.css")}}" rel="stylesheet" type="text/css" />
+    
     @section('styles') @show
 </head>
 <body>
@@ -34,10 +34,10 @@
          </main>
     </div>
 
-    {{--<script src="{{ asset("bootstrap4/jquery/jquery-3.5.1.slim.min.js")}}" type="text/javascript"></script>--}}
+    {{--<script src="{{ asset("bootstrap4/jquery/jquery-3.5.1.slim.min.js")}}" type="text/javascript"></script>NO USADO--}}
     <script src="{{ asset("assets/scripts/plantilla.js")}}" type="text/javascript"></script>
     <script src="{{ asset("bootstrap4/jquery/jquery-3.3.1.min.js")}}" type="text/javascript"></script>
-    <script src="{{ asset("alerts/sweetalert.min.js")}}" type="text/javascript"></script> 
+    {{--<script src="{{ asset("alerts/sweetalert.min.js")}}" type="text/javascript"></script> NO USADO--}} 
     <script src="{{ asset("alerts/toastr.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("bootstrap4/js/bootstrap.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("/bootstrap4/js/bootstrap.bundle.min.js")}}" type="text/javascript"></script> 

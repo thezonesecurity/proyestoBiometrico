@@ -1,5 +1,5 @@
 
-  <div class="modal fade" id="rolturnEnviar{{ $rolturno->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="rolturnoEnviar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -14,9 +14,9 @@
                   <img src="{{asset('assets/img/ad.JPG')}}" width="250" height="190" class="rounded mx-auto d-block"/>
                   <h4>Esta seguro de enviar ?</h4>
                 </div>
-                {{Form::hidden('id', $rolturno->id)}}
-                 <p>Se enviar el rolturno del servicio de <span class="font-weight-bold">{{$rolturno->servicios->nombre}}</span> corespondiente a la gestion de
-                    <span class="font-weight-bold">{{$rolturno->gestion}}</span>. Una vez enviado no podra realizar ningun registro ni podra editar. Desea Enviar?</p>
+                <input type="hidden" name="id" id="idMenviar">
+                 <p>Se enviar el rolturno del servicio de <span id="servicioMenviar" class="font-weight-bold"></span>
+                   corespondiente al mes de <span id="gestionMenviar" class="font-weight-bold"></span>. Desea Enviar?</p>
                 <div class="modal-footer">
                     {!! Form::submit('Enviar', ['class' => 'btn btn-primary' ] ) !!} 
                     {!! Form::submit('Cancelar', ['class' => 'btn btn-secondary', 'data-dismiss'=>"modal" ] ) !!}

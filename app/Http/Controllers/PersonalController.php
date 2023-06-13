@@ -44,46 +44,42 @@ class PersonalController extends Controller
 
     public function update(Request $request)
     {
-        //dd($request);
+        //return response()->json($request);
         $validatedData = $request->validate([
-            'id_user' => 'required',
-            'nombrePersonal' => 'required|regex:/^[a-zA-ZÑñ. ]{5,99}+$/',
+            'id' => 'required',
+            'persona' => 'required|regex:/^[a-zA-ZÑñ. ]{5,99}+$/',
             'ci' => 'required',//readonly
-            'itemM' => 'required',
-            'itemMo' => 'required_if:$request->itemMo != "", "" ',
-            'numFinanciamientoM' => 'required_if:$request->numFinanciamientoM != 0, ""|regex:/^[0-9]{1,20}+$/',
-            'servicioM' => 'required',
-            'servicioMo' => 'required_if:$request->servicioMo != "", "" ',
+            'Lastitem' => 'required',
+            'Newitem' => 'required_if:$request->itemMo != "", "" ',
+            'nroitem' => 'required_if:$request->numFinanciamientoM != 0, ""|regex:/^[0-9]{1,20}+$/',
+            'LastServicio' => 'required',
+            'NewServicio' => 'required_if:$request->servicioMo != "", "" ',
         ]);
-        // dd($validatedData['id_user']);
-        //$idM = explode(',', $validatedData['id_user']); // $idM[0]=id , $idM[1]=idper_db
-        $persona = persona::findOrFail($validatedData['id_user']);
-        $persona->nombres = strtoupper($validatedData['nombrePersonal']);
+        //return response()->json($validatedData);
+        $persona = persona::findOrFail($validatedData['id']);
+        $persona->nombres = strtoupper($validatedData['persona']);
         // $persona->ci = $validatedData['ci'];
-        if($validatedData['itemMo'] != null) {  $persona->item_id = $validatedData['itemMo']; };
-        if($validatedData['servicioMo'] != null) { $persona->id_servicio = $validatedData['servicioMo']; }
-        if($validatedData['numFinanciamientoM'] != '0'){ $persona->num_financ = $validatedData['numFinanciamientoM']; }
+        if($validatedData['Newitem'] != null) {  $persona->item_id = $validatedData['Newitem']; };
+        if($validatedData['NewServicio'] != null) { $persona->id_servicio = $validatedData['NewServicio']; }
+        if($validatedData['nroitem'] != '0'){ $persona->num_financ = $validatedData['nroitem']; }
         else { $persona->num_financ = null; }
         $persona->user_id = auth()->user()->id; 
         //dd($persona);
         $persona->save();
-        return redirect(route('listar.personal'))->with('success', 'El personal se actualizo correctamente !!'); 
+        return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
     }
 
     public function deshabilitar($id)
     {
-         //dd($id);
-         $iper_db = $id;
-         $persona = Persona::findOrFail($iper_db);
-         $persona->estado_per = 'Inhabilitado';
-         $persona->save();
-         return redirect(route('listar.personal'))->with('success', 'El personal se deshabilito correctamente !!'); 
+        $persona = Persona::findOrFail($id);
+        $persona->estado_per = 'Deshabilitado';
+        $persona->save();
+        return redirect(route('listar.personal'))->with('success', 'El personal se deshabilito correctamente !!'); 
     }
     public function habilitar($id)
     {
         //dd($id);
-        $iper_db = $id;
-        $persona = Persona::findOrFail($iper_db);
+        $persona = Persona::findOrFail($id);
         $persona->estado_per = 'Habilitado';
         $persona->save();
         return redirect(route('listar.personal'))->with('success', 'El personal se habilito correctamente !!'); 
@@ -119,36 +115,30 @@ class PersonalController extends Controller
         $persona->idper_db = $idM[1];
         //dd($persona);
         $persona->save();
+        ----------------------otro update ----------------
+        $validatedData = $request->validate([
+            'id_user' => 'required',
+            'nombrePersonal' => 'required|regex:/^[a-zA-ZÑñ. ]{5,99}+$/',
+            'ci' => 'required',//readonly
+            'itemM' => 'required',
+            'itemMo' => 'required_if:$request->itemMo != "", "" ',
+            'numFinanciamientoM' => 'required_if:$request->numFinanciamientoM != 0, ""|regex:/^[0-9]{1,20}+$/',
+            'servicioM' => 'required',
+            'servicioMo' => 'required_if:$request->servicioMo != "", "" ',
+        ]);
+        // dd($validatedData['id_user']);
+        //$idM = explode(',', $validatedData['id_user']); // $idM[0]=id , $idM[1]=idper_db
+        $persona = persona::findOrFail($validatedData['id_user']);
+        $persona->nombres = strtoupper($validatedData['nombrePersonal']);
+        // $persona->ci = $validatedData['ci'];
+        if($validatedData['itemMo'] != null) {  $persona->item_id = $validatedData['itemMo']; };
+        if($validatedData['servicioMo'] != null) { $persona->id_servicio = $validatedData['servicioMo']; }
+        if($validatedData['numFinanciamientoM'] != '0'){ $persona->num_financ = $validatedData['numFinanciamientoM']; }
+        else { $persona->num_financ = null; }
+        $persona->user_id = auth()->user()->id; 
+        //dd($persona);
+        $persona->save();
+        return redirect(route('listar.personal'))->with('success', 'El personal se actualizo correctamente !!'); 
  */
 
- /*
-        $persona=Persona::where('id_servicio',$request->servicio)->where('nombres', $request->nombre)->first(); 
-       // dd($persona);
-        if(isset($persona)){
-           // echo 'existe en DB' SE ACTUALIZA;
-            $persona->nombres = $request->nombre;
-            $persona->ci = $request->ci;
-            $persona->item_id = $request->item;
-            $persona->estado_per = 'Habilitado';
-            $persona->idper_db = $request->id_user;
-            $persona->id_servicio = $request->servicio;
-            $persona->user_id = auth()->user()->id; 
-            dd($persona);
-            //$persona->save();
-            return redirect(route('listar.personal'))->with('success', 'El personal se actualizo correctamente !!'); 
-        }
-        else {
-            //echo 'NO existe en DB' SE HACE UN NUEVO REGISTRO;
-            $newpersona = new Persona;
-            $newpersona->nombres = $request->nombre;
-            $newpersona->ci = $request->ci;
-            $newpersona->item_id = $request->item;
-            $newpersona->estado_per = 'Habilitado';
-            $newpersona->idper_db = $request->id_user;
-            $newpersona->id_servicio = $request->servicio;
-            $newpersona->user_id = auth()->user()->id; 
-           dd($newpersona);
-            //$newpersona->save();
-            return redirect(route('listar.personal'))->with('success', 'El personal se registro correctamente !!'); 
-        }
-        */
+ 

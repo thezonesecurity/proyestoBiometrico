@@ -14,6 +14,6 @@ class TipoTurno extends Model
     protected $dates = ['created_at','updated_at'];
 
     public function rolturnos(){
-        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
+        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class, 'turno_id');
     }
 }

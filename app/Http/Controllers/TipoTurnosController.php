@@ -17,12 +17,11 @@ class TipoTurnosController extends Controller
     {
         //dd($request);
         $validatedData = $request->validate([
-            'tipo_turno' => ['required', 'regex:/^[a-zA-Z0-9ñ. ]{5,50}$/'], //'required|min:5|max:50|alpha_num_spaces', //numeric|alpha|alpha_num_spaces,
+            'tipo_turno' => ['required', 'regex:/^[a-zA-Z0-9Ññ. ]{2,40}$/'], //'required|min:5|max:50|alpha_num_spaces', //numeric|alpha|alpha_num_spaces,
         ]);
     
         $newT_turno = new TipoTurno();
-        $nombre = ucwords($validatedData['tipo_turno']);
-        $newT_turno->nombre = $nombre;
+        $newT_turno->nombre = ucfirst(strtolower($validatedData['tipo_turno'])); 
         $newT_turno->estado = 'Habilitado';
         $newT_turno->user_id = auth()->user()->id;
         $newT_turno->save();
@@ -31,35 +30,32 @@ class TipoTurnosController extends Controller
 
     public function update(Request $request)
     {
-       // dd($request);
+        //return response()->json($request);
         $validatedData = $request->validate([
             'id' => 'numeric',
-            'tipo_turnoM' => ['required', 'regex:/^[a-zA-Z0-9ñ. ]{5,50}$/'],
+            'turno' => ['required', 'regex:/^[a-zA-Z0-9Ññ. ]{2,40}$/'],
         ]);
-
         $tipoT = TipoTurno::findOrFail($validatedData['id']);
-        $nombre = ucwords($validatedData['tipo_turnoM']);
-        $tipoT->nombre =  $nombre;
+        $tipoT->nombre = $validatedData['turno'];
         $tipoT->user_id = auth()->user()->id;
         $tipoT->save();
-        //dd($tipoT);
-       return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se actualizo correctamente !!'); 
+        return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
     }
 
-    public function deshabilitar($id)
+    public function deshabilitar(Request $request)
     {
-         //dd($id);
+        // dd($request);
+         $id = $request->id;
          $t_turno = TipoTurno::findOrFail($id);
-         $t_turno->estado = 'Inhabilitado';
-         $t_turno->save();
-         return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se deshabilito correctamente !!'); 
-    }
-    public function habilitar($id)
-    {
-         $t_turno = TipoTurno::findOrFail($id);
-         $t_turno->estado = 'Habilitado';
-         $t_turno->save();
-         return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se habilito correctamente !!'); 
+         if($request->accion == 'D'){
+            $t_turno->estado = 'Deshabilitado';
+            $t_turno->save();
+            return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se deshabilito correctamente !!'); 
+         }else{
+            $t_turno->estado = 'Habilitado';
+            $t_turno->save();
+            return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se habilito correctamente !!'); 
+         }
     }
 }
 /*
@@ -80,5 +76,17 @@ class TipoTurnosController extends Controller
         $entrada->nombre =  $nombre;
         $entrada->user_id = auth()->user()->id;
         $entrada->save();
-        
+------------update con ajax
+ $validatedData = $request->validate([
+            'id' => 'numeric',
+            'tipo_turnoM' => ['required', 'regex:/^[a-zA-Z0-9ñ. ]{5,50}$/'],
+        ]);
+
+        $tipoT = TipoTurno::findOrFail($validatedData['id']);
+        $nombre = ucwords($validatedData['tipo_turnoM']);
+        $tipoT->nombre =  $nombre;
+        $tipoT->user_id = auth()->user()->id;
+        $tipoT->save();
+        //dd($tipoT);
+       return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo turno se actualizo correctamente !!');        
 */

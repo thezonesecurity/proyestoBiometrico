@@ -18,10 +18,10 @@ class Servicio extends Model
     }
 
     public function areas(){
-        return $this->hasMany(\App\Models\areas\Area::class);
+        return $this->hasMany(\App\Models\areas\Area::class, 'servicio_id');
     }
 
-    public function cambioturno_servicios(){
+    public function cambioturno_servicios(){//no usado
         return $this->hasMany(\App\Models\cambioturno\CambioTurno::class);
     }
 

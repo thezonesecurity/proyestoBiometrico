@@ -19,12 +19,11 @@ class AreaServicioController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'areaR' => 'required|min:5|max:50|string',
+            'areaR' => ['required', 'regex:/^[a-zA-ZÑñ ]{5,60}$/'],
             'servicioR' => 'required',
         ]);
         $newarea = new Area;
-        $nombre = ucwords($validatedData['areaR']);
-        $newarea->nombre = $nombre;
+        $newarea->nombre = ucfirst(strtolower($validatedData['areaR'])); 
         $newarea->estado = 'Habilitado';
         $newarea->servicio_id = $validatedData['servicioR'];  
        // dd($newarea);
@@ -34,42 +33,42 @@ class AreaServicioController extends Controller
 
     public function update(Request $request)
     {
-       // dd($request);
+       
         $validatedData = $request->validate([
-            'idM' => 'numeric',
-            'areaM' => 'required|min:5|max:50|string',
-            'servicioM' => 'required',
-            'servicioMo' => 'required_if:$request->servicioMo != "", "" ', //'sometimes|required',
+            'id' => 'required|numeric',
+            'area' => ['required', 'regex:/^[a-zA-ZÑñ ]{5,60}$/'],
+            'LastServicio' => 'required',
+            'NewServicio' => 'required_if:$request->NewServicio != null, "" ',
         ]);
-        // dd($validatedData);
-        $area = Area::findOrFail($validatedData['idM']);
-        $nombre = ucwords($validatedData['areaM']);
-        $area->nombre =  $nombre;
-        if($validatedData['servicioMo'] != null) {
-            $area->servicio_id =  $validatedData['servicioMo'];
-            $area->save();
-            return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+      // return response()->json($validatedData);
+       $area = Area::findOrFail($validatedData['id']);
+       $area->nombre = $validatedData['area'];
+       if($validatedData['NewServicio'] != null) {
+            $area->servicio_id  =  $validatedData['NewServicio'];
+             $area->save();
+            return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
         }else {
-            $area->save();
-            return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+             $area->save();
+            return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
         }
     }
 
-    public function deshabilitar($id)
+    public function deshabilitar(Request $request)
     {
-         //dd($id);
+        // dd($request);
+         $id = $request->id;
          $area = Area::findOrFail($id);
-         $area->estado = 'Inhabilitado';
-         $area->save();
-         return redirect(route('listar.area.servicio'))->with('success', 'El area se deshabilito correctamente !!'); 
+         if($request->accion == 'D'){
+            $area->estado = 'Deshabilitado';
+            $area->save();
+            return redirect(route('listar.area.servicio'))->with('success', 'El area se deshabilito correctamente !!'); 
+         }else{
+            $area->estado = 'Habilitado';
+            $area->save();
+            return redirect(route('listar.area.servicio'))->with('success', 'El area se habilito correctamente !!'); 
+         }
     }
-    public function habilitar($id)
-    {
-         $area = Area::findOrFail($id);
-         $area->estado = 'Habilitado';
-         $area->save();
-         return redirect(route('listar.area.servicio'))->with('success', 'El area se habilito correctamente !!'); 
-    }
+
 }
 
 
@@ -95,4 +94,25 @@ $id = $request->idM;
         }else {
             $area->save();
             return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+
+-------otro update  completo ajax---------
+ $validatedData = $request->validate([
+            'idM' => 'numeric',
+            'areaM' => 'required|min:5|max:50|string',
+            'servicioM' => 'required',
+            'servicioMo' => 'required_if:$request->servicioMo != "", "" ', //'sometimes|required',
+        ]);
+        // dd($validatedData);
+        $area = Area::findOrFail($validatedData['idM']);
+        $nombre = ucwords($validatedData['areaM']);
+        $area->nombre =  $nombre;
+        if($validatedData['servicioMo'] != null) {
+            $area->servicio_id =  $validatedData['servicioMo'];
+            $area->save();
+            return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+        }else {
+            $area->save();
+            return redirect(route('listar.area.servicio'))->with('success', 'El area se actualizo correctamente !!'); 
+        }            
+
 */

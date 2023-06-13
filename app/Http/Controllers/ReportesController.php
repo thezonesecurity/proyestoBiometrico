@@ -23,18 +23,46 @@ class ReportesController extends Controller
     
     public function reportOne(Request $request)
     {
-       // dd(auth()->user()->id);
+      $serverName = "DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
+      $connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"Sice2023");//Sice2023
+      $conn = sqlsrv_connect( $serverName, $connectionInfo) or die(print_r(sqlsrv_errors(), true));
+
+      $sql="select USERID, CHECKTIME from CHECKINOUT"; //ORDER BY USERID;  personas
+      $res=sqlsrv_query($conn,$sql);
+      while($row=sqlsrv_fetch_array($res) ){
+        dd($row);
+      }sqlsrv_close($conn); 
+    
       // dd($request);
-       
-                if ($request->persona == 'all') {
-                  $resultado = PersonaRolturno::where('fecha_inicio','>=',$request->fecha_inicio)->where('fecha_inicio','<=',$request->fecha_fin)->where('tipo_dia', 'DL')->get();
-                  dd($resultado);
-                }
-                /*else{
-                    $resultado=$resultado->whereHas('paciente',function($query) use($sexo){
-                        return $query->where("genero","<>",$sexo);
-                    })->where('fecha','>=',$request->start)->where('fecha','<=',$request->end)->where('sus','<>',$request->tipo)->where('hemo_id',$request->hemo)->get();
-                }*/
+      $id_item = 3;
+      $resultado=PersonaRolturno::query();
+      if ($request->persona == 'all' ) { //&& $request->tipo_item == 'item'
+        $resultado = $resultado->whereHas('rolturno_per',function($query) use($id_item){
+          return $query->where("item_id","<>",$id_item);
+        })->where('fecha_inicio','>=',$request->fecha_inicio)->where('fecha_inicio','<=',$request->fecha_fin)->where('tipo_dia', 'DL')->get();
+        dd($resultado);
+      }
+      /*if ($request->persona == 'all' && $request->tipo_item == 'item') {
+        $resultado = PersonaRolturno::where('fecha_inicio','>=',$request->fecha_inicio)->where('fecha_inicio','<=',$request->fecha_fin)->where('tipo_dia', 'DL')->get();
+        dd($resultado);
+      }
+      else{
+          $resultado=$resultado->whereHas('paciente',function($query) use($sexo){
+              return $query->where("genero","<>",$sexo);
+          })->where('fecha','>=',$request->start)->where('fecha','<=',$request->end)->where('sus','<>',$request->tipo)->where('hemo_id',$request->hemo)->get();
+      }*/
+
+      /*$resultado=Cuaderno::query();
+      if ($request->hemo == 'all') {
+          $resultado=$resultado->whereHas('paciente',function($query) use($sexo){
+              return $query->where("genero","<>",$sexo);
+          })->where('fecha','>=',$request->start)->where('fecha','<=',$request->end)->where('sus','<>',$request->tipo)->get();
+      }
+      else{
+          $resultado=$resultado->whereHas('paciente',function($query) use($sexo){
+              return $query->where("genero","<>",$sexo);
+          }*/
+                
     }
     public function index2()
     {

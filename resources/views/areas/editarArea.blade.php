@@ -9,7 +9,8 @@
           </button>
         </div>
         <div class="modal-body">
-            {!! Form::open(['route' => 'editarsave.area.servicio', 'method' => 'post', 'autocomplete'=>"off", 'id'=> 'form-editarArea']) !!}
+            {{--{!! Form::open(['route' => 'editarsave.area.servicio', 'method' => 'post', 'autocomplete'=>"off", 'id'=> 'form-editarArea']) !!}--}}
+            <form id="form-editarArea" autocomplete="off">
                <input type="hidden" name="idM" id="idM">
                 <div class="form-group">
                     <label for="recipient-area" class="font-weight-bold">Area</label>
@@ -26,10 +27,11 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave','id'=> 'saveChangesA' ] ) !!} 
                     {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal", 'id'=> 'cancelarBtnM' ] ) !!}
                 </div>
-            {!! Form::close() !!}   
+            </form>
+            {{--{!! Form::close() !!}--}}   
       </div>
     </div>
   </div>   

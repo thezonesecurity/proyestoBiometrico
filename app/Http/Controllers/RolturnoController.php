@@ -6,16 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Models\servicios\Servicio;
 use App\Models\areas\Area;
-
 use App\Models\personal\Persona;
 use App\Models\rolturno\Rolturno;
 use App\Models\rolturno\PersonaRolturno;
 use App\Models\tipo_turnos\TipoTurno;
-use PDF;
-use DB;
 use Carbon\Carbon;
-
-//return back()->with('status', 'el mensaje es esto');
+use PDF;
 
 class RolturnoController extends Controller
 {
@@ -280,13 +276,13 @@ class RolturnoController extends Controller
     }
     public function send(Request $request)
     {
+       // dd($request);
         if(isset($request)){
             $id = $request->id;
-            //dd($id);
             $rolturno = Rolturno::findOrFail($id);
             $rolturno->estado = 'Pendiente';
-            //$rolturno->user_id = auth()->user()->id;
-           // $rolturno->save();
+            $rolturno->user_id = auth()->user()->id;
+            $rolturno->save();
             return back()->with('success', 'Se envio exitosamente el rolturno');
         }else {
             return back()->with('error', 'Error al enviar rolturno, concacte con soporte!!');

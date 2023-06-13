@@ -9,18 +9,19 @@
           </button>
         </div>
         <div class="modal-body">
-            {!! Form::open(['route' => 'editarsave.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off", 'id' => 'formEditarTipoContrato']) !!}
+            {{--{!! Form::open(['route' => 'editarsave.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off", 'id' => 'formEditarTipoContrato']) !!}--}}
+            <form id="formEditarTipoContrato" autocomplete="off">
                 <input type="hidden" name="id" id="idM">
                 <div class="form-group">
                     <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
                     <input type="text" class="form-control" name="tipo_contratoM" id="t_contratoM">
                   </div>
                 <div class="modal-footer">
-                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave' ] ) !!} 
+                    {!! Form::submit('Guardar Cambios', ['class' => 'btn btn-primary editsave', 'id' => 'saveChangesTC' ] ) !!} 
                     {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary limpiarM', 'data-dismiss'=>"modal", 'id'=> 'cancelarBtn' ] ) !!}
                 </div>
-               
-            {!! Form::close() !!}   
+            </form>
+            {{--{!! Form::close() !!}--}}   
       </div>
     </div>
   </div>   

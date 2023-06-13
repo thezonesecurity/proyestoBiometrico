@@ -3,18 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\servicios\Servicio;
-use App\Models\areaservicio\AreaServicio;
-use App\Models\personal\Persona;
 use App\Models\rolturno\Rolturno;
-use App\Models\rolturno\PersonaRolturno;
-use DB;
 
 class HabilitacionController extends Controller
 {
     public function index()
     {
-        //dd(auth()->user()->servicioUsers[0]->nombre); //$user->per_user->nombres
+        //dd(auth()->user()->servicioUsers[0]->nombre); //$user->per_user->nombres // dd(auth()->user()->id);
         $rolturnos = Rolturno::orderBy('id')->get();
         return view('habilitacionTurnos.listadoTurnos')->with(compact('rolturnos'));
     }
@@ -22,11 +17,10 @@ class HabilitacionController extends Controller
     public function habilitacion(Request $request)
     {
       //dd($request);
-       // dd(auth()->user()->id);
        $validatedData = $request->validate([
         'id' => 'required',
         'accion' => 'required',
-        'comentario' => 'required|regex:/^[a-zA-Z0-9 ]{5,60}+$/',
+        'comentario' => 'required|regex:/^[a-zA-ZÑñ0-9 ]{5,60}+$/',
       ]);
       if(isset($validatedData['id'])){
         $rolturno = Rolturno::findOrFail($validatedData['id']); 

@@ -28,7 +28,7 @@ class Rolturno extends Model
     }
     
     public function per_rolturnos(){
-        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class);
+        return $this->hasMany(\App\Models\rolturno\PersonaRolturno::class, 'rolturno_id');
     }
     
 }

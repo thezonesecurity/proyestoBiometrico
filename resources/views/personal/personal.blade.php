@@ -4,6 +4,7 @@
 @stop
 
 @section('styles')
+<link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
 <style>
     .error {
@@ -41,39 +42,40 @@ $i=0;
                     <th scope="col">Opciones</th>
                   </tr>
             </thead>
-            <tbody>
+            <tbody id="tablaRegistrosPersonas">
                 <?php while($row=sqlsrv_fetch_array($res) ) {?>
                     
                     @if(isset($row))
                     <?php $persona=App\Models\personal\Persona::orderBy('id')->where('idper_db',$row['USERID'])->first(); ?>
-                      <tr>
+                      <tr data-id={{$persona->id}}>
                             <td>{{++$i}}</td>
                             {{--<td><span id="nombre< ?php echo $row['USERID']; ?>" >{{utf8_encode($row['NAME'])}}</span></td>--}}
-                            
                             @if(isset($persona->nombres))
-                            <td><span id="nombre{{$persona->id}}" >{{$persona->nombres}}</span></td>
+                            <td id="nombre{{$persona->id}}">{{$persona->nombres}}</td>
                             @else
-                                <td><span id="nombre<?php echo $row['USERID']; ?>" >{{utf8_encode($row['NAME'])}}</span></td>
+                                <td id="nombre<?php echo $row['USERID']; ?>">{{utf8_encode($row['NAME'])}}</td>
                             @endif
-                            <td><span id="ci{{$persona->id}}" >{{$row['BADGENUMBER']}}</span></td>   
+                            <td id="ci{{$persona->id}}">{{$row['BADGENUMBER']}}</td>   
                             @if(isset($persona)) 
-                                <td><span id="item{{$persona->id}}" >{{$persona->PersonaItem->nombre}}</span></td>
+                                <td id="item{{$persona->id}}" >{{$persona->PersonaItem->nombre}}</td>
                                 <?php $servicio=App\Models\servicios\Servicio::where('id',$persona->id_servicio)->first(); ?>
-                                <td><span id="servicio{{$persona->id}}" >{{$servicio->nombre}}</span></td>
+                                <td id="servicio{{$persona->id}}" >{{$servicio->nombre}}</td>
                                 @if(isset($persona->num_financ))
-                                    <td><span id="numFinanc{{$persona->id}}" >{{$persona->num_financ}}</span></td>
+                                    <td id="numFinanc{{$persona->id}}" >{{$persona->num_financ}}</td>
                                 @else
-                                    <td><span id="numFinanc{{$persona->id}}" >No tiene</span></td>
+                                    <td id="numFinanc{{$persona->id}}" >0</td>
                                 @endif
-                                <td><span id="estado{{$persona->id}}" >{{$persona->estado_per}}</span></td>
-                                <td>
+                                <td id="estado{{$persona->id}}" >{{$persona->estado_per}}</td>
+                                <td >
+                                  
                                     @if( $persona->estado_per == 'Habilitado' ) 
-                                        <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModal">Editar</button>{{--{{$persona->id}},{{$row['USERID']}}--}}
-                                        <a href="{{ route('inhabilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-outline-danger">Inhabilitar</a>
+                                        <button type="button" class="btn btn-outline-success btn-sm edit ml-2" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModalPersonal">Editar</button>
+                                        <a href="{{ route('inhabilitar.persona', $persona->id)}}" type="buton" class="btn btn-sm btn-outline-danger">Inhabilitar</a>
                                     @else
-                                        <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModal" disabled>Editar</button>  
-                                        <a href="{{ route('habilitar.persona', $row['USERID'])}}" type="buton" class="btn btn-sm btn-outline-warning"><span class="font-weight-bold">Habilitar</span></a>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm edit ml-2" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModalPersonal" disabled>Editar</button> 
+                                        <a href="{{ route('habilitar.persona', $persona->id)}}" type="buton" class="btn btn-sm btn-outline-warning"><span class="font-weight-bold">Habilitar</span></a>
                                     @endif 
+
                                 </td>
                             @else
                            {{--  < ?php $newpersona = new App\Models\personal\Persona;
@@ -119,21 +121,90 @@ $i=0;
 @stop
 
 @section('scripts')
-<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
+<script type="text/javascript">
+  $('.select2').select2({
+      placeholder: "Seleccione una opcion",
+      allowClear: true,
+      ancho : 'resolver'
+  });
+</script>
+
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/personal.js') }}"></script>
+<script>
+$(document).ready(function() {
+   
+    //PROCESO PARA GUARDAR CAMBIOS DEL MODAL EDITAR
+    $('#saveChangesPer').click(function(e) {//registro modal editars
+        e.preventDefault();
+        // Obtener los valores del modal
+        var idM = $('#idM').val();
+        var persona = $('#nombreM').val().toUpperCase();// $('#areaM').val().charAt(0).toUpperCase() + $('#areaM').val().slice(1).toLowerCase(); //$('#servicioM').val();
+        var cedula = $('#ciM').val();
+        var Aitem = $('#itemM').val();
+        var Nitem = $('#itemMo :selected').val();
+        var Nroitem = $('#numFinancM').val();
+        var Aservicio = $('#servicioM').val();
+        var Nservicio = $('#servicioMo :selected').val();
 
+        var NitemNombre = $('#itemMo :selected').text(); 
+        var NservicioNombre = $('#servicioMo :selected').text(); 
+         //proceso de ajax
+         if ($('#formEditarPersonal').valid()) {
+                $('#saveChangesPer').attr('disabled', true).text('Editando...');
+                $.ajax({// Realizar una solicitud AJAX para actualizar el registro
+                    url: "{{route('editar.personal')}}",
+                    method: 'POST',
+                    dataType: "json",
+                    data: { id: idM, persona: persona, ci: cedula, Lastitem: Aitem, Newitem: Nitem, nroitem: Nroitem, LastServicio: Aservicio, NewServicio:Nservicio, _token: '{{ csrf_token() }}' },
+                    success: function(response) {
+                        //alert(response);
+                        if(response.status == 'ok'){
+                            toastr.success(response.message, 'Feliciades !!');
+                            $('#tablaRegistrosPersonas tr[data-id="' + idM + '"] td:nth-child(2)').text(persona); //Actualizar la fila en la tabla con los nuevos valores
+                            if(Nitem != ''){ $('#tablaRegistrosPersonas tr[data-id="' + idM + '"] td:nth-child(4)').text(NitemNombre); }
+                            if(Nservicio != ''){ $('#tablaRegistrosPersonas tr[data-id="' + idM + '"] td:nth-child(5)').text(NservicioNombre); }
+                           // if(Nitem != 'Contrato' && Nroitem != '0'){ $('#tablaRegistrosPersonas tr[data-id="' + idM + '"] td:nth-child(6)').text(Nroitem); }  
+                           $('#tablaRegistrosPersonas tr[data-id="' + idM + '"] td:nth-child(6)').text(Nroitem); 
+                        }else{
+                            toastr.error('Hubo un error al actualizar el registro.', 'Error, Contacte con soporte !!');
+                        }
+                        $('#editarModalPersonal').modal('hide');
+                        $('#saveChangesPer').attr('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#editarModalPersonal').modal('hide');
+                        if (xhr.status === 422) {
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(field, messages) { // Mostrar los mensajes de error en algún lugar de tu página
+                                toastr.error(messages.join(', '), "Error no se pude actualizar !!!", { "preventDuplicates": false});
+                            $('#editarModalPersonal').modal('hide');
+                            $('#saveChangesPer').attr('disabled', false);
+                            });
+                        }   
+                    }
+                }); 
+            }              
+    });
+});
+</script>
+
+<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('#listarPersonas').DataTable({
+        var table = $('#listarPersonas').DataTable({
             "lengthMenu": [[15 , 30, 60, -1], [15 , 30, 60, "All"]],
             language: {
+                "sProcessing":"Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "No hay datos disponibles en la Tabla",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                 "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "loadingRecords": "Cargando...",
                 "sSearch": "Buscar:",
                 "oPaginate": {
                     "sFirst": "Primero",
@@ -141,7 +212,14 @@ $i=0;
                     "sNext":"Siguiente",
                     "sPrevious": "Anterior"
 			     },
-			     "sProcessing":"Procesando...",
+                  "aria": {
+                    "sortAscending": ": orden ascendente",
+                    "sortDescending": ": orden descendente"
+                },
+                  "buttons": {
+                    "copy": "Copiar",
+                    "updateState": "Actualizar"
+                }
             },
         });
     });

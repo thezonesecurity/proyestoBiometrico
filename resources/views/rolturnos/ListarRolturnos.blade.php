@@ -1,7 +1,7 @@
 
 @extends("dashboard/dashboard") <!--extends se situa en views-->
 @section('titulo')
- - ListarRolturnos
+ - Listar Rolturnos
 @stop
 
 @section('styles')
@@ -37,33 +37,28 @@
                  @foreach ($rolturnos as $rolturno)
                     <tr>
                         <td>{{++$i}}</td>
-                        <td><span id="" >{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}</span></td>
-                        <td><span id="servicio{{$rolturno->id}}" >{{$rolturno->servicios->nombre}}</span></td>
-                        {{--<td><span id="" >{{$rolturno->estado}}</span></td>--}}
-                        <td><span id="" >{{$rolturno->estado}}</span></td>
-                        <td><span id="" >{{$rolturno->gestion}}</span></td>
-                        <td><span id="" >{{$rolturno->obsevacion}}</span></td>
+                        <td id="" >{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}</td>
+                        <td id="servicioL{{$rolturno->id}}" >{{$rolturno->servicios->nombre}}</td>
+                        <td id="" >{{$rolturno->estado}}</td>
+                        <td id="gestionL{{$rolturno->id}}" >{{$rolturno->gestion}}</td>
+                        <td id="" >{{$rolturno->obsevacion}}</td>
                         <td>
                             @if($rolturno->estado == 'Temporal' || $rolturno->estado == 'Rechazado')
-                            {{--<a type="button" class="btn btn-primary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" >Editar</a>--}}
-                            <a type="button" class="btn btn-outline-info btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro">Seguir registrando</a>
-                            <a type="button" class="btn btn-outline-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank' >PDF</a>
-                            <a data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-outline-success btn-sm"  type="buton">enviar</a>
-
+                                <a type="button" class="btn btn-outline-info btn-sm ml-2" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro">Seguir registrando</a>
+                                <a type="button" class="btn btn-outline-warning btn-sm ml-2 " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank' >PDF</a>
+                                <button type="button" class="btn btn-outline-success btn-sm ml-2 enviarbtn" value="{{$rolturno->id}}" data-toggle="modal" data-target="#rolturnoEnviar">Enviar</button>  
                             @else
-                            {{--<button type="button" class="btn btn-secondary btn-sm editbtn" href="{{route('editar.rolturno', $rolturno->id)}}" disabled>Editar</button>--}}
-                            <button type="button" class="btn btn-outline-secondary btn-sm" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro" disabled>Seguir registrando</button>
-                            <a type="button" class="btn btn-outline-warning btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank' >PDF</a>
-                            <button data-toggle="modal" href="#rolturnEnviar{{ $rolturno->id }}" class=" btn btn-outline-secondary btn-sm"  type="buton" disabled>enviar</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm ml-2" href="{{route('editar.rolturno.test', $rolturno->id)}}" id="registro" disabled>Seguir registrando</button>
+                                <a type="button" class="btn btn-outline-warning btn-sm ml-2 " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank' >PDF</a>
+                                <button type="button" class="btn btn-outline-secondary btn-sm ml-2 enviarbtn" value="{{$rolturno->id}}" data-toggle="modal" data-target="#rolturnoEnviar" disabled>Enviar</button>  
                             @endif
                         </td>
                     </tr>
-                    @include('rolturnos.EnviarRolturno')
                  @endforeach
             @endif
         </tbody>
     </table>
-
+    @include('rolturnos.EnviarRolturno')
 @stop
 
 @section('scripts')
@@ -71,14 +66,30 @@
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('#listarturnos').DataTable({
-            "lengthMenu": [[5, 15 , 30, 60, -1], [5, 15 , 30, 60, "All"]],
+        //proceso para mandar datos al modal enviar rolturno
+        $(".enviarbtn").click(function(e) {
+            e.preventDefault();
+            var id=$(this).val(); 
+            var servicio =$('#servicioL'+id).text();
+            var gestion =$('#gestionL'+id).text();    
+
+            $('#rolturnoEnviar').modal('show');//se pasa datos al modal
+            $('#idMenviar').val(id);
+            $('#servicioMenviar').text(servicio);
+            $('#gestionMenviar').text(gestion);
+        });
+        //datatables
+         var table = $('#listarturnos').DataTable({
+            "lengthMenu": [[ 15 , 30, 60, -1], [ 15 , 30, 60, "All"]],
             language: {
+                "sProcessing":"Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "No hay datos disponibles en la Tabla",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                 "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "loadingRecords": "Cargando...",
                 "sSearch": "Buscar:",
                 "oPaginate": {
                     "sFirst": "Primero",
@@ -86,7 +97,14 @@
                     "sNext":"Siguiente",
                     "sPrevious": "Anterior"
 			     },
-			     "sProcessing":"Procesando...",
+                  "aria": {
+                    "sortAscending": ": orden ascendente",
+                    "sortDescending": ": orden descendente"
+                },
+                  "buttons": {
+                    "copy": "Copiar",
+                    "updateState": "Actualizar"
+                }
             },
         });
     });

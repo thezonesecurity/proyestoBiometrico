@@ -14,7 +14,7 @@
 @section('contenido')
 
     <div class="row justify-content-center align-content-center">
-       <h4> <span >Habilitacion de roles de turnos</span> </h4>
+       <h4 class="font-weight-bold" >Habilitacion de roles de turnos </h4>
     </div>
     @include('dashboard.mensaje')
     {{--<table class="table table-striped" id="myTable"> </table>--}}
@@ -48,39 +48,34 @@
                         <td  width="19%">
                             <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar?</button>
                             <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
-                            {{--@if( $rolturno->estado != 'Temporal') {{--$rolturno->estado != 'Pendiente' && || $rolturno->estado == 'Rechazado'--}
-                                <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar</button>
-                                <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
-                            @else
-                                <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno" disabled>Habilitar</button>
-                                <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
-                            @endif--}}
-                            @include('habilitacionTurnos.ModalHabilitar')
                         </td>
                     </tr>
                  @endforeach
             @endif
         </tbody>
     </table>
-
+    @include('habilitacionTurnos.ModalHabilitar')
 @stop
 
 @section('scripts')
-<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/habilitacion.js') }}"></script>
 
+<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('#listaHabilitacionTurnos').DataTable({
+        var table = $('#listaHabilitacionTurnos').DataTable({
             "lengthMenu": [[15 , 30, 60, -1], [15 , 30, 60, "All"]],
             language: {
+                "sProcessing":"Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "No hay datos disponibles en la Tabla",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                 "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "loadingRecords": "Cargando...",
                 "sSearch": "Buscar:",
                 "oPaginate": {
                     "sFirst": "Primero",
@@ -88,7 +83,14 @@
                     "sNext":"Siguiente",
                     "sPrevious": "Anterior"
 			     },
-			     "sProcessing":"Procesando...",
+                  "aria": {
+                    "sortAscending": ": orden ascendente",
+                    "sortDescending": ": orden descendente"
+                },
+                  "buttons": {
+                    "copy": "Copiar",
+                    "updateState": "Actualizar"
+                }
             },
         });
     });

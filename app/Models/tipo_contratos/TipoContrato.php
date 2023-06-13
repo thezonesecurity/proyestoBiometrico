@@ -14,7 +14,7 @@ class TipoContrato extends Model
     protected $dates = ['created_at','updated_at'];
 
     public function itemPersona(){
-        return $this->hasMany(\App\Models\personal\Persona::class);
+        return $this->hasOne(\App\Models\personal\Persona::class, 'item_id');
     }
 
 }

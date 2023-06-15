@@ -6,9 +6,11 @@
 
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
+<div id="contenedor_carga"><div id="carga"></div></div>
 
     @include('dashboard.mensaje')
     <div class="row justify-content-center align-content-center">
@@ -16,14 +18,14 @@
        <a type="button" class="btn btn-warning btn-sm " href="{{route('tablas')}}" >tabla</a>
     </div>
     {{--<table class="table table-striped" id="myTable"> </table>--}}
-    <table id="listarturnos" class="table table-sm table-bordered table-striped"  width="100%"> 
+    <table id="listarturnos" class="table table-sm table-bordered table-striped"  width="100%" style="font-size: 14px;"> 
         <thead>
             <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                 <th width="5px">Nro.</th>
                 <th style="" width="60px">Responsable</th>
                 <th style="" width="60px">Servicio</th>
                 <th style="" width="20px">Estado</th>
-                <th style="" width="20px">Gestion</th>
+                <th style="" width="20px">Mes</th>
                 <th style="" width="100">Observacion</th>
                 <th style="" width="40">Accion</th>
             </tr>
@@ -62,6 +64,13 @@
 @stop
 
 @section('scripts')
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>

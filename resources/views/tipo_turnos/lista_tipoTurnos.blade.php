@@ -5,20 +5,17 @@
 
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-    .error {
-    color: red;
-  }
-  </style>
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
+<div id="contenedor_carga"><div id="carga"></div></div>
 
-<div class="table-responsive d-flex justify-content-center " style="margin-left: auto" ><!--style="margin-left: 250px"-->
+<div class="table-responsive d-flex justify-content-center " style="font-size: 16px;" ><!--style="margin-left: 250px"-->
     <div class="col-md "> 
         @include('dashboard.mensaje')
         <div class="box-body">
-            <h3 class="box-title text-center">Lista de Tipos de Turnos</h3>
+            <h4 class="box-title text-center">Lista Tipos de Turnos H.D.B.</h4>
             <table id="listarTturnos" class="table table-sm table-bordered table-striped"  width="100%">{{--listarTturnos--}}
                 <thead>
                     <tr>
@@ -66,6 +63,13 @@
 @stop
 
 @section('scripts')
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/tipoTurnos.js') }}"></script>
 <script>

@@ -6,14 +6,11 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-    .error {
-    color: red;
-  }
-</style>
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
+<div id="contenedor_carga"><div id="carga"></div></div>
 {{--dd($data)--}}
 <?php
 $serverName = "DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
@@ -29,7 +26,7 @@ $i=0;
     @include('dashboard.mensaje')
     <div class="box-body table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <h3 class="box-title text-center">Lista del personal H.D.B.</h3>
-        <table id="listarPersonas" class="table table-sm table-bordered table-striped" width="100%"  style="font-size: 13px;">{{--listarPersonas--}}
+        <table id="listarPersonas" class="table table-sm table-bordered table-striped" width="100%"  style="font-size: 14px;">{{--listarPersonas--}}
             <thead>
                 <tr>
                     <th scope="col" >Nro.</th>       
@@ -49,7 +46,6 @@ $i=0;
                     <?php $persona=App\Models\personal\Persona::orderBy('id')->where('idper_db',$row['USERID'])->first(); ?>
                       <tr data-id={{$persona->id}}>
                             <td>{{++$i}}</td>
-                            {{--<td><span id="nombre< ?php echo $row['USERID']; ?>" >{{utf8_encode($row['NAME'])}}</span></td>--}}
                             @if(isset($persona->nombres))
                             <td id="nombre{{$persona->id}}">{{$persona->nombres}}</td>
                             @else
@@ -121,6 +117,13 @@ $i=0;
 @stop
 
 @section('scripts')
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
 <script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
 <script type="text/javascript">
   $('.select2').select2({

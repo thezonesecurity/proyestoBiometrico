@@ -6,15 +6,14 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-  .error {
-  color: red;
-}
-</style>
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
-<div class="row table-responsive d-flex justify-content-center" style="font-size: 13px;">
+
+<div id="contenedor_carga"><div id="carga"></div></div>
+
+<div class="row table-responsive d-flex justify-content-center" style="font-size: 14px;">
     <div class="col-md-3 mt-5">
         <h5 class="box-title text-center font-weight-bold">Registrar nuevo servicio</h5>
         <form action="{{route('registrar.servicio')}}" method="post" class="border border-info" id="formRegistrarServicio" autocomplete="off">
@@ -46,7 +45,7 @@
         @include('dashboard.mensaje')
        
         <h4 class="box-title text-center font-weight-bold mt-2">Lista de Servicio H.D.B.</h4>
-        <table id="listaServicios" class="table table-sm table-bordered table-striped table-responsives"  width="100%"> {{--listaServicios--}}
+        <table id="listaServicios" class="table table-sm table-bordered table-striped table-responsives"  width="100%">
             <thead>
                 <tr>
                     <th width="20px">Nro.</th>
@@ -62,11 +61,11 @@
                         <td colspan="5" class="">No hay ningun servicio registrado aun... </td>
                     </tr>
                 @else 
-                    <?php $i=0; ;?>
+                    <?php $i=0; ?>
                     @foreach ($servicios as $servicio)
                     <tr data-id={{$servicio->id}}>
                         <td>{{ ++$i }}</td>
-                        <td id="servicio{{$servicio->id}}">{{ $servicio->nombre }}</td>{{--servicio{{$servicio->id}}--}}
+                        <td id="servicio{{$servicio->id}}">{{ $servicio->nombre }}</td>
                         <td id="responsable{{$servicio->id}}">{{$servicio->user->per_user->nombres}} {{$servicio->user->per_user->apellidos}}</td>
                         <td id="estado{{$servicio->id}}">{{ $servicio->estado }}</td>
                         <td style='background-color: ;'>
@@ -87,9 +86,17 @@
     </div>
 </div>
 @include('servicios.ModalInhabilitar')
+
 @stop
 
 @section('scripts')
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
 <script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
 <script type="text/javascript">
   $('.select2').select2({

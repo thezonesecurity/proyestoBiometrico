@@ -6,14 +6,13 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-    .error {
-    color: red;}
-</style>
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
-    <div class="row table-responsive d-flex justify-content-center" style="font-size: 13px;">
+    <div id="contenedor_carga"><div id="carga"></div></div>
+
+    <div class="row table-responsive d-flex justify-content-center" style="font-size: 14px;">
         <div class="col-md-3 mt-5">
             <h5 class="box-title text-center font-weight-bold">Registrar nuevo area</h5>
             <form action="{{route('guardar.area.servicio')}}" method="post" class="border border-info" id="formRegistrarArea" autocomplete="off">
@@ -43,7 +42,7 @@
             @include('dashboard.mensaje')
 
             <h4 class="box-title text-center font-weight-bold mt-2">Lista de Areas de los Servicios H.D.B.</h4>
-            <table id="listarAreas" class="table table-sm table-bordered table-striped"  width="100%">{{--listarAreas--}}
+            <table id="listarAreas" class="table table-sm table-bordered table-striped"  width="100%">
                 <thead>
                     <tr>
                         <th width="20px">Nro.</th>
@@ -87,6 +86,14 @@
 @stop
 
 @section('scripts')
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
+
 <script type="text/javascript" src="{{ asset('bootstrap4/js/select2/select2.js') }}"></script>
 <script type="text/javascript">
   $('.select2').select2({

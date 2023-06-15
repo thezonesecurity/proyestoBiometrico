@@ -22,12 +22,12 @@
             <div class="m-3">
               <div class="form-group">
                 <label for="select1" class="font-weight-bold">Tipo item</label>
-                <select class="form-control" name="tipo_item" id="t_contrato">
+                <select class="form-control" name="tipo_item" id="tipo_item">
                   <option value="" selected>Selecione una opcion</option>
                   <option value="all">Todos</option>
                   <option value="item">Items</option>
                   @foreach($items as $id => $item) 
-                      <option value="{{$id}}" >{{$item}}</option>  
+                      <option value="{{$id}}">{{$item}}</option>  
                   @endforeach
               </select>
               </div>
@@ -35,7 +35,7 @@
               <div class="form-group ">
                 <label for="select3" class="font-weight-bold">Persona</label>
                 <select class="form-control custom-select select2" style="width: 100%" name="persona" id='persona'>
-                  <option value="vacio" disabled selected>Selecione una opcion</option>
+                  <option value="" disabled selected>Selecione una opcion</option>
                   <option value="all">Todos</option>
                   @foreach($personas as $id => $persona)   
                       <option value="{{$id}}" >{{$persona}}</option>  
@@ -53,8 +53,8 @@
               </div>
               <div class="form-group mt-4 row">
                   <button type="submit" class="btn btn-sm btn-success ml-3 text-white">Buscar</button>
-                  <button type="submit" class="btn btn-sm btn-warning ml-2 text-white">PDF</button>
-                  <button type="submit" class="btn btn-sm btn-info ml-2 text-white">Excel</button>
+                  {{--<button type="submit" class="btn btn-sm btn-warning ml-2 text-white">PDF</button>
+                  <button type="submit" class="btn btn-sm btn-info ml-2 text-white">Excel</button>--}}
                   <button type="reset"  class="btn btn-sm btn-secondary ml-2 text-white">Cancelar</button> {{--name="accion" value="Aceptado"--}}
               </div>
             </div>

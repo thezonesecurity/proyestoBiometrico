@@ -5,29 +5,32 @@
 
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-    .error {
-    color: red;}
-</style>
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
+<div id="contenedor_carga"><div id="carga"></div></div>
+<marquee>
+    <span class="text-info">Temporal = sigue registrando rol turno <i class="bi bi-circle ml-1" style="font-size: 1rem;"></i> </span>||
+    <span class="text-primary">Pendiente = rol turno enviado <i class="bi bi-circle-half" style="font-size: 1rem;"></i> </span>||
+    <span class="text-success">Aceptado = rol turno aceptado <i class="bi bi-circle-fill" style="font-size: 1rem;"></i> </span>||
+    <span class="text-danger">Rechazado = rol turno rechazado <i class="bi bi-slash-circle" style="font-size: 1rem;"></i>  </span>
+</marquee>
 
     <div class="row justify-content-center align-content-center">
-       <h4 class="font-weight-bold" >Habilitacion de roles de turnos </h4>
+       <h4 class="font-weight-bold" >Habilitacion de roles de turnos de los servicios H.D.B.</h4>
     </div>
     @include('dashboard.mensaje')
-    {{--<table class="table table-striped" id="myTable"> </table>--}}
-    <table class="table table-sm table-bordered table-striped"  width="100%" id="listaHabilitacionTurnos" >
+    <table class="table table-sm table-bordered table-striped"  width="100%" id="listaHabilitacionTurnos" style="font-size: 14px;">
         <thead>
-            <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
+            <tr class="titulo" >
                 <th width="5px">Nro.</th>
                 <th style="" width="30px">Responsable</th>
                 <th style="" width="30px">Servicio</th>
-                <th style="" width="20px">Estado</th>
+                <th style="" width="23px">Estado</th>
                 <th style="" width="20px">Gestion</th>
-                <th style="" width="120">Observacion</th>
-                <th style="" width="180">Accion</th>
+                <th style="" width="250px">Observacion</th>
+                <th style="" width="30px">Accion</th>
             </tr>
         </thead>
         <tbody> <?php  $i=0; ?>
@@ -36,18 +39,24 @@
                     <td colspan="7" class="">No hay registros que mostrar </td>
                 </tr>
             @else 
-                 @foreach ($rolturnos as $rolturno)
-                 {{--dd($rolturno->servicios->user->per_user->nombres)--}}
+                 @foreach ($rolturnos as $rolturno) {{--dd($rolturno->servicios->user->per_user->nombres)--}}
                     <tr>
                         <td width="3%">{{++$i}}</td>
-                        <td width="20%"><span id="responsable{{$rolturno->id}}"  >{{$rolturno->servicios->user->per_user->nombres}} {{$rolturno->servicios->user->per_user->apellidos}}</span></td> {{--{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}--}}
-                        <td width="17%"><span id="servicio{{$rolturno->id}}"  >{{$rolturno->servicios->nombre}}</span></td>
-                        <td width="8%"><span id="estado{{$rolturno->id}}"  >{{$rolturno->estado}}</span></td>
-                        <td  width="8%"><span id="gestion{{$rolturno->id}}" >{{$rolturno->gestion}}</span></td>
-                        <td  width="%"><span id="comentario{{$rolturno->id}}" >{{$rolturno->obsevacion}}</span></td>
-                        <td  width="19%">
-                            <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar?</button>
-                            <a type="button" class="btn btn-outline-info btn-sm " href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver rolturno</a>
+                        <td width="20%" id="responsable{{$rolturno->id}}"  >{{$rolturno->servicios->user->per_user->nombres}} {{$rolturno->servicios->user->per_user->apellidos}}</td> {{--{{$rolturno->user->per_user->nombres}} {{$rolturno->user->per_user->apellidos}}--}}
+                        <td width="17%" id="servicio{{$rolturno->id}}"  >{{$rolturno->servicios->nombre}}</td>
+                        @if($rolturno->estado == 'Temporal')
+                            <td width="8%" class="text-info" id="estado{{$rolturno->id}}"  >{{$rolturno->estado}} <i class="bi bi-circle ml-1" style="font-size: 1rem;"></i></td> @endif
+                        @if($rolturno->estado == 'Pendiente')
+                            <td width="8%" class="text-primary" id="estado{{$rolturno->id}}"  >{{$rolturno->estado}} <i class="bi bi-circle-half" style="font-size: 1rem;"></i></td> @endif
+                         @if($rolturno->estado == 'Aceptado')
+                            <td width="8%" class="text-success" id="estado{{$rolturno->id}}"  >{{$rolturno->estado}} <i class="bi bi-circle-fill ml-1" style="font-size: 1rem;"></i></td> @endif
+                         @if($rolturno->estado == 'Rechazado')
+                            <td width="9%" class="text-danger" id="estado{{$rolturno->id}}"  >{{$rolturno->estado}} <i class="bi bi-slash-circle" style="font-size: 1rem;"></i></td> @endif
+                        <td  width="8%" id="gestion{{$rolturno->id}}" >{{$rolturno->gestion}}</td>
+                        <td  width="%" id="comentario{{$rolturno->id}}" >{{$rolturno->obsevacion}}</td>
+                        <td  width="15%">
+                            <button type="button" class="btn btn-outline-success btn-sm edit ml-1" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar?</button>
+                            <a type="button" class="btn btn-outline-info btn-sm ml-1" href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver PDF</a>
                         </td>
                     </tr>
                  @endforeach
@@ -58,6 +67,13 @@
 @stop
 
 @section('scripts')
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/habilitacion.js') }}"></script>
 

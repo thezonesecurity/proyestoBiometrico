@@ -5,21 +5,18 @@
 
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
-<style>
-    .error {
-    color: red;
-  }
-</style>
+{{ Html::style( asset('assets/styles/preloader.css') )}}
 @stop
 
 @section('contenido')
+<div id="contenedor_carga"><div id="carga"></div></div>
 
-<div class="row table-responsive d-flex justify-content-center" style="font-size: 13px;"><!--style="margin-left: 250px"-->
+<div class="row table-responsive d-flex justify-content-center" style="font-size: 14px;">
     <div class="col-md "> 
         @include('dashboard.mensaje')
         <div class="box-body">
-            <h3 class="box-title text-center">Lista de Tipos de Contratos</h3>
-            <table id="listarTcontratos" class="table table-sm table-bordered table-striped"  width="100%">{{--listarTcontratos--}}
+            <h4 class="box-title text-center">Lista Tipos de Contratos</h4>
+            <table id="listarTcontratos" class="table table-sm table-bordered table-striped"  width="100%">
                 <thead>
                     <tr>
                         <th width="20px">Nro.</th>
@@ -66,7 +63,13 @@
 @stop
 
 @section('scripts')
-
+<script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/tipoContratos.js') }}"></script>
 <script>

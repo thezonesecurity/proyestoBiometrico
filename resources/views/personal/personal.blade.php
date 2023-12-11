@@ -13,8 +13,8 @@
 <div id="contenedor_carga"><div id="carga"></div></div>
 {{--dd($data)--}}
 <?php
-$serverName = "DESKTOP-S9D1IAK"; //"193.168.0.4";// "DESKTOP-S9D1IAK"; //propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
-$connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"Sice2023");//Sice2023
+$serverName = "DESKTOP-S9D1IAK"; //"193.168.0.7\SIAF";// "DESKTOP-S9D1IAK"; ->propiedades del servidor->ver propiedades de conexioon->producto-> nombre del servidor
+$connectionInfo = array( "Database"=>"BD_BIOMETRICO", "UID"=>"sa", "PWD"=>"S1af");
 $conn = sqlsrv_connect( $serverName, $connectionInfo) or die(print_r(sqlsrv_errors(), true));
 
 $sql="select USERID, NAME, BADGENUMBER from USERINFO"; //ORDER BY USERID;  personas
@@ -34,72 +34,74 @@ $i=0;
                     <th scope="col">C.I.</th>
                     <th scope="col">Tipo Contrato</th>
                     <th scope="col">Servicio</th>
-                    <th scope="col">Nro. Fondo F</th>
+                    <th scope="col">Nro. Item</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Opciones</th>
                   </tr>
             </thead>
             <tbody id="tablaRegistrosPersonas">
                 <?php while($row=sqlsrv_fetch_array($res) ) {?>
-                    
+                  
                     @if(isset($row))
                     <?php $persona=App\Models\personal\Persona::orderBy('id')->where('idper_db',$row['USERID'])->first(); ?>
-                      <tr data-id={{$persona->id}}>
-                            <td>{{++$i}}</td>
-                            @if(isset($persona->nombres))
-                            <td id="nombre{{$persona->id}}">{{$persona->nombres}}</td>
-                            @else
-                                <td id="nombre<?php echo $row['USERID']; ?>">{{utf8_encode($row['NAME'])}}</td>
-                            @endif
-                            <td id="ci{{$persona->id}}">{{$row['BADGENUMBER']}}</td>   
-                            @if(isset($persona)) 
-                                <td id="item{{$persona->id}}" >{{$persona->PersonaItem->nombre}}</td>
-                                <?php $servicio=App\Models\servicios\Servicio::where('id',$persona->id_servicio)->first(); ?>
-                                <td id="servicio{{$persona->id}}" >{{$servicio->nombre}}</td>
-                                @if(isset($persona->num_financ))
-                                    <td id="numFinanc{{$persona->id}}" >{{$persona->num_financ}}</td>
+                       @if(isset($persona->id))
+                        <tr data-id={{$persona->id}}>
+                                <td>{{++$i}}</td>
+                                @if(isset($persona->nombres))
+                                <td id="nombre{{$persona->id}}">{{$persona->nombres}}</td>
                                 @else
-                                    <td id="numFinanc{{$persona->id}}" >0</td>
+                                    <td id="nombre<?php echo $row['USERID']; ?>">{{utf8_encode($row['NAME'])}}</td>
                                 @endif
-                                <td id="estado{{$persona->id}}" >{{$persona->estado_per}}</td>
-                                <td >
-                                  
-                                    @if( $persona->estado_per == 'Habilitado' ) 
-                                        <button type="button" class="btn btn-outline-success btn-sm edit ml-2" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModalPersonal">Editar</button>
-                                        <a href="{{ route('inhabilitar.persona', $persona->id)}}" type="buton" class="btn btn-sm btn-outline-danger">Inhabilitar</a>
+                                <td id="ci{{$persona->id}}">{{$row['BADGENUMBER']}}</td>   
+                                @if(isset($persona)) 
+                                    <td id="item{{$persona->id}}" >{{$persona->PersonaItem->nombre}}</td>
+                                    <?php $servicio=App\Models\servicios\Servicio::where('id',$persona->id_servicio)->first(); ?>
+                                    <td id="servicio{{$persona->id}}" >{{$servicio->nombre}}</td>
+                                    @if(isset($persona->nro_item))
+                                        <td id="numFinanc{{$persona->id}}" >{{$persona->nro_item}}</td>
                                     @else
-                                        <button type="button" class="btn btn-outline-secondary btn-sm edit ml-2" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModalPersonal" disabled>Editar</button> 
-                                        <a href="{{ route('habilitar.persona', $persona->id)}}" type="buton" class="btn btn-sm btn-outline-warning"><span class="font-weight-bold">Habilitar</span></a>
-                                    @endif 
+                                        <td id="numFinanc{{$persona->id}}" >0</td>
+                                    @endif
+                                    <td id="estado{{$persona->id}}" >{{$persona->estado_per}}</td>
+                                    <td >
+                                    
+                                        @if( $persona->estado_per == 'Habilitado' ) 
+                                            <button type="button" class="btn btn-outline-success btn-sm edit ml-2" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModalPersonal">Editar</button>
+                                            <a href="{{ route('inhabilitar.persona', $persona->id)}}" type="buton" class="btn btn-sm btn-outline-danger">Inhabilitar</a>
+                                        @else
+                                            <button type="button" class="btn btn-outline-secondary btn-sm edit ml-2" value="{{$persona->id}}" data-toggle="modal" data-target="#editarModalPersonal" disabled>Editar</button> 
+                                            <a href="{{ route('habilitar.persona', $persona->id)}}" type="buton" class="btn btn-sm btn-outline-warning"><span class="font-weight-bold">Habilitar</span></a>
+                                        @endif 
 
-                                </td>
-                            @else
-                           {{--  < ?php $newpersona = new App\Models\personal\Persona;
-                             $newpersona->nombres = utf8_encode($row['NAME']); //$request->nombre;
-                            $newpersona->ci = $row['BADGENUMBER']; //$request->ci;
-                            $newpersona->item_id = 1;
-                            $newpersona->num_financ = 0;
-                            $newpersona->estado_per = 'Habilitado';
-                            $newpersona->idper_db = $row['USERID'];
-                            $newpersona->id_servicio = 2;
-                            $newpersona->user_id = 28;
-                            //dd($newpersona);
-                            $newpersona->save();
-                            ?>--}}
-                                <td><span id="item" >Sin item</span></td>
-                                <td><span id="servicio" >Sin servicio</span></td>
-                                <td><span id="num" >Sin fondo F.</span></td>
-                                <td><span id="estado" >Sin estado</span></td>
-                                <td>
-                                    <div>{{--las dos lineas siguientes no son funcionales pero son requisito para el modal de registrar--}}
-                                        <button type="button" class="btn btn-danger btn-sm registrar" data-toggle="modal" data-target=".registrarModal" style="display: none">Añadir Error NO FUNCIONAL</button>  
-                                        @include('personal.modalErrorRegistrarPersona') 
-                                    </div>
-                                    <button type="button" class="btn btn-outline-info btn-sm registrarModal" value="{{$row['USERID']}}" data-toggle="modal" data-target="#exampleModal">Añadir</button>
-                                    @include('personal.registrar')
-                                </td>
-                            @endif  
-                        </tr> 
+                                    </td>
+                                @else
+                            {{--  < ?php $newpersona = new App\Models\personal\Persona;
+                                $newpersona->nombres = utf8_encode($row['NAME']); //$request->nombre;
+                                $newpersona->ci = $row['BADGENUMBER']; //$request->ci;
+                                $newpersona->item_id = 1;
+                                $newpersona->nro_item = 12345;
+                                $newpersona->estado_per = 'Habilitado';
+                                $newpersona->idper_db = $row['USERID'];
+                                $newpersona->id_servicio = 2;
+                                $newpersona->user_id = 28;
+                                //dd($newpersona);
+                                $newpersona->save();
+                                ?>--}}
+                                    <td><span id="item" >Sin item</span></td>
+                                    <td><span id="servicio" >Sin servicio</span></td>
+                                    <td><span id="num" >Sin fondo F.</span></td>
+                                    <td><span id="estado" >Sin estado</span></td>
+                                    <td>
+                                        <div>{{--las dos lineas siguientes no son funcionales pero son requisito para el modal de registrar--}}
+                                            <button type="button" class="btn btn-danger btn-sm registrar" data-toggle="modal" data-target=".registrarModal" style="display: none">Añadir Error NO FUNCIONAL</button>  
+                                            @include('personal.modalErrorRegistrarPersona') 
+                                        </div>
+                                        <button type="button" class="btn btn-outline-info btn-sm registrarModal" value="{{$row['USERID']}}" data-toggle="modal" data-target="#exampleModal">Añadir</button>
+                                        @include('personal.registrar')
+                                    </td>
+                                @endif  
+                            </tr> 
+                        @endif
                     @else
                     <tr>
                         <td colspan="8">No hay datos para mostrar. Contacte con soporte</td>

@@ -124,9 +124,9 @@
                      <div class="col-md-9" id="este"> {{--LISTAR ROLTURNOS--}}
                          <center class="font-weight-bold"> <h5>Lista de registro de Roles de Turno</h5></center>
                          <table id="mytable" class="table table-sm table-striped border" style="font-size: 12px;  table-layout: fixed;" width="">
-                                 <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
-                                     <th width="30px">Nro.</th>
-                                     <th style="" width="130px">Persona</th>
+                                 <tr class="titulo" >
+                                    <th width="30px">Nro.</th>
+                                    <th style="" width="130px">Persona</th>
                                     <th style="" width="90px">Servicio</th>
                                     <th style="" width="90">Area</th>
                                     <th style="" width="70">Mes</th>
@@ -142,15 +142,16 @@
                                  </tr>
                                  @include('dashboard.mensaje')
 
-                                 <tbody id="mostrarLista" style="display: none"> <?php  $i=0; //F6F1E9 E4DCCF F0EEED " ?>
+                                 <tbody id="mostrarLista" style="display: none"> <?php  $i=0;?>
                                     @foreach ($per_rolturnos as $rolturno)
                                         @if($rolturno->estado == 'Habilitado')             
                                             <tr style="background-color: #F6F1E9">
                                                 <td>{{++$i}}</td>
                                                 <td id="persona{{$rolturno->id}}" >{{$rolturno->rolturno_per->nombres}}</td>
-                                                <td id="servi"><span id="servicio{{$rolturno->id}}" >{{$rolturno->per_rolturno->servicios->nombre}}</span></td>
+                                                
+                                                <td id="servi" ><span id="servicio{{$rolturno->id}}" >{{$rolturno->per_rolturno->servicios->nombre}}</span></td>
                                                 <td id="area{{$rolturno->id}}" >{{$rolturno->area->nombre}}</td>
-                                                <td id="gesti"><span id="gestion{{$rolturno->id}}" >{{$rolturno->per_rolturno->gestion}}</span></td>
+                                                <td id="gesti" ><span id="gestion{{$rolturno->id}}" >{{$rolturno->per_rolturno->gestion}}</span></td>
                                                 <td id="tdia{{$rolturno->id}}" >{{$rolturno->tipo_dia}}</td>
                                                 <td id="f_ini{{$rolturno->id}}" >{{$rolturno->fecha_inicio}}</td>
                                                 <td id="f_fin{{$rolturno->id}}" >{{$rolturno->fecha_fin}}</td>
@@ -202,7 +203,7 @@
 
 <script>
  $(document).ready(function(){
-    var exiteGestion = 0, countF_iniMes=0,countF_finMes=0;
+    var countF_iniMes=0,countF_finMes=0;
     //*1 PROCESO PARA LISTAR AREAS DE SERVICIO ESPECIFICO
     $('#servicioM').val($('#servi').text());
     $('#gestionM').val($('#gesti').text());
@@ -230,7 +231,51 @@
             });
         }
     });
-    //*2
+    //*2 CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA INGRESO Y MES [CASO DIA LABORAL]
+    $('.controlFechaInicio').change(function() {
+        var fec_ini = $('.fechaDL').val();
+        var mes = $('.controlMes').val();
+        $mes_anioL = fec_ini.substring(0, 7);
+        //var tipodia = $('#tipodia :selected').val() //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('dd 2 '+ $mes_anioL);
+        if( mes != $mes_anioL  && mes != ''){//tipodia == 'DL' &&
+            $(".controlMes").addClass('is-invalid');
+            $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
+            $(".controlFechaInicio").addClass('is-invalid');
+            $('#validacionFechaIngreso').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
+            countF_iniMes=1;
+        }else{
+        limpiarfec_iniMes();
+            countF_iniMes=0;
+        }
+        return false;
+    });
+    //CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA RETORNO Y MES [CASO VACACION]
+    $('.controlFechaVacacion').change(function() {
+        var tipodia = $('#tipodia :selected').val();
+        var dateValue = $('.fechaV').val();
+        var monthValue = $('.controlMes').val();
+
+        var dateParts = dateValue.split('-');
+        var dateYear = parseInt(dateParts[0]);//1
+        var dateMonth = parseInt(dateParts[1]);//2
+
+        var monthParts = monthValue.split('-');
+        var monthYear = parseInt(monthParts[0]);//1
+        var monthMonth = parseInt(monthParts[1]);//2
+
+        if ( tipodia != 'DL' &&  dateParts.length === 3 && monthParts.length === 2 && dateYear === monthYear && (
+        // Los valores de fecha retorno y mes tienen k ser igual tambien contempla el siguiente mes de fecha retorno y gestion(mes) 
+            (dateMonth === monthMonth) || (dateMonth === monthMonth + 1) // || (dateMonth === monthMonth + 2)       
+        )  ) {
+        limpiarfec_finMes();
+        countF_finMes=0;
+        }else{
+        $(".controlMes").addClass('is-invalid');
+        $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
+        $(".controlFechaVacacion").addClass('is-invalid');
+        $('#validacionFechaRetorno').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
+        }
+    });
     //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO
     var i = 1, fila; //contador para asignar id al boton que borrara la fila
     $('.adicionarForm').click(function() {
@@ -295,9 +340,10 @@
         });
         
         fila = '<tr  id="row' + i + '"><td>' + i + '</td> <td>'+per+'<input type="hidden" name="m[]" class="form-control" value="'+per_id+'"></td><td>'+servicio+'<input type="hidden" name="servi[]" class="form-control" value="'+servicio+'"></td><td>'+area+'<input type="hidden" name="area_per[]" class="form-control" value="'+area_id+'"></td><td>'+gestion+'<input type="hidden" name="gesti[]" class="form-control" value="'+gestion+'"></td><td>'+tipodia+'<input type="hidden" name="tdia[]" class="form-control" value="'+tipodia+'"></td><td>'+fec_ini+'<input type="hidden" name="f_ini[]" class="form-control" value="'+fec_ini+'"></td><td>'+fec_fin+'<input type="hidden" name="f_fin[]" class="form-control" value="'+fec_fin+'"></td><td>'+hrs_ini+'<input type="hidden" name="h_ini[]" class="form-control" value="'+hrs_ini+'"></td><td>'+hrs_fin+'<input type="hidden" name="h_fin[]" class="form-control" value="'+hrs_fin+'"></td><td>'+turno_nombre+'<input type="hidden" name="t[]" class="form-control" value="'+turno+'"></td><td>'+cambio_turno+'<input type="hidden" name="cambio_turno[]" class="form-control" value="'+cambio_turno+'"></td><td>'+obs+'<input type="hidden" name="obs[]" class="form-control" value="'+obs+'"></td><td><button type="button" name="remove" id="' + i + '" class="btn  btn-sm btn-danger btn_remove">Quitar</button></td></tr>';  
-        i++;
+       i++;
         $('.vacio').hide();//para oculta la fila de NO EXISTEN DATOS en la tabla
-        if(exiteGestion == 0 && countF_iniMes == 0 && countF_finMes == 0){
+        console.log(countF_iniMes+ " -> "+ countF_finMes)
+        if(countF_iniMes == 0 && countF_finMes == 0){
             $('#mytable .titulo').after(fila); //before //se añade los datos a la lista
             limpiarformParcial(); //para limpiar el formulario despues de registrarlo
             $('#validacionError').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();

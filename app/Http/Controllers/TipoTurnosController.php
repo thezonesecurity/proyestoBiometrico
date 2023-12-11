@@ -33,13 +33,13 @@ class TipoTurnosController extends Controller
         //return response()->json($request);
         $validatedData = $request->validate([
             'id' => 'numeric',
-            'turno' => ['required', 'regex:/^[a-zA-Z0-9Ññ. ]{2,40}$/'],
+            'tipo_turnoM' => ['required', 'regex:/^[a-zA-Z0-9Ññ. ]{2,40}$/'],
         ]);
         $tipoT = TipoTurno::findOrFail($validatedData['id']);
-        $tipoT->nombre = $validatedData['turno'];
+        $tipoT->nombre = $validatedData['tipo_turnoM'];
         $tipoT->user_id = auth()->user()->id;
         $tipoT->save();
-        return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
+        return redirect(route('listar.tipos.turnos'))->with('success', 'El tipo de turno se actualizo correctamente !!');
     }
 
     public function deshabilitar(Request $request)

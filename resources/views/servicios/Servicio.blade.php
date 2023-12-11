@@ -15,8 +15,9 @@
 
 <div class="row table-responsive d-flex justify-content-center" style="font-size: 14px;">
     <div class="col-md-3 mt-5">
-        <h5 class="box-title text-center font-weight-bold">Registrar nuevo servicio</h5>
         <form action="{{route('registrar.servicio')}}" method="post" class="border border-info" id="formRegistrarServicio" autocomplete="off">
+            
+        <h5 class="box-title text-center font-weight-bold mt-2">Registrar nuevo servicio</h5>
             @csrf
             <div class="form-row mt-2">
                 <div class="form-group col-md-10 col-sm-6 ml-4">
@@ -35,8 +36,8 @@
                     </select>
                 </div>
                 <div class="form-group col-md-10 col-sm-6 ml-4">
-                    <button type="submit" id="registrar" class="btn btn-sm btn-outline-success">Registrar</button>
-                    <button type="reset" id="cancelarBtn" class="btn btn-sm btn-outline-secondary m-2">Limpiar</button>
+                    <button type="submit" id="registrar" class="btn btn-outline-success">Registrar</button>
+                    <button type="reset" id="cancelarBtn" class="btn btn-outline-secondary m-2">Limpiar</button>
                 </div>
             </div>
         </form>
@@ -44,7 +45,7 @@
     <div class="col-md-9">
         @include('dashboard.mensaje')
        
-        <h4 class="box-title text-center font-weight-bold mt-2">Lista de Servicio H.D.B.</h4>
+        <h4 class="box-title text-center font-weight-bold mt-2">Lista de Servicios</h4>
         <table id="listaServicios" class="table table-sm table-bordered table-striped table-responsives"  width="100%">
             <thead>
                 <tr>
@@ -181,7 +182,7 @@
 <script>
     $(document).ready(function () {
        var table =  $('#listaServicios').DataTable({
-            "lengthMenu": [[ 12 , 30, 60, -1], [ 12 , 30, 60, "All"]],
+            "lengthMenu": [[ 15 , 30, 60, -1], [ 15 , 30, 60, "All"]],
             language: {
                 "sProcessing":"Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",

@@ -11,55 +11,71 @@
 @section('contenido')
 <div id="contenedor_carga"><div id="carga"></div></div>
 
-<div class="table-responsive d-flex justify-content-center " style="font-size: 16px;" ><!--style="margin-left: 250px"-->
-    <div class="col-md "> 
-        @include('dashboard.mensaje')
-        <div class="box-body">
-            <h4 class="box-title text-center">Lista Tipos de Turnos H.D.B.</h4>
-            <table id="listarTturnos" class="table table-sm table-bordered table-striped"  width="100%">{{--listarTturnos--}}
-                <thead>
-                    <tr>
-                        <th width="20px">Nro.</th>
-                        <th width="160px">Nombre</th>
-                        <th width="100px">Estado</th>
-                        <th width="100px">Opciones
-                        <!-- boton registrar servicio-->
-                        <button data-toggle="modal" href="#registrar_tipoTurnoModal" class="btn btn-sm btn-outline-primary btnregistrartt" style="margin-left: 60px">Registar tipo Turno</button>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tablaRegistrosTturnos">
-                    @if($tipo_turnos->isEmpty() && $tipo_turnos->count() == 0) 
-                        <tr>
-                            <td colspan="4" class="">No hay ningun servicio registrado aun... </td>
-                        </tr>
-                    @else 
-                        <?php $i=0; ;?>
-                        @foreach ($tipo_turnos as $tipo_turno)
-                        <tr data-id={{$tipo_turno->id}}>
-                            <td>{{ ++$i }}</td>
-                            <td id="nombre{{$tipo_turno->id}}">{{$tipo_turno->nombre}}</td>
-                            <td id="estado{{$tipo_turno->id}}">{{$tipo_turno->estado}}</td>
-                            <td style='background-color: ;'>
-                                @if($tipo_turno->estado == "Habilitado")
-                                    <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#ActualizarTipoTurno">Editar</button>   
-                                    <button type="button" class="btn btn-sm btn-outline-danger invalidarTT" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTT">Deshabilitar?</button>               
-                                @else
-                                    <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#ActualizarTipoTurno" disabled>Editar</button> 
-                                    <button type="button" class="btn btn-outline-warning btn-sm invalidarTT" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTT"><span class="font-weight-bold">Habilitar?</span></button>                
-                               @endif 
-                            </td>
-                        </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
-            @include('tipo_turnos.editar_tipoTurno')
+<div class="row table-responsive d-flex justify-content-center" style="font-size: 14px;">
+    <div class="col-md-3 mt-5">
+        <div class="table table-sm border border-secondary">
+            <h5 class="box-title text-center font-weight-bold mt-2">Registrar Tipo Turnos</h5>
+
+             {!! Form::open(['route' => 'guardar.tipo.turno', 'method' => 'post', 'autocomplete'=>"off", 'id' => 'formRegistrarTipoTurno']) !!}
+                @csrf
+                <div class="form-row mt-2">
+                    <div class="form-group col-md-10 col-sm-6 ml-4">
+                        <label for="recipient-tipoturno" class="font-weight-bold">Nombre</label>
+                        <input type="text" class="form-control" name="tipo_turno" id="tipo_turno">
+                    </div>
+                    <div class="form-group col-md-10 col-sm-6 ml-4">
+                        <label for="recipient-opciones" class="font-weight-bold" style="display: none;">Accion</label>
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-outline-success registrar' ] ) !!} 
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-outline-secondary limpiar ml-3', 'data-dismiss'=>"modal", 'id'=>"cancelarBtn" ] ) !!}
+                    </div>
+                </div>
+            {!! Form::close() !!}
         </div>
     </div>
-    @include('tipo_turnos.registrar_tipoTurno') 
+    <div class="col-md-9">
+        @include('dashboard.mensaje')
+       
+        <h4 class="box-title text-center font-weight-bold mt-2">Lista de Tipo Turnos del Personal</h4>
+        <table id="listarTturnos" class="table table-sm table-bordered table-striped table-responsives"  width="100%">
+            <thead>
+                <tr>
+                    <th width="20px">Nro.</th>
+                    <th width="160px">Nombre</th>
+                    <th width="100px">Estado</th>
+                    <th width="100px">Opciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaRegistrosTturnos">
+                @if($tipo_turnos->isEmpty() && $tipo_turnos->count() == 0) 
+                    <tr>
+                        <td colspan="4" class="">No hay ningun servicio registrado aun... </td>
+                    </tr>
+                @else 
+                    <?php $i=0; ;?>
+                    @foreach ($tipo_turnos as $tipo_turno)
+                    <tr data-id={{$tipo_turno->id}}>
+                        <td>{{ ++$i }}</td>
+                        <td id="nombre{{$tipo_turno->id}}">{{$tipo_turno->nombre}}</td>
+                        <td id="estado{{$tipo_turno->id}}">{{$tipo_turno->estado}}</td>
+                        <td style='background-color: ;'>
+                            @if($tipo_turno->estado == "Habilitado")
+                                <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#ActualizarTipoTurno">Editar</button>   
+                                <button type="button" class="btn btn-sm btn-outline-danger invalidarTT" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTT">Deshabilitar?</button>               
+                            @else
+                                <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#ActualizarTipoTurno" disabled>Editar</button> 
+                                <button type="button" class="btn btn-outline-warning btn-sm invalidarTT" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTT"><span class="font-weight-bold">Habilitar?</span></button>                
+                           @endif 
+                        </td>
+                    </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+        @include('tipo_turnos.editar_tipoTurno')
+    </div>
+    @include('tipo_turnos.ModalInhabilitarTturnos') 
 </div>
-@include('tipo_turnos.ModalInhabilitarTturnos') 
+
 @stop
 
 @section('scripts')
@@ -72,58 +88,13 @@
 </script>
 <script src="{{asset('jquery-validate/jquery.validate.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/admin/tipoTurnos.js') }}"></script>
-<script>
-    $(document).ready(function(){
-        //PROCESO PARA GUARDAR LOS DATOS DEL MODAL EDITAR
-        $('#saveChangesTT').click(function(e) {//registro modal editars
-            e.preventDefault();
-             // Obtener los valores del modal editar
-            var idM = $('#idM').val();
-            var turnoM = $('#tipo_turno_M').val().charAt(0).toUpperCase() + $('#tipo_turno_M').val().slice(1).toLowerCase(); //$('#servicioM').val();
-           // console.log('id '+idM+' turno '+turnoM);
-            //proceso de ajax
-            if ($('#formEditarTipoTurno').valid()) {
-                $('#saveChangesTT').attr('disabled', true).text('Editando...');
-                $.ajax({// Realizar una solicitud AJAX para actualizar el registro
-                    url: "{{route('editarsave.tipo.turno')}}",
-                    method: 'POST',
-                    dataType: "json",
-                    data: { id: idM, turno: turnoM, _token: '{{ csrf_token() }}' },
-                    success: function(response) {
-                        //alert(response);
-                        if(response.status == 'ok'){
-                            toastr.success(response.message, 'Feliciades !!');
-                            $('#tablaRegistrosTturnos tr[data-id="' + idM + '"] td:nth-child(2)').text(turnoM); //Actualizar la fila en la tabla con los nuevos valores
-                        }else{
-                            toastr.error('Hubo un error al actualizar el registro.', 'Error, Contacte con soporte !!');
-                        }
-                        $('#ActualizarTipoTurno').modal('hide');
-                        $('#saveChangesTT').attr('disabled', false);
-                    },
-                    error: function(xhr, status, error) {
-                        $('#ActualizarTipoTurno').modal('hide');
-                    // toastr.error('Hubo un error al actualizar el registro.', 'Error'); //console.error(error); // Manejar el error
-                        if (xhr.status === 422) {
-                            var errors = xhr.responseJSON.errors;
-                            $.each(errors, function(field, messages) { // Mostrar los mensajes de error en algún lugar de tu página
-                                toastr.error(messages.join(', '), "Error no se pude actualizar !!!", { "preventDuplicates": false});
-                            $('#ActualizarTipoTurno').modal('hide');
-                            $('#saveChangesTT').attr('disabled', false);
-                            });
-                        }   
-                    }
-                }); 
-            }              
-        }); 
-    });
-</script>
 
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function () {
       var table = $('#listarTturnos').DataTable({
-            "lengthMenu": [[10 , 30, 60, -1], [10 , 30, 60, "All"]],
+            "lengthMenu": [[15 , 30, 60, -1], [15 , 30, 60, "All"]],
             language: {
                 "sProcessing":"Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",

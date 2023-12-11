@@ -1,0 +1,95 @@
+<div class="row table-responsive d-flex justify-content-center" style="font-size: 14px;">
+    <div class="col-md "> 
+        @include('dashboard.mensaje')
+        <div class="box-body">
+            <h4 class="box-title text-center">Registrar Tipo de Contrato</h4>
+            <div>
+                {!! Form::open(['route' => 'guardar.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off", 'id'=> 'formRegistrarTipoContrato']) !!}
+                <div class="row" >    
+                    <div class="form-group col-md-7">
+                        <label for="recipient-tipoContrato" class="font-weight-bold">Nombre</label>
+                        <input type="text" class="form-control" name="tipo_contrato" id="t_contrato">
+                    </div>
+                    <div class="form-group col-md-4 mt-4">
+                        <label for="recipient-opciones" class="font-weight-bold" style="display: none;">Accion</label>
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary registrar ml-3' ] ) !!} 
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary limpiar ml-3', 'data-dismiss'=>"modal", 'id'=>"cancelarBtn" ] ) !!}
+                    </div>
+                </div>
+                {!! Form::close() !!}
+            </div>
+
+            <h4 class="box-title text-center">Lista Tipos de Contratos</h4>
+            <table id="listarTcontratos" class="table table-sm table-bordered table-striped"  width="100%">
+                <thead>
+                    <tr>
+                        <th width="20px">Nro.</th>
+                        <th width="160px">Nombre</th>
+                        <th width="100px">Estado</th>
+                        <th width="100px">Opciones
+                        <!-- boton registrar servicio-->
+                        <button data-toggle="modal" href="#registrar_tipoContratoModal" class="btn btn-sm btn-outline-primary" style="margin-left: 60px">Registar tipo contrato</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tablaRegistrosTcontratos">
+                    @if($tipo_contratos->isEmpty() && $tipo_contratos->count() == 0) 
+                        <tr>
+                            <td colspan="4" class="">No hay ningun servicio registrado aun... </td>
+                        </tr>
+                    @else 
+                        <?php $i=0; ;?>
+                        @foreach ($tipo_contratos as $tipo_contrato)
+                        <tr data-id={{$tipo_contrato->id}}>
+                            <td>{{ ++$i }}</td>
+                            <td id="nombre{{$tipo_contrato->id}}">{{$tipo_contrato->nombre}}</td>
+                            <td id="estado{{$tipo_contrato->id}}">{{$tipo_contrato->estado}}</td>
+                            <td style='background-color: ;'>
+                                @if($tipo_contrato->estado == "Habilitado")
+                                    <button type="button" class="btn btn-outline-success btn-sm edit ml-2" value="{{$tipo_contrato->id}}" data-toggle="modal" data-target="#ActualizarTipoContrato">Editar</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger invalidarTC ml-2" value="{{$tipo_contrato->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTC">Deshabilitar?</button>                 
+                                @else
+                                    <button type="button" class="btn btn-outline-secondary btn-sm  ml-2" value="{{$tipo_contrato->id}}" data-toggle="modal" data-target="#ActualizarTipoContrato" disabled>Editar</button>  
+                                    <button type="button" class="btn btn-sm btn-outline-warning btn-sm invalidarTC ml-2" value="{{$tipo_contrato->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTC"><span class="font-weight-bold">Habilitar?</span></button>                
+                                @endif 
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+            @include('tipo_contratos.editar_tipoContrato')
+        </div>
+    </div>
+    @include('tipo_contratos.registrar_tipoContrato') 
+</div>
+@include('tipo_contratos.ModalInhabilitarTC')
+
+
+modal 
+<!--Modal crear servicio-->
+<div class="modal fade" id="registrar_tipoContratoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Tipo de Contrato</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {!! Form::open(['route' => 'guardar.tipo.contrato', 'method' => 'post', 'autocomplete'=>"off", 'id'=> 'formRegistrarTipoContrato']) !!}
+              <div class="form-group">
+                <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
+                <input type="text" class="form-control" name="tipo_contrato" id="t_contrato">
+              </div>
+              <div class="form-group">
+                    <div class="modal-footer"> 
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary registrar' ] ) !!} 
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary limpiar', 'data-dismiss'=>"modal", 'id'=>"cancelarBtn" ] ) !!}
+                    </div>
+                </div>
+              {!! Form::close() !!}
+        </div>
+    </div>
+  </div>

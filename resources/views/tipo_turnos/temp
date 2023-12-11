@@ -1,0 +1,77 @@
+<div class="table-responsive d-flex justify-content-center " style="font-size: 16px;" ><!--style="margin-left: 250px"-->
+    <div class="col-md "> 
+        @include('dashboard.mensaje')
+        <div class="box-body">
+            <h4 class="box-title text-center">Lista Tipos de Turnos H.D.B.</h4>
+            <table id="listarTturnos" class="table table-sm table-bordered table-striped"  width="100%">{{--listarTturnos--}}
+                <thead>
+                    <tr>
+                        <th width="20px">Nro.</th>
+                        <th width="160px">Nombre</th>
+                        <th width="100px">Estado</th>
+                        <th width="100px">Opciones
+                        <!-- boton registrar servicio-->
+                        <button data-toggle="modal" href="#registrar_tipoTurnoModal" class="btn btn-sm btn-outline-primary btnregistrartt" style="margin-left: 60px">Registar tipo Turno</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tablaRegistrosTturnos">
+                    @if($tipo_turnos->isEmpty() && $tipo_turnos->count() == 0) 
+                        <tr>
+                            <td colspan="4" class="">No hay ningun servicio registrado aun... </td>
+                        </tr>
+                    @else 
+                        <?php $i=0; ;?>
+                        @foreach ($tipo_turnos as $tipo_turno)
+                        <tr data-id={{$tipo_turno->id}}>
+                            <td>{{ ++$i }}</td>
+                            <td id="nombre{{$tipo_turno->id}}">{{$tipo_turno->nombre}}</td>
+                            <td id="estado{{$tipo_turno->id}}">{{$tipo_turno->estado}}</td>
+                            <td style='background-color: ;'>
+                                @if($tipo_turno->estado == "Habilitado")
+                                    <button type="button" class="btn btn-outline-success btn-sm edit" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#ActualizarTipoTurno">Editar</button>   
+                                    <button type="button" class="btn btn-sm btn-outline-danger invalidarTT" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTT">Deshabilitar?</button>               
+                                @else
+                                    <button type="button" class="btn btn-outline-secondary btn-sm edit" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#ActualizarTipoTurno" disabled>Editar</button> 
+                                    <button type="button" class="btn btn-outline-warning btn-sm invalidarTT" value="{{$tipo_turno->id}}" data-toggle="modal" data-target="#abrirModalInhabilitarTT"><span class="font-weight-bold">Habilitar?</span></button>                
+                               @endif 
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+            @include('tipo_turnos.editar_tipoTurno')
+        </div>
+    </div>
+    @include('tipo_turnos.registrar_tipoTurno') 
+</div>
+@include('tipo_turnos.ModalInhabilitarTturnos') 
+
+
+<!--Modal crear servicio-->
+<div class="modal fade" id="registrar_tipoTurnoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Tipo de turno</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {!! Form::open(['route' => 'guardar.tipo.turno', 'method' => 'post', 'autocomplete'=>"off", 'id' => 'formRegistrarTipoTurno']) !!}
+              <div class="form-group">
+                <label for="recipient-servicio" class="font-weight-bold">Nombre</label>
+                <input type="text" class="form-control" name="tipo_turno" id="tipo_turno">
+              </div>
+              <div class="form-group">
+                    <div class="modal-footer"> 
+                        {!! Form::submit('Guardar', ['class' => 'btn btn-primary registrar' ] ) !!} 
+                        {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary limpiar', 'data-dismiss'=>"modal", 'id'=>"cancelarBtn" ] ) !!}
+                    </div>
+                </div>
+              {!! Form::close() !!}
+        </div>
+    </div>
+  </div>

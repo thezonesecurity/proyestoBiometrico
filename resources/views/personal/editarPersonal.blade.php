@@ -32,7 +32,7 @@
                         </select>
                     </div>
                     <div class="form-group" >
-                        <label for="recipient-fonfoFianciamiento" class="font-weight-bold controlNFFNm" style="display: none;">Nro. fondo de financiamiento</label>
+                        <label for="recipient-fonfoFianciamiento" class="font-weight-bold controlNFFNm" style="display: none;">Nro. Item</label>
                         <input type="number" class="form-control controlNFFIm" name="numFinanciamientoM" id="numFinancM" style="display: none;" required>
                     </div>
                     <div class="form-group">

@@ -21,8 +21,14 @@ class RolturnoController extends Controller
         $servicios = Servicio::where( 'estado', 'Habilitado')->pluck('nombre', 'id');
         $personas = Persona::where('estado_per', 'Habilitado')->pluck('nombres', 'id'); 
         $turnos = TipoTurno::where('estado', 'Habilitado')->pluck('nombre', 'id');
-        $nombreServicio = auth()->user()->servicioUsers[0]->nombre;/**control user */
-        return view('rolturnos.Rolturno')->with(compact('servicios', 'personas', 'turnos', 'nombreServicio'));
+        $controlUserResponsableServicio=auth()->user()->servicioUsers->isNotEmpty();
+        $nombreServicio = '';
+        if ($controlUserResponsableServicio) {
+            $nombreServicio = auth()->user()->servicioUsers[0]->nombre;/**control user */
+        } else {
+            $mensaje = "Usted no esta asignado como responsable del servicio ...., Contacte con soporte.";
+        }
+        return view('rolturnos.Rolturno')->with(compact('servicios', 'personas', 'turnos', 'nombreServicio', 'mensaje', 'controlUserResponsableServicio')); 
     }
    
     public function getAreasTest() //funcion para saber k areas pertecencen a cada servicio
@@ -124,13 +130,16 @@ class RolturnoController extends Controller
     }
 
     public function lista()
-    {
-       // dd(auth()->user()->id);
-       //$nombreServicio = auth()->user()->servicioUsers[0]->nombre;
-       //  dd(auth()->user()->servicioUsers->nombre);
-        $id_servicio = auth()->user()->servicioUsers[0]->id;/**control user */
+    {        
+       $controlUserResponsableServicio=auth()->user()->servicioUsers->isNotEmpty();
+       $rolturnos = '';
+       if ($controlUserResponsableServicio) {
+        $id_servicio = auth()->user()->servicioUsers[0]->id;// **control user * /
         $rolturnos = Rolturno::orderBy('id')->where('servicio_id', $id_servicio)->get();
-        return view('rolturnos.ListarRolturnos')->with(compact('rolturnos'));
+       } else {
+        $mensaje = "Usted no esta asignado como responsable del servicio ...., Contacte con soporte.";
+       }
+     return view('rolturnos.ListarRolturnos')->with(compact('rolturnos','mensaje', 'controlUserResponsableServicio'));
     }
       
     public function print($id)
@@ -148,7 +157,7 @@ class RolturnoController extends Controller
                 $personas[$area][$fecha] = [];
             }
             // Verificar si es una persona en vacaciones
-            if ($row->fecha_inicio !== null && $row->fecha_fin != $row->fecha_inicio && $row->fecha_fin !== null) {
+            if ($row->fecha_inicio !== null && $row->fecha_fin !== null) { //&& $row->fecha_fin != $row->fecha_inicio
                 $vacaciones[] = [
                     'fecha_inicio' => $row->fecha_inicio,
                     'fecha_fin' => $row->fecha_fin,
@@ -174,8 +183,8 @@ class RolturnoController extends Controller
                 ];
             }
         }
-        //return view('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'));
-        $pdf = PDF::loadView('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'))->setPaper('legal', 'landscape');
+        //return view('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras')); 
+        $pdf = PDF::loadView('rolturnos.ImprimirRolturnos', compact('personas', 'vacaciones', 'extras'))->setPaper('letter', 'portrait');//->setPaper('legal', 'landscape'); ->setOptions(['isPhpEnabled' => false, 'isHtml5ParserEnabled' => true])
         return $pdf->stream('prueba.pdf');
     }
     public function tabla() //otro reporte 2 de prueba

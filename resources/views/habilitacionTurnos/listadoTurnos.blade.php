@@ -6,6 +6,7 @@
 @section('styles')
 {{ Html::style( asset('datatables/dataTables.bootstrap4.min.css') )}}
 {{ Html::style( asset('assets/styles/preloader.css') )}}
+
 @stop
 
 @section('contenido')
@@ -53,13 +54,20 @@
                          @if($rolturno->estado == 'Rechazado')
                             <td width="9%" class="text-danger" id="estado{{$rolturno->id}}"  >{{$rolturno->estado}} <i class="bi bi-slash-circle" style="font-size: 1rem;"></i></td> @endif
                         <td  width="8%" id="gestion{{$rolturno->id}}" >{{$rolturno->gestion}}</td>
-                        <td  width="%" id="comentario{{$rolturno->id}}" >{{$rolturno->obsevacion}}</td>
+                        {{--<td  width="%" id="comentario{{$rolturno->id}}" >{{$rolturno->obsevacion}}</td>--}}
+                        <td >
+                            <span data-toggle="popover" data-content="{{ $rolturno->obsevacion }}" data-placement="top">
+                                {{ str_limit($rolturno->obsevacion, 48) }}
+                            </span>
+                            <span id="comentario{{$rolturno->id}}" style="display: none">{{$rolturno->obsevacion}}</span>
+                        </td>
                         <td  width="15%">
                             <button type="button" class="btn btn-outline-success btn-sm edit ml-1" value="{{$rolturno->id}}" data-toggle="modal" data-target="#ModalHabilitarRolturno">Habilitar?</button>
                             <a type="button" class="btn btn-outline-info btn-sm ml-1" href="{{route('rolturno.imprimir.pdf', $rolturno->id)}}" target='_Blank'>Ver PDF</a>
                         </td>
                     </tr>
                  @endforeach
+               
             @endif
         </tbody>
     </table>
@@ -108,6 +116,21 @@
                     "updateState": "Actualizar"
                 }
             },
+        });
+    // PARA MOSTRAR EL MENSAJE COMPLETO DE LA OBSERVACION
+    $('[data-toggle="popover"]').popover({
+        trigger: 'manual', // Cambiar el trigger a 'manual' para controlar el popover manualmente
+        html: true,
+        }).click(function (e) {
+            e.preventDefault();
+            $('[data-toggle="popover"]').not(this).popover('hide');  // Cerrar cualquier popover abierto en otro lugar
+            $(this).popover('toggle');  // Alternar la visibilidad del popover actual
+        });
+
+        $(document).on('click', function (e) { // Cerrar el popover al hacer clic en cualquier lugar de la página
+            if ($(e.target).data('toggle') !== 'popover' && !$(e.target).parents().is('.popover.in')) {
+                $('[data-toggle="popover"]').popover('hide');
+            }
         });
     });
 </script>

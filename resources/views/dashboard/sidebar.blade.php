@@ -79,11 +79,11 @@
                 <a href="{{route('logout')}}" class="logout">
                     <i class="bi bi-box-arrow-left" style="font-size: 2rem; color: rgb(222, 12, 12);" ></i>
                 </a>
-                <ul class="sub-menu">
+                <ul class="sub-menu"  style="margin-top: -28px; align: center;">
                     {{--<li><a class="link_name" href="#">Administrar</a></li>--}}
                     <span class="" style="margin: -17px; font-size: 14px; color: white">Cerrar Sesion</span>
                     <li><a href="{{route('logout')}}" class="iconlogout">
-                        <i class="bi bi-box-arrow-left" style="margin-top: -15px; font-size: 2rem; color: red; " ></i>    
+                        <i class="bi bi-box-arrow-left" style="margin-top: -8px; font-size: 2.5rem; color: red; " ></i>    
                     </a></li>
                 </ul>
             </div>             

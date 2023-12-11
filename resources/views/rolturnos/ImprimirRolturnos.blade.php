@@ -8,17 +8,26 @@
     <title>Document</title>
     <link href="{{ asset("bootstrap4/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" />
     <script src="{{ asset("bootstrap4/js/bootstrap.min.js")}}" type="text/javascript"></script> 
+    <style>
+        body {
+            font-size: 9px;
+        }
+        .titulo{
+            font-weight: bold;
+        }
+       
+    </style>
 </head>
 <body>
     <center>
-        <div class="form-group row justify-content-center align-content-center mt-4">
-            <h5 class="text-uppercase">INFORME PLANILLA ASISTENCIA DEL PERSONAL DEL SERVICIO DE {{$extras['servicio']}}</h5>
-            <h5 class="text-uppercase">CORRESPONDIENTE AL MES DE {{$extras['gestion']}}</h5>
+        <div class="form-group row justify-content-center align-content-center titulo">
+            <h5 class="text-uppercase" style="font-size: 15px; margin-top: -5px">INFORME PLANILLA ASISTENCIA DEL PERSONAL DEL SERVICIO DE {{$extras['servicio']}}</h5>
+            <h5 class="text-uppercase" style="font-size: 13px; margin-top: 5px">CORRESPONDIENTE AL MES DE {{$extras['gestion']}}</h5>
         </div>
     </center>
    
-    <div class="container-fluid mt-4">
-        <table class="table table-bordered table-striped table-sm">
+    <div class="container-fluid mt-2">
+        <table class="table table-bordered table-striped table-sm list">
             <thead>
                 <tr>
                     <th width="10%" >Fecha ingreso</th>

@@ -32,7 +32,7 @@ class PersonalController extends Controller
         $newpersona->nombres = $validatedData['nombre']; //$request->nombre;
         $newpersona->ci = $validatedData['ci']; //$request->ci;
         $newpersona->item_id = $validatedData['item'];
-        if($validatedData['numFinanciamiento'] != '0'){ $newpersona->num_financ = $validatedData['numFinanciamiento']; }
+        if($validatedData['numFinanciamiento'] != '0'){ $newpersona->nro_item = $validatedData['numFinanciamiento']; }
         $newpersona->estado_per = 'Habilitado';
         $newpersona->idper_db = $validatedData['id_per'];
         $newpersona->id_servicio = $validatedData['servicio'];
@@ -61,8 +61,8 @@ class PersonalController extends Controller
         // $persona->ci = $validatedData['ci'];
         if($validatedData['Newitem'] != null) {  $persona->item_id = $validatedData['Newitem']; };
         if($validatedData['NewServicio'] != null) { $persona->id_servicio = $validatedData['NewServicio']; }
-        if($validatedData['nroitem'] != '0'){ $persona->num_financ = $validatedData['nroitem']; }
-        else { $persona->num_financ = null; }
+        if($validatedData['nroitem'] != '0'){ $persona->nro_item = $validatedData['nroitem']; }
+        else { $persona->nro_item = null; }
         $persona->user_id = auth()->user()->id; 
         //dd($persona);
         $persona->save();
@@ -133,8 +133,8 @@ class PersonalController extends Controller
         // $persona->ci = $validatedData['ci'];
         if($validatedData['itemMo'] != null) {  $persona->item_id = $validatedData['itemMo']; };
         if($validatedData['servicioMo'] != null) { $persona->id_servicio = $validatedData['servicioMo']; }
-        if($validatedData['numFinanciamientoM'] != '0'){ $persona->num_financ = $validatedData['numFinanciamientoM']; }
-        else { $persona->num_financ = null; }
+        if($validatedData['numFinanciamientoM'] != '0'){ $persona->nro_item = $validatedData['numFinanciamientoM']; }
+        else { $persona->nro_item = null; }
         $persona->user_id = auth()->user()->id; 
         //dd($persona);
         $persona->save();

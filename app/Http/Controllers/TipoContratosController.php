@@ -35,14 +35,13 @@ class TipoContratosController extends Controller
         //return response()->json($request);
         $validatedData = $request->validate([
             'id' => 'numeric',
-            'contrato' => ['required', 'regex:/^[a-zA-ZÑñ ]{2,40}$/'],
+            'tipo_contratoM' => ['required', 'regex:/^[a-zA-ZÑñ ]{2,40}$/'],
         ]);
         $t_contrato = TipoContrato::findOrFail($validatedData['id']);
-        $t_contrato->nombre =  $validatedData['contrato'];
+        $t_contrato->nombre =  $validatedData['tipo_contratoM'];
         $t_contrato->user_id = auth()->user()->id;
         $t_contrato->save();
-       // dd($t_contrato);
-       return response()->json(['message' => 'El registro se actualizó correctamente.', 'status' => 'ok']);
+        return redirect(route('listar.tipos.contratos'))->with('success', 'El tipo de contrato se edito correctamente !!');
     }
 
     public function deshabilitar(Request $request)

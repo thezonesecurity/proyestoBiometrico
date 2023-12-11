@@ -20,7 +20,7 @@ class HabilitacionController extends Controller
        $validatedData = $request->validate([
         'id' => 'required',
         'accion' => 'required',
-        'comentario' => 'required|regex:/^[a-zA-ZÑñ0-9 ]{5,60}+$/',
+        'comentario' => 'required|regex:/^[a-zA-ZÑñ0-9 ]{5,99}+$/',
       ]);
       if(isset($validatedData['id'])){
         $rolturno = Rolturno::findOrFail($validatedData['id']); 

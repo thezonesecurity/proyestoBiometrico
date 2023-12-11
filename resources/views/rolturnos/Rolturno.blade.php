@@ -6,7 +6,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/select2/select2.css') }}">
 <style>
-    #este {
+#este {
   height: 45em;
   line-height: 1em;
   overflow-x: scroll;
@@ -15,16 +15,48 @@
   border: 1px solid;
   border-color: rgba(0, 191, 255, 0.695);
 }
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 80%;
+}
+.error {
+    color: red;
+}
 </style>
-<style>
-    .error {
-    color: red;}
-</style>
+
 @stop
 
-@section('contenido')    
+@section('contenido')  
+
+<div id="overlay" class="overlay">
+    <div class="overlay-content">
+        @if (!$controlUserResponsableServicio)
+            <p>{{ $mensaje }}</p>
+        @endif
+    </div>
+</div>
+
+
 
 {!! Form::open(array('id'=>'form_reg_rolturno','autocomplete'=>'off', 'class'=>'border border-5 form-control-sm')) !!}
+
    @csrf
     <table class="table table-sm" >
         <tr>
@@ -36,7 +68,12 @@
                             <tr>
                                 <div class="form-group" style="margin-top: -5px;">
                                     {!! Form::label('servicioPer', 'Servicio', ['class' => 'font-weight-bold text-sm-left' ]) !!}
-                                    <input type="text" name="servicio" id='servicio' class="form-control-sm custom-select controlServicio" value="{{ $nombreServicio }}" readonly>
+                                    @if ($controlUserResponsableServicio)
+                                     <input type="text" name="servicio" id='servicio' class="form-control-sm custom-select controlServicio" value="{{ $nombreServicio }}" readonly>
+                                     @else
+                                      <input type="text" name="servicio" id='servicio' class="form-control-sm custom-select controlServicio" value="Sin Servicio" readonly>
+                                    @endif
+
                                     {{--<select class="form-control-sm custom-select text-uppercase controlServicio select2" name="servicio" id='servicio'> {{--required="true"--}
                                         <option value="" disabled selected>Selecione una opcion</option> 
                                         @foreach($servicios as $id => $item)
@@ -54,8 +91,8 @@
                                     <label for="personall" class="font-weight-bold">Personal</label>
                                     <select class="form-control-sm custom-select text-uppercase select2" style="width: 100%" name="personal" id="per" >
                                         <option value="Elegir personal" disabled selected>Selecione una opcion</option>
-                                        @foreach($personas as $id => $persona)   
-                                                <option value="{{$id}}" >{{$persona}}</option>  
+                                        @foreach($personas as $id => $persona) 
+                                            <option value="{{$id}}" >{{$persona}}</option>  
                                         @endforeach
                                     </select>
                                 </div>
@@ -76,7 +113,7 @@
                                 </div>
                                 <div class="form-row " style="margin-top: 10px;">
                                     <div class="form-group col">
-                                        <label for="turnoo">Turno</label>
+                                        <label for="turnoo">Turno</label> 
                                         <select name="turno" id="turno" class="form-control-sm custom-select mr-sm-2">
                                             <option value="" disabled selected>Selecione una opcion</option>
                                             @foreach($turnos as $id => $turno)   
@@ -152,6 +189,7 @@
             <button type="button" id="registrar" class="btn btn-success btn-sm ml-4">Guardar</button>
         </center>
     </div>
+
 {!!Form::Close()!!}
    
 @stop
@@ -169,6 +207,13 @@
 <script type="text/javascript" src="{{ asset('assets/scripts/jefe_servicio/turno.js') }}"></script>
 <script>
     $(document).ready(function() {
+        // Mostrar el mensaje si el usuario no pertenece a un servicio
+        @if (!$controlUserResponsableServicio)
+            $("#overlay").show();
+        @else
+            $("#overlay").hide();
+        @endif
+        
          var exiteGestion = 0, countF_iniMes=0,countF_finMes=0;
        //*1
          //* PROCESO PARA LISTAR AREAS DE UN SERVICIO ESPECIFICO
@@ -204,7 +249,42 @@
                 }
              });
         });
-        //*2
+        //*2 CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA INGRESO Y MES [CASO DIA LABORAL]
+        $('.controlFechaInicio').change(function() {
+            var fec_ini = $('.fechaDL').val();
+            var mes = $('.controlMes').val();
+            $mes_anioL = fec_ini.substring(0, 7);
+        //   var tipodia = $('#tipod :selected').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('dd 2 '+ $mes_anioL);
+            if( mes != $mes_anioL  && mes != ''){//tipodia == 'DL' &&
+                $(".controlMes").addClass('is-invalid');
+                $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
+                $(".controlFechaInicio").addClass('is-invalid');
+                $('#validacionFechaIngreso').text('Error no coincide los datos de Mes y Fecha Ingreso !!!').addClass('text-danger').show();
+                countF_iniMes=1;
+            }else{
+                limpiarfec_iniMes()
+                countF_iniMes=0;
+            }
+            return false;
+        });
+        //** CONTROL PARA SABER SI ES EL MISMO AÑO Y MES EN LOS INPUT FECHA INGRESO Y MES [CASO VACACION]
+        $('.controlFechaVacacion').change(function() {
+            var fec_fin = $('.fechaV').val();
+            var mes = $('.controlMes').val();
+            $mes_anioV = fec_fin.substring(0, 7); //validacionFechaRetorno
+            var tipodia = $('#tipod :selected').val(); //$('input[name=tipod]:checked','#form_reg_rolturno').val(); //console.log('entro '+ fec_fin+ ' mes '+ mes+ 't dia'+ tipodia);
+            if(tipodia != 'DL' && mes != $mes_anioV  && mes != ''){
+                $(".controlMes").addClass('is-invalid');
+                $('#validacionMes').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
+                $(".controlFechaVacacion").addClass('is-invalid');
+                $('#validacionFechaRetorno').text('Error no coincide los datos de Mes y Fecha Retorno !!!').addClass('text-danger').show();
+                countF_finMes=1;
+            }else{
+                limpiarfec_finMes()
+                countF_finMes=0;
+            }
+            return false;
+        });
         //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO
         var i = 1, fila; //contador para asignar id al boton que borrara la fila
         $('#adicionar').click(function() {
